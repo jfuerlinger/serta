@@ -11,7 +11,13 @@ npm install
 npm start
 ```
 
-## Features
+## Description
+
+### Overview
+
+![Bot](./assets/discord-bot.gif)
+
+### Features
 
 1. Manage the health points of a student
 2. Print some statistcs
