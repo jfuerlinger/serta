@@ -5,6 +5,8 @@ A bot to motivate the studies ...
 ## How-To
 
 ```
+# Get the .env file from github.com/jfuerlinger and locate it in the root directory
+
 npm install
 npm start
 ```
