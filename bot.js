@@ -7,8 +7,6 @@ const LevelUtils = require('./utils/level-utils.js');
 require('dotenv').config();
 const config = require("./config.json");
 
-const prettyPrint = require('@base2/pretty-print-object');
-
 const createLogger = require('logging').default;
 const logger = createLogger('bot');
 
