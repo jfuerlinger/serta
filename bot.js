@@ -80,6 +80,10 @@ bot.registerCommand("serta-downlevel", async (msg, args) => {
 
     logDetails(msg, args);
 
+    if (!somebodyIsMentionedIn(msg, `You have to select someone to level-down!`)) {
+      return
+    }
+
     let localState = await StorageUtils.getState();
     localStorage = localState
         .map(stateEntry => {
