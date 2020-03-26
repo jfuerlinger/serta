@@ -41,28 +41,10 @@ bot.registerCommand("serta-uplevel", async (msg, args) => {
     if (!somebodyIsMentionedIn(msg, `You have to select someone to level-up!`)) {
         return;
     }
-
-    let localState = await StorageUtils.getState();
-    localStorage = localState
-        .map(stateEntry => {
-
-            if (!stateEntry.level) {
-                stateEntry.level = LevelUtils.getDefaultLevel();
-            }
-
-            if (msg.mentions.some((mentionEntry) => mentionEntry.username === stateEntry.username)) {
-
-                if (stateEntry.level.id !== LevelUtils.getMaxLevel()) {
-                    stateEntry.level = LevelUtils.getNextLevel(stateEntry.level.id);
-                    createInfoMessage(msg.channel.id, `*${stateEntry.username}* is now on level **${stateEntry.level.name}**`);
-                } else {
-                    createWarnMessage(msg.channel.id, `*${stateEntry.username}* is already in the highest level!`);
-                }
-            }
-
-        });
-
-    await StorageUtils.persistState(localState);
+    const levelNotToBeChanged = LevelUtils.getMaxLevel()
+    const changeLevel = (levelIndex) => LevelUtils.getNextLevel(levelIndex)
+    const warningMessageIfImpossible = "is already in the highest level!"
+    changeLevelOfMentionedUsersIn(msg, levelNotToBeChanged, changeLevel, warningMessageIfImpossible)
 });
 
 bot.registerCommandAlias("su", "serta-uplevel");
@@ -74,6 +56,30 @@ function somebodyIsMentionedIn(msg, messageIfNot) {
     mentionFound = false
   }
   return mentionFound
+}
+
+async function changeLevelOfMentionedUsersIn(msg, levelNotToBeChanged, changeLevelAction, warningMessageIfImpossible) {
+  let localState = await StorageUtils.getState();
+  localStorage = localState
+      .map(stateEntry => {
+
+          if (!stateEntry.level) {
+              stateEntry.level = LevelUtils.getDefaultLevel();
+          }
+
+          if (msg.mentions.some((mentionEntry) => mentionEntry.username === stateEntry.username)) {
+
+              if (stateEntry.level.id !== levelNotToBeChanged) {
+                  stateEntry.level = changeLevelAction(stateEntry.level.id);
+                  createInfoMessage(msg.channel.id, `*${stateEntry.username}* is now on level **${stateEntry.level.name}**`);
+              } else {
+                  createWarnMessage(msg.channel.id, `*${stateEntry.username}* ${warningMessageIfImpossible}`);
+              }
+          }
+
+      });
+
+  await StorageUtils.persistState(localState);
 }
 
 bot.registerCommand("serta-downlevel", async (msg, args) => {
