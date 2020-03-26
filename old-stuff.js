@@ -140,6 +140,38 @@
 // });//.catch(error => console.log(error));
 
 
+// bot.registerCommand("removepoints", async (msg, args) => {
+
+//     let localState = await StorageUtils.getState();
+//     localStorage = localState
+//         .map(entry => {
+//             entry.points -= 10;
+//             //return entry;
+//         });
+
+//     await StorageUtils.persistState(localState);
+
+//     bot.createMessage(msg.channel.id, '10 points removed!');
+// });
+
+// bot.registerCommand("addpoints", async (msg, args) => {
+
+//     let localState = await StorageUtils.getState();
+//     localStorage = localState
+//         .map(entry => {
+//             if (entry.username === msg.author.username) {
+//                 entry.experience += 10;
+//             }
+
+//             entry.color = 0xf5da42;
+//         });
+
+//     await StorageUtils.persistState(localState);
+
+//     bot.createMessage(msg.channel.id, '10 Points added to your user!');
+// });
+
+
 const echoCommand = bot.registerCommand("echo", (msg, args) => { // Make an echo command
     if (args.length === 0) { // If the user just typed "!echo", say "Invalid input"
         return "Invalid input";

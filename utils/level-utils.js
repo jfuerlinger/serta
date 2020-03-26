@@ -38,3 +38,4 @@ module.exports.getNextLevel = (levelIdx) => levels[Math.min(levelIdx + 1, levels
 module.exports.getPrevLevel = (levelIdx) => levels[Math.max(0, levelIdx - 1)];
 
 module.exports.getDefaultLevel = () => levels[0];
+module.exports.getMaxLevel = () => levels.length - 1;
