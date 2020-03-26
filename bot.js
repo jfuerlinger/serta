@@ -38,7 +38,11 @@ bot.registerCommand("serta-uplevel", async (msg, args) => {
 
     logDetails(msg, args);
 
+<<<<<<< HEAD
     if (!somebodyIsMentionedIn(msg, `You have to select someone to level-up!`)) {
+=======
+    if (somebodyIsMentionedIn(msg, `You have to mention at least one player to level-up!`)) {
+>>>>>>> 9d88f1db3c51206e3d8ca651b6fb7345d69b8566
         return;
     }
     const levelNotToBeChanged = LevelUtils.getMaxLevel()
@@ -82,14 +86,30 @@ async function changeLevelOfMentionedUsersIn(msg, levelNotToBeChanged, changeLev
   await StorageUtils.persistState(localState);
 }
 
+function somebodyIsMentionedIn(msg, messageIfNot) {
+  if (msg.mentions.length === 0) {
+    createErrorMessage(msg.channel.id, messageIfNot)
+    return false
+  } else {
+    return true
+  }
+}
+
 bot.registerCommand("serta-downlevel", async (msg, args) => {
 
     logDetails(msg, args);
 
+<<<<<<< HEAD
     if (!somebodyIsMentionedIn(msg, `You have to select someone to level-down!`)) {
       return
     }
 
+=======
+    if (somebodyIsMentionedIn(msg, `You have to mention at least one player to level-down!`)) {
+      return;
+    }
+    
+>>>>>>> 9d88f1db3c51206e3d8ca651b6fb7345d69b8566
     let localState = await StorageUtils.getState();
     localStorage = localState
         .map(stateEntry => {
