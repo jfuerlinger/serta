@@ -85,9 +85,9 @@ bot.registerCommand("serta-downlevel", async (msg, args) => {
 
             if (msg.mentions.some((mentionEntry) => mentionEntry.username === stateEntry.username)) {
 
-                if (entry.level.id !== 0) {
-                    entry.level = LevelUtils.getPrevLevel(entry.level.id);
-                    createInfoMessage(msg.channel.id, `*${stateEntry.username}* is now on level **${entry.level.name}**`);
+                if (stateEntry.level.id !== 0) {
+                    stateEntry.level = LevelUtils.getPrevLevel(stateEntry.level.id);
+                    createInfoMessage(msg.channel.id, `*${stateEntry.username}* is now on level **${stateEntry.level.name}**`);
                 } else {
                     createWarnMessage(msg.channel.id, `*${stateEntry.username}* is already in the lowest level!`);
                 }
