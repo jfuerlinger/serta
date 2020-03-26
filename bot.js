@@ -30,7 +30,7 @@ bot.on("ready", () => { // When the bot is ready
 
 bot.registerCommandAlias("halp", "help"); // Alias !halp to !help
 
-bot.registerCommand("serta-init", async (msg, args) => { 
+bot.registerCommand("serta-init", async (msg, args) => {
 
 });
 
@@ -38,9 +38,7 @@ bot.registerCommand("serta-uplevel", async (msg, args) => {
 
     logDetails(msg, args);
 
-    // validate input
-    if (msg.mentions.length === 0) {
-        createErrorMessage(msg.channel.id, `You have to select someone to level-up!`);
+    if (somebodyIsMentionedIn(msg, `You have to mention at least one player to level-up!`)) {
         return;
     }
 
@@ -69,10 +67,23 @@ bot.registerCommand("serta-uplevel", async (msg, args) => {
 
 bot.registerCommandAlias("su", "serta-uplevel");
 
+function somebodyIsMentionedIn(msg, messageIfNot) {
+  if (msg.mentions.length === 0) {
+    createErrorMessage(msg.channel.id, messageIfNot)
+    return false
+  } else {
+    return true
+  }
+}
+
 bot.registerCommand("serta-downlevel", async (msg, args) => {
 
     logDetails(msg, args);
 
+    if (somebodyIsMentionedIn(msg, `You have to mention at least one player to level-down!`)) {
+      return;
+    }
+    
     let localState = await StorageUtils.getState();
     localStorage = localState
         .map(stateEntry => {
@@ -173,5 +184,3 @@ logDetails = (msg, args) => {
 createInfoMessage = (channelId, message) => bot.createMessage(channelId, message);
 createWarnMessage = (channelId, message) => bot.createMessage(channelId, `WARNING: ${message}`);
 createErrorMessage = (channelId, message) => bot.createMessage(channelId, `ERROR: ${message}`);
-
-
