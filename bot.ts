@@ -10,10 +10,11 @@ const createLogger = require('logging').default;
 const logger = createLogger('bot');
 
 const Eris = require("eris");
+import { CommandClient, Message } from "eris";
 
 export class SertaBot {
 
-    private _bot: any;
+    private _bot: CommandClient;
     private _commands: any;
 
     constructor() {
@@ -60,12 +61,12 @@ export class SertaBot {
         this._commands.set(commandName, command);
 
         logger.info(`registering command '${commandName}' ...`);
-        this._bot.registerCommand(commandName, (msg: any, args: any) => {
+        this._bot.registerCommand(commandName, (msg: Message, args: any) => {
 
             logger.info(`Command '${commandName} was called ...`);
             const cmd = this._commands.get(commandName);
             if (cmd) {
-                cmd.performCommand(msg, args);
+                cmd.execute(msg, args);
             } else {
                 logger.warn(`cant't find the command with the name '${commandName}'!`);
 

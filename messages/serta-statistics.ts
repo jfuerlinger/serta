@@ -2,16 +2,17 @@ import { SertaCommand } from "./serta-command";
 
 import {StorageUtils} from "../utils/storage-utils";
 import {SertaUtils} from "../utils/serta-utils";
+import { Message, CommandClient } from "eris";
 
 export class SertaStatisticsCommand implements SertaCommand {
 
-    private _bot: any;
+    private _bot: CommandClient;
 
-    constructor(bot: any) {
+    constructor(bot: CommandClient) {
         this._bot = bot;
     }
 
-    async performCommand(msg: any, args: any) {
+    async execute(msg: Message, args: any) {
         let localStorage = await StorageUtils.getState();
 
         localStorage.map((entry: any) => {
