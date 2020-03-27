@@ -4,10 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "compile": "tsc index.ts",
-    "dev": "nodemon -e ts  --exec \"npm run compile\"",
     "start": "./node_modules/.bin/tsc-watch --onSuccess \"node .\"",
-    "XXXstart": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

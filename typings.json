@@ -1,0 +1,5 @@
+{
+  "globalDevDependencies": {
+    "eris": "github:aurieh/eris-typings"
+  }
+}
