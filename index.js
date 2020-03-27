@@ -1,4 +1,3 @@
-const SertaBot = require('./bot').default;
-
-const bot = new SertaBot();
+var SertaBot = require('./bot')["default"];
+var bot = new SertaBot();
 bot.run();

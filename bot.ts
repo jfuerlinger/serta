@@ -1,6 +1,8 @@
-const SertaUpLevelCommand = require('./messages/serta-uplevel');
-const SertaDownLevelCommand = require('./messages/serta-downlevel');
-const SertaStatisticsCommand = require('./messages/serta-statistics');
+import { SertaCommand } from "./messages/serta-command";
+
+import { SertaUpLevelCommand  } from "./messages/serta-uplevel";
+import { SertaDownLevelCommand } from "./messages/serta-downlevel";
+import { SertaStatisticsCommand } from "./messages/serta-statistics";
 
 require('dotenv').config();
 
@@ -9,7 +11,10 @@ const logger = createLogger('bot');
 
 const Eris = require("eris");
 
-class SertaBot {
+export class SertaBot {
+
+    private _bot: any;
+    private _commands: any;
 
     constructor() {
 
@@ -17,9 +22,9 @@ class SertaBot {
 
         logger.info(`BOT_PREFIX=${process.env.BOT_PREFIX}`);
         logger.info(`BOT_INSTANCE_NAME=${process.env.BOT_INSTANCE_NAME}`);
-        
 
-        this.bot = new Eris.CommandClient(process.env.DISCORD_TOKEN, {}, {
+
+        this._bot = new Eris.CommandClient(process.env.DISCORD_TOKEN, {}, {
             description: "------ Serta is everywhere ------ [" + process.env.BOT_INSTANCE_NAME + "]",
             owner: "J.Fürlinger / P.Bauer",
             prefix: process.env.BOT_PREFIX
@@ -27,38 +32,38 @@ class SertaBot {
 
         logger.info('[DONE] bot instantiated.');
 
-        this.commands = new Map();
+        this._commands = new Map();
     }
 
     run() {
-        this.bot.on("ready", () => { // When the bot is ready
+        this._bot.on("ready", () => { // When the bot is ready
             logger.info("--> Ready <--");
         });
 
         this.registerCommands();
-        this.bot.connect();
+        this._bot.connect();
     }
 
     registerCommands() {
         logger.info("register commands ...");
 
         this.registerCommandAlias('help', 'halp');
-        this.registerCommand('serta-uplevel', new SertaUpLevelCommand(this.bot), 'su');
-        this.registerCommand('serta-downlevel', new SertaDownLevelCommand(this.bot), 'sd');
-        this.registerCommand('serta-statistics', new SertaStatisticsCommand(this.bot), 'ss');
+        this.registerCommand('serta-uplevel', new SertaUpLevelCommand(this._bot), 'su');
+        this.registerCommand('serta-downlevel', new SertaDownLevelCommand(this._bot), 'sd');
+        this.registerCommand('serta-statistics', new SertaStatisticsCommand(this._bot), 'ss');
 
         logger.info("[DONE] commands registered.");
     }
 
-    registerCommand(commandName, command, commandAlias) {
+    registerCommand(commandName: string, command: SertaCommand, commandAlias: string) {
 
-        this.commands.set(commandName, command);
+        this._commands.set(commandName, command);
 
         logger.info(`registering command '${commandName}' ...`);
-        this.bot.registerCommand(commandName, (msg, args) => {
+        this._bot.registerCommand(commandName, (msg: any, args: any) => {
 
             logger.info(`Command '${commandName} was called ...`);
-            const cmd = this.commands.get(commandName);
+            const cmd = this._commands.get(commandName);
             if (cmd) {
                 cmd.performCommand(msg, args);
             } else {
@@ -75,11 +80,9 @@ class SertaBot {
         }
     }
 
-    registerCommandAlias(commandName, alias) {
+    registerCommandAlias(commandName: string, alias: string) {
         logger.info(`registering alias '${alias}' for command '${commandName}' ...`);
-        this.bot.registerCommandAlias(alias, commandName);
+        this._bot.registerCommandAlias(alias, commandName);
         logger.info(`[DONE] alias '${alias}' registered.`);
     }
 }
-
-module.exports.default = SertaBot;
