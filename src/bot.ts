@@ -1,8 +1,9 @@
-import { SertaCommand } from "./messages/serta-command";
+import { SertaCommand } from "./commands/serta-command";
 
-import { SertaUpLevelCommand  } from "./messages/serta-uplevel";
-import { SertaDownLevelCommand } from "./messages/serta-downlevel";
-import { SertaStatisticsCommand } from "./messages/serta-statistics";
+import { SertaUpLevelCommand  } from "./commands/serta-uplevel";
+import { SertaDownLevelCommand } from "./commands/serta-downlevel";
+import { SertaStatisticsCommand } from "./commands/serta-statistics";
+import { SertaTestCommand } from "./commands/serta-test";
 
 require('dotenv').config();
 
@@ -49,6 +50,7 @@ export class SertaBot {
         logger.info("register commands ...");
 
         this.registerCommandAlias('help', 'halp');
+        this.registerCommand('serta-test', new SertaTestCommand(this._bot), 'st');
         this.registerCommand('serta-uplevel', new SertaUpLevelCommand(this._bot), 'su');
         this.registerCommand('serta-downlevel', new SertaDownLevelCommand(this._bot), 'sd');
         this.registerCommand('serta-statistics', new SertaStatisticsCommand(this._bot), 'ss');

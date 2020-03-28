@@ -1,13 +1,19 @@
-export class DbEntry {
+import { TableEntity } from "./table-entity";
 
-    private _userId: number;
-    private _levelId: number;
+export class DbEntry implements TableEntity{
+
+    public userId: number;
+    public levelId: number;
 
     constructor(
         userId: number,
         levelId: number) {
-            this._userId = userId;
-            this._levelId = levelId;
+            this.userId = userId;
+            this.levelId = levelId;
     }
+    
+    [key: string]: string | number | boolean | undefined;
+    PartitionKey?: string | undefined;
+    RowKey?: string | undefined;
 
 }
