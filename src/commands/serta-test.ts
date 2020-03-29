@@ -4,6 +4,8 @@ import { SertaUtils } from "../utils/serta-utils";
 import { SertaCommand } from "./serta-command";
 import { Message, CommandClient } from "eris";
 import { SertaUserService } from "../services/serta-user-service";
+import { TableStorageUserDao } from "../dao/table-storage-user-dao";
+import { UserDao } from "../dao/user-dao";
 
 const createLogger = require('logging').default;
 const logger = createLogger('SertaTestCommand');
@@ -21,8 +23,9 @@ export class SertaTestCommand implements SertaCommand {
         SertaUtils.logDetails(msg, args);
 
         const guildId: string = msg.channel.guild.id;
+        const userDao : UserDao = new TableStorageUserDao(guildId);
 
-        const userSvc = new SertaUserService(this._bot);
+        const userSvc = new SertaUserService(this._bot, userDao);
         let users = await userSvc.GetUsers(guildId);
         SertaUtils.createInfoMessage(this._bot, msg.channel.id, `Fetched ${users.length} users.`);
     }
