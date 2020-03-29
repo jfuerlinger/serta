@@ -15,7 +15,7 @@ import { CommandClient, Message } from "eris";
 
 export class SertaBot {
 
-    private _bot: CommandClient;
+    public _bot: CommandClient;
     private _commands: any;
 
     constructor() {

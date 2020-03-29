@@ -4,12 +4,27 @@ A bot to motivate the studies ...
 
 ## How-To
 
-```
-# Get the .env file from github.com/jfuerlinger and locate it in the root directory
+### Configuration
 
+1. Get the .env file from me (github.com/jfuerlinger) and locate it in the root directory
+
+
+### Bot start sequence
+
+```
 npm install
 npm start
 ```
+
+### Inject the testing drugs
+
+```
+npm test
+```
+
+*Hint*: Start the testing in an dedicated terminal window.
+
+
 
 ## Description
 
