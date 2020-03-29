@@ -4,7 +4,7 @@ const logger = createLogger('db-dao');
 require('dotenv').config();
 
 import * as storage from "azure-storage"
-import { DbTableEntry } from "../model/db-table-entry";
+import { DbTableEntry } from "../../model/table-storage-db-table-entry";
 
 
 export abstract class DbDao<T extends DbTableEntry> {

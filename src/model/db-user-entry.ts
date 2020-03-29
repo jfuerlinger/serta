@@ -1,9 +1,9 @@
-import { DbTableEntry } from "./db-table-entry";
+import { DbTableEntry } from "./table-storage-db-table-entry";
 
 export class DbUserEntry implements DbTableEntry {
-
+    
     public levelId: number;
-    public id : string;
+    public id: string;
 
     constructor(
         id: string,

@@ -1,7 +1,7 @@
 import { UserService } from "./user-service";
 import { User, CommandClient } from "eris";
 import { SertaUser } from "../model/serta-user";
-import { TableStorageUserDao } from "../dao/table-storage-user-dao";
+import { TableStorageUserDao } from "../dao/table-storage/table-storage-user-dao";
 import { DbUserEntry } from "../model/db-user-entry";
 import { UserDao } from "../dao/user-dao";
 

@@ -4,7 +4,7 @@ import { SertaUtils } from "../utils/serta-utils";
 import { SertaCommand } from "./serta-command";
 import { Message, CommandClient } from "eris";
 import { SertaUserService } from "../services/serta-user-service";
-import { TableStorageUserDao } from "../dao/table-storage-user-dao";
+import { TableStorageUserDao } from "../dao/table-storage/table-storage-user-dao";
 import { UserDao } from "../dao/user-dao";
 
 const createLogger = require('logging').default;

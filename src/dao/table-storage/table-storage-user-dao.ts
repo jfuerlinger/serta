@@ -1,6 +1,6 @@
-import { DbDao } from "./db-dao";
-import { UserDao } from "./user-dao";
-import { DbUserEntry } from "../model/db-user-entry";
+import { DbDao } from "./table-storage-db-dao";
+import { UserDao } from "../user-dao";
+import { DbUserEntry } from "../../model/db-user-entry";
 
 // Dao to work with the SertaUsers table storage entries.
 export class TableStorageUserDao extends DbDao<DbUserEntry> implements UserDao {

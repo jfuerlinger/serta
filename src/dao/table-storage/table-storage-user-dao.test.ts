@@ -1,6 +1,6 @@
 import { TableStorageUserDao } from "./table-storage-user-dao";
-import { UserDao } from "./user-dao";
-import { DbUserEntry } from "../model/db-user-entry";
+import { UserDao } from "../user-dao";
+import { DbUserEntry } from "../../model/db-user-entry";
 
 const random = require('random');
 
