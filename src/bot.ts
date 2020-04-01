@@ -44,6 +44,13 @@ export class SertaBot {
 
         this.registerCommands();
         this._bot.connect();
+        return new Promise((resolve, reject) => {
+          this._bot.on("ready", () => { // When the bot is ready
+              logger.info("--> Ready <--")
+              resolve()
+          })
+
+        })
     }
 
     registerCommands() {
