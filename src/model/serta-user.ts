@@ -5,7 +5,7 @@ export class SertaUser {
     private _levelId: number | undefined;
     private _discordUser : User;
 
-    get discordUser(): User { return this.discordUser; }
+    get discordUser(): User { return this._discordUser; }
     get levelId(): number | undefined { return this._levelId; }
 
     constructor(
