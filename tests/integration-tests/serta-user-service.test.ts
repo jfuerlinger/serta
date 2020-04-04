@@ -15,7 +15,6 @@ describe("SertaUserService", () => {
     await bot.run()
   })
 
-
   beforeEach(async () => {
     userDao = new TableStorageUserDao(guildId);
     userService = new SertaUserService(bot._bot, userDao);
@@ -24,7 +23,7 @@ describe("SertaUserService", () => {
 
   test('getUsers shall return a number of three test users', async () => {
     expect(users.length).toBe(3)
-  })
+  }, 10000)
 
   test("getUsers shall return 3 valid test users", async() => {
     expect(users).toBeTruthy()
