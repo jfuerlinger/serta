@@ -1,10 +1,10 @@
-import { SertaBot } from "../bot";
-import { SertaUser } from "../model/serta-user";
-import { SertaUserService } from "./serta-user-service";
-import { TableStorageUserDao } from "../dao/table-storage/table-storage-user-dao";
+import { SertaBot } from "../../src/bot";
+import { SertaUser } from "../../src/model/serta-user";
+import { SertaUserService } from "../../src/services/serta-user-service";
+import { TableStorageUserDao } from "../../src/dao/table-storage/table-storage-user-dao";
 
 describe("SertaUserService", () => {
-  const bot = new SertaBot()
+  const bot = new SertaBot();
   const guildId = '692047042154987527' // TODO: not to be hidden here
 
   let userDao: TableStorageUserDao
