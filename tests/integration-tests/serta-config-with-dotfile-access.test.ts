@@ -30,6 +30,12 @@ describe(".env file accessor with existing .env file", () => {
         const fileAccessor = new DotEnvEnvironmentFileAccessor()
         expect(fileAccessor.botPrefix).toBe("!")
     })
+
+    test("reads discord token correctly", () => {
+        setupTestDotEnvFile();
+        const fileAccessor = new DotEnvEnvironmentFileAccessor()
+        expect(fileAccessor.discordToken).toBe("NjkyMDQ4NTA3MTMyOTY5MDAw.Xno2gw.i5cysRHxgnKqJDtyYtaWSDP0Oac")
+    })
 })
 
 let setupTestDotEnvFile = function () {

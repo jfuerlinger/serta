@@ -12,7 +12,7 @@ export class DotEnvEnvironmentFileAccessor implements IEnvironmentFileAccessor {
     discordToken: string
 
     constructor() {
-        this.discordToken = ""
+        this.discordToken = process.env.DISCORD_TOKEN === undefined ? "" : process.env.DISCORD_TOKEN
         this.botPrefix = process.env.BOT_PREFIX === undefined ? "" : process.env.BOT_PREFIX
         this.botInstanceName = process.env.BOT_INSTANCE_NAME === undefined ? "" : process.env.BOT_INSTANCE_NAME
 
