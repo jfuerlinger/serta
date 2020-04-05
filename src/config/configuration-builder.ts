@@ -3,7 +3,7 @@ import {IEnvironmentFileAccessor} from "./i-environment-file-accessor";
 
 require('dotenv').config();
 
-export class EnvironmentFileAccessor implements IEnvironmentFileAccessor {
+class EnvironmentFileAccessor implements IEnvironmentFileAccessor {
     azureStorageAccount: string;
     botInstanceName: string;
     botPrefix: string;
