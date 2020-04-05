@@ -20,9 +20,14 @@ export class EnvironmentFileAccessor implements IEnvironmentFileAccessor {
 
 export class ConfigurationBuilder {
 
+    static activeConfiguration: SertaConfiguration
+
     static getConfiguration(environmentFileAccessor?: IEnvironmentFileAccessor): SertaConfiguration {
-        return environmentFileAccessor == undefined ?
-            new SertaConfiguration(new EnvironmentFileAccessor()) :
-            new SertaConfiguration(environmentFileAccessor)
+        if (this.activeConfiguration == undefined) {
+            this.activeConfiguration = environmentFileAccessor == undefined ?
+                new SertaConfiguration(new EnvironmentFileAccessor()) :
+                new SertaConfiguration(environmentFileAccessor)
+        }
+        return this.activeConfiguration
     }
 }
