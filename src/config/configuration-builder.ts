@@ -16,7 +16,7 @@ export class DotEnvEnvironmentFileAccessor implements IEnvironmentFileAccessor {
         this.botPrefix = process.env.BOT_PREFIX === undefined ? "" : process.env.BOT_PREFIX
         this.botInstanceName = process.env.BOT_INSTANCE_NAME === undefined ? "" : process.env.BOT_INSTANCE_NAME
 
-        this.azureStorageAccount = ""
+        this.azureStorageAccount = process.env.AZURE_STORAGE_ACCOUNT === undefined ? "" : process.env.AZURE_STORAGE_ACCOUNT
         this.azureStorageAccessKey = ""
     }
 

@@ -6,10 +6,10 @@ const PROJECT_ROOT = "."
 const DOT_ENV_PATH = PROJECT_ROOT + "/.env"
 const DOT_ENV_BACKUP = PROJECT_ROOT + "/.env.sav"
 
-const DOT_ENV_FILE_CONTENT = "DISCORD_TOKEN=NjkyMDQ4NTA3MTMyOTY5MDAw.Xno2gw.i5cysRHxgnKqJDtyYtaWSDP0Oac\n" +
-    "AZURE_STORAGE_ACCOUNT=jfuerlingerdiscord\n" +
-    "AZURE_STORAGE_ACCESS_KEY=0P9vQf4k+I3msl2392BWS5ykG7C36HISRP7i/Md0Jk6s8kSFR2cGHEGbOErliNcrISeRJ8hL3eJWRQ3Bw8rLsA==\n" +
-    "AZURE_BLOBSTORAGE_CONNECTIONSTRING=DefaultEndpointsProtocol=https;AccountName=jfuerlingerdiscord;AccountKey=0P9vQf4k+I3msl2392BWS5ykG7C36HISRP7i/Md0Jk6s8kSFR2cGHEGbOErliNcrISeRJ8hL3eJWRQ3Bw8rLsA==;EndpointSuffix=core.windows.net\n" +
+const DOT_ENV_FILE_CONTENT = "DISCORD_TOKEN=ASecretT0ken\n" +
+    "AZURE_STORAGE_ACCOUNT=firstaccountever\n" +
+    "AZURE_STORAGE_ACCESS_KEY=th35t0rAgeAcc355key\n" +
+    "AZURE_BLOBSTORAGE_CONNECTIONSTRING=BL0BST0RAGEC0NNECT10N5TR1NG\n" +
     "BOT_PREFIX='!'\n" +
     "BOT_INSTANCE_NAME='Peter'\n"
 
@@ -34,7 +34,13 @@ describe(".env file accessor with existing .env file", () => {
     test("reads discord token correctly", () => {
         setupTestDotEnvFile();
         const fileAccessor = new DotEnvEnvironmentFileAccessor()
-        expect(fileAccessor.discordToken).toBe("NjkyMDQ4NTA3MTMyOTY5MDAw.Xno2gw.i5cysRHxgnKqJDtyYtaWSDP0Oac")
+        expect(fileAccessor.discordToken).toBe("ASecretT0ken")
+    })
+
+    test("reads azur storage account correctly", () => {
+        setupTestDotEnvFile();
+        const fileAccessor = new DotEnvEnvironmentFileAccessor()
+        expect(fileAccessor.azureStorageAccount).toBe("firstaccountever")
     })
 })
 
