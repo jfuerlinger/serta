@@ -18,10 +18,17 @@ describe(".env file accessor with existing .env file", () => {
         fs.unlinkSync(DOT_ENV_PATH)
         fs.renameSync(DOT_ENV_BACKUP, DOT_ENV_PATH)
     })
+
     test("reads bot instance name correctly", () => {
         setupTestDotEnvFile();
         const fileAccessor = new DotEnvEnvironmentFileAccessor()
         expect(fileAccessor.botInstanceName).toBe("Peter")
+    })
+
+    test("reads bot prefix name correctly", () => {
+        setupTestDotEnvFile();
+        const fileAccessor = new DotEnvEnvironmentFileAccessor()
+        expect(fileAccessor.botPrefix).toBe("!")
     })
 })
 
