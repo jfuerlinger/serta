@@ -22,11 +22,9 @@ export class ConfigurationBuilder {
 
     static activeConfiguration: SertaConfiguration
 
-    static getConfiguration(environmentFileAccessor?: IEnvironmentFileAccessor): SertaConfiguration {
+    static getConfiguration(): SertaConfiguration {
         if (this.activeConfiguration == undefined) {
-            this.activeConfiguration = environmentFileAccessor == undefined ?
-                new SertaConfiguration(new EnvironmentFileAccessor()) :
-                new SertaConfiguration(environmentFileAccessor)
+            this.activeConfiguration = new SertaConfiguration(new EnvironmentFileAccessor())
         }
         return this.activeConfiguration
     }

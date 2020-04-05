@@ -2,12 +2,15 @@ import {IEnvironmentFileAccessor} from "./i-environment-file-accessor";
 
 export class SertaConfiguration {
     commandClientConfiguration = {
-        botPrefix: "!"
+        discordToken: "",
+        botPrefix: "",
+        botInstanceName: ""
     }
+
     constructor(environmentFileAccessor: IEnvironmentFileAccessor) {
-        if (environmentFileAccessor.botPrefix === "") {
-            throw new Error("Environment does not provide a bot prefix")
-        }
+        this.commandClientConfiguration.discordToken = environmentFileAccessor.discordToken
         this.commandClientConfiguration.botPrefix = environmentFileAccessor.botPrefix
+        this.commandClientConfiguration.botPrefix = environmentFileAccessor.botPrefix
+        this.commandClientConfiguration.botInstanceName = environmentFileAccessor.botInstanceName
     }
 }

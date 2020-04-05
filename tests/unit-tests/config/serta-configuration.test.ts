@@ -1,4 +1,6 @@
 import {ConfigurationBuilder} from "../../../src/config/configuration-builder";
+import {SertaConfiguration} from "../../../src/config/serta-configuration";
+import {IEnvironmentFileAccessor} from "../../../src/config/i-environment-file-accessor";
 
 describe("ConfigurationBuilder", () => {
     test("getConfiguration returns a valid  object", () => {
@@ -14,23 +16,20 @@ describe("ConfigurationBuilder", () => {
 })
 
 describe("Serta Configuration", () => {
-    test("returns '!' as bot prefix when .env is read", () => {
-        expect(ConfigurationBuilder.getConfiguration().commandClientConfiguration.botPrefix).toBe("!")
+    var fakeEnvironmentFile: IEnvironmentFileAccessor
+    beforeEach(() => {
+        fakeEnvironmentFile = {
+            discordToken: "lkjsadflkj",
+            botPrefix: "!",
+            botInstanceName: "Peter",
+            azureStorageAccount: "p.bauer"
+        }
     })
 
-    test("throws exception if environment file accessor does not provide value for bot prefix", () => {
-        const fakeFileAccessor = {
-            discordToken: "",
-            botPrefix: "",
-            botInstanceName: "",
-
-            azureStorageAccount: ""
-        }
-        try {
-            const botPrefix = ConfigurationBuilder.getConfiguration(fakeFileAccessor).commandClientConfiguration.botPrefix
-            expect(botPrefix).not.toBe("") // to make warning watcher happy; should never come to here
-        } catch (e) {
-            expect(e.name).toBe("Error")  // Excuse: expect(.).toBeInstanceOf(Error) did not work; unclear why
-        }
+    test("sets commandClientConfiguration properly", () => {
+        const config = new SertaConfiguration(fakeEnvironmentFile)
+        expect(config.commandClientConfiguration.discordToken).toBe("lkjsadflkj")
+        expect(config.commandClientConfiguration.botPrefix).toBe("!")
+        expect(config.commandClientConfiguration.botInstanceName).toBe("Peter")
     })
 })
