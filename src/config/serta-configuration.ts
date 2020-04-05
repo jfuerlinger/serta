@@ -7,10 +7,18 @@ export class SertaConfiguration {
         botInstanceName: ""
     }
 
+    azureStorage = {
+        account: "",
+        accessKey: ""
+    }
+
     constructor(environmentFileAccessor: IEnvironmentFileAccessor) {
         this.commandClient.discordToken = environmentFileAccessor.discordToken
         this.commandClient.botPrefix = environmentFileAccessor.botPrefix
         this.commandClient.botPrefix = environmentFileAccessor.botPrefix
         this.commandClient.botInstanceName = environmentFileAccessor.botInstanceName
+
+        this.azureStorage.account = environmentFileAccessor.azureStorageAccount
+        this.azureStorage.accessKey = environmentFileAccessor.azureStorageAccessKey
     }
 }

@@ -22,7 +22,8 @@ describe("Serta Configuration", () => {
             discordToken: "lkjsadflkj",
             botPrefix: "!",
             botInstanceName: "Peter",
-            azureStorageAccount: "p.bauer"
+            azureStorageAccount: "p.bauer",
+            azureStorageAccessKey: "sdfkjlsdfkjlsdf"
         }
     })
 
@@ -31,5 +32,11 @@ describe("Serta Configuration", () => {
         expect(config.commandClient.discordToken).toBe("lkjsadflkj")
         expect(config.commandClient.botPrefix).toBe("!")
         expect(config.commandClient.botInstanceName).toBe("Peter")
+    })
+
+    test("sets azzure configuration properly", () => {
+        const config = new SertaConfiguration(fakeEnvironmentFile)
+        expect(config.azureStorage.account).toBe("p.bauer")
+        expect(config.azureStorage.accessKey).toBe("sdfkjlsdfkjlsdf")
     })
 })

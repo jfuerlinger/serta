@@ -4,4 +4,5 @@ export interface IEnvironmentFileAccessor {
     botInstanceName: string
 
     azureStorageAccount: string
+    azureStorageAccessKey: string
 }
