@@ -3,19 +3,23 @@ import {IEnvironmentFileAccessor} from "./i-environment-file-accessor";
 
 require('dotenv').config();
 
-class EnvironmentFileAccessor implements IEnvironmentFileAccessor {
-    azureStorageAccount: string;
-    botInstanceName: string;
-    botPrefix: string;
-    discordToken: string;
+export class DotEnvEnvironmentFileAccessor implements IEnvironmentFileAccessor {
+    azureStorageAccount: string
+    azureStorageAccessKey: string
+
+    botInstanceName: string
+    botPrefix: string
+    discordToken: string
 
     constructor() {
         this.discordToken = ""
         this.botPrefix = process.env.BOT_PREFIX === undefined ? "" : process.env.BOT_PREFIX
-        this.botInstanceName = ""
+        this.botInstanceName = process.env.BOT_INSTANCE_NAME === undefined ? "" : process.env.BOT_INSTANCE_NAME
 
         this.azureStorageAccount = ""
+        this.azureStorageAccessKey = ""
     }
+
 }
 
 export class ConfigurationBuilder {
@@ -24,7 +28,7 @@ export class ConfigurationBuilder {
 
     static getConfiguration(): SertaConfiguration {
         if (this.activeConfiguration == undefined) {
-            this.activeConfiguration = new SertaConfiguration(new EnvironmentFileAccessor())
+            this.activeConfiguration = new SertaConfiguration(new DotEnvEnvironmentFileAccessor())
         }
         return this.activeConfiguration
     }
