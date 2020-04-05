@@ -26,10 +26,10 @@ describe("Serta Configuration", () => {
         }
     })
 
-    test("sets commandClientConfiguration properly", () => {
+    test("sets commandClient properly", () => {
         const config = new SertaConfiguration(fakeEnvironmentFile)
-        expect(config.commandClientConfiguration.discordToken).toBe("lkjsadflkj")
-        expect(config.commandClientConfiguration.botPrefix).toBe("!")
-        expect(config.commandClientConfiguration.botInstanceName).toBe("Peter")
+        expect(config.commandClient.discordToken).toBe("lkjsadflkj")
+        expect(config.commandClient.botPrefix).toBe("!")
+        expect(config.commandClient.botInstanceName).toBe("Peter")
     })
 })
