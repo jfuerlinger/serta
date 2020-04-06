@@ -1,11 +1,10 @@
 import {SertaConfiguration} from "./serta-configuration";
 import {IEnvironmentFileAccessor} from "./i-environment-file-accessor";
 
-require('dotenv').config();
-
 export class DotEnvEnvironmentFileAccessor implements IEnvironmentFileAccessor {
     azureStorageAccount: string
     azureStorageAccessKey: string
+    azureStorageBlobStorageConnectionstring: string
 
     botInstanceName: string
     botPrefix: string
@@ -17,7 +16,8 @@ export class DotEnvEnvironmentFileAccessor implements IEnvironmentFileAccessor {
         this.botInstanceName = process.env.BOT_INSTANCE_NAME === undefined ? "" : process.env.BOT_INSTANCE_NAME
 
         this.azureStorageAccount = process.env.AZURE_STORAGE_ACCOUNT === undefined ? "" : process.env.AZURE_STORAGE_ACCOUNT
-        this.azureStorageAccessKey = ""
+        this.azureStorageAccessKey = process.env.AZURE_STORAGE_ACCESS_KEY === undefined ? "" : process.env.AZURE_STORAGE_ACCESS_KEY
+        this.azureStorageBlobStorageConnectionstring = process.env.AZURE_BLOBSTORAGE_CONNECTIONSTRING === undefined ? "" : process.env.AZURE_BLOBSTORAGE_CONNECTIONSTRING
     }
 
 }
