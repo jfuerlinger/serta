@@ -11,15 +11,18 @@ export class DotEnvEnvironmentFileAccessor implements IEnvironmentFileAccessor {
     discordToken: string
 
     constructor() {
-        this.discordToken = process.env.DISCORD_TOKEN === undefined ? "" : process.env.DISCORD_TOKEN
-        this.botPrefix = process.env.BOT_PREFIX === undefined ? "" : process.env.BOT_PREFIX
-        this.botInstanceName = process.env.BOT_INSTANCE_NAME === undefined ? "" : process.env.BOT_INSTANCE_NAME
+        this.discordToken = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.DISCORD_TOKEN)
+        this.botPrefix = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.BOT_PREFIX)
+        this.botInstanceName = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.BOT_INSTANCE_NAME)
 
-        this.azureStorageAccount = process.env.AZURE_STORAGE_ACCOUNT === undefined ? "" : process.env.AZURE_STORAGE_ACCOUNT
-        this.azureStorageAccessKey = process.env.AZURE_STORAGE_ACCESS_KEY === undefined ? "" : process.env.AZURE_STORAGE_ACCESS_KEY
-        this.azureStorageBlobStorageConnectionstring = process.env.AZURE_BLOBSTORAGE_CONNECTIONSTRING === undefined ? "" : process.env.AZURE_BLOBSTORAGE_CONNECTIONSTRING
+        this.azureStorageAccount = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.AZURE_STORAGE_ACCOUNT)
+        this.azureStorageAccessKey = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.AZURE_STORAGE_ACCESS_KEY)
+        this.azureStorageBlobStorageConnectionstring = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.AZURE_BLOBSTORAGE_CONNECTIONSTRING)
     }
 
+    private static getDoteEnvEntry(dotEnvEntry?:string): string {
+        return dotEnvEntry === undefined ? "" : dotEnvEntry;
+    }
 }
 
 export class ConfigurationBuilder {
