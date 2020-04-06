@@ -1,6 +1,6 @@
 import {ConfigurationBuilder} from "../../../src/config/configuration-builder";
 import {SertaConfiguration} from "../../../src/config/serta-configuration";
-import {IEnvironmentFileAccessor} from "../../../src/config/i-environment-file-accessor";
+import {IEnvironmentAccessor} from "../../../src/config/i-environment-accessor";
 
 describe("ConfigurationBuilder", () => {
     test("getConfiguration returns a valid  object", () => {
@@ -16,9 +16,9 @@ describe("ConfigurationBuilder", () => {
 })
 
 describe("Serta Configuration", () => {
-    var fakeEnvironmentFile: IEnvironmentFileAccessor
+    var fakeEnvironmentAccessir: IEnvironmentAccessor
     beforeEach(() => {
-        fakeEnvironmentFile = {
+        fakeEnvironmentAccessir = {
             discordToken: "lkjsadflkj",
             botPrefix: "!",
             botInstanceName: "Peter",
@@ -29,14 +29,14 @@ describe("Serta Configuration", () => {
     })
 
     test("sets commandClient properly", () => {
-        const config = new SertaConfiguration(fakeEnvironmentFile)
+        const config = new SertaConfiguration(fakeEnvironmentAccessir)
         expect(config.commandClient.discordToken).toBe("lkjsadflkj")
         expect(config.commandClient.botPrefix).toBe("!")
         expect(config.commandClient.botInstanceName).toBe("Peter")
     })
 
     test("sets azzure configuration properly", () => {
-        const config = new SertaConfiguration(fakeEnvironmentFile)
+        const config = new SertaConfiguration(fakeEnvironmentAccessir)
         expect(config.azureStorage.account).toBe("p.bauer")
         expect(config.azureStorage.accessKey).toBe("sdfkjlsdfkjlsdf")
     })

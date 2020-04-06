@@ -1,7 +1,7 @@
 import {SertaConfiguration} from "./serta-configuration";
-import {IEnvironmentFileAccessor} from "./i-environment-file-accessor";
+import {IEnvironmentAccessor} from "./i-environment-accessor";
 
-export class DotEnvEnvironmentFileAccessor implements IEnvironmentFileAccessor {
+export class EnvironmentAccessor implements IEnvironmentAccessor {
     azureStorageAccount: string
     azureStorageAccessKey: string
     azureStorageBlobStorageConnectionstring: string
@@ -11,13 +11,13 @@ export class DotEnvEnvironmentFileAccessor implements IEnvironmentFileAccessor {
     discordToken: string
 
     constructor() {
-        this.discordToken = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.DISCORD_TOKEN)
-        this.botPrefix = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.BOT_PREFIX)
-        this.botInstanceName = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.BOT_INSTANCE_NAME)
+        this.discordToken = EnvironmentAccessor.getDoteEnvEntry(process.env.DISCORD_TOKEN)
+        this.botPrefix = EnvironmentAccessor.getDoteEnvEntry(process.env.BOT_PREFIX)
+        this.botInstanceName = EnvironmentAccessor.getDoteEnvEntry(process.env.BOT_INSTANCE_NAME)
 
-        this.azureStorageAccount = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.AZURE_STORAGE_ACCOUNT)
-        this.azureStorageAccessKey = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.AZURE_STORAGE_ACCESS_KEY)
-        this.azureStorageBlobStorageConnectionstring = DotEnvEnvironmentFileAccessor.getDoteEnvEntry(process.env.AZURE_BLOBSTORAGE_CONNECTIONSTRING)
+        this.azureStorageAccount = EnvironmentAccessor.getDoteEnvEntry(process.env.AZURE_STORAGE_ACCOUNT)
+        this.azureStorageAccessKey = EnvironmentAccessor.getDoteEnvEntry(process.env.AZURE_STORAGE_ACCESS_KEY)
+        this.azureStorageBlobStorageConnectionstring = EnvironmentAccessor.getDoteEnvEntry(process.env.AZURE_BLOBSTORAGE_CONNECTIONSTRING)
     }
 
     private static getDoteEnvEntry(dotEnvEntry?:string): string {
@@ -31,7 +31,7 @@ export class ConfigurationBuilder {
 
     static getConfiguration(): SertaConfiguration {
         if (this.activeConfiguration == undefined) {
-            this.activeConfiguration = new SertaConfiguration(new DotEnvEnvironmentFileAccessor())
+            this.activeConfiguration = new SertaConfiguration(new EnvironmentAccessor())
         }
         return this.activeConfiguration
     }

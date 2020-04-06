@@ -1,4 +1,4 @@
-import {IEnvironmentFileAccessor} from "./i-environment-file-accessor";
+import {IEnvironmentAccessor} from "./i-environment-accessor";
 
 export class SertaConfiguration {
     commandClient = {
@@ -12,7 +12,7 @@ export class SertaConfiguration {
         accessKey: ""
     }
 
-    constructor(environmentFileAccessor: IEnvironmentFileAccessor) {
+    constructor(environmentFileAccessor: IEnvironmentAccessor) {
         this.commandClient.discordToken = environmentFileAccessor.discordToken
         this.commandClient.botPrefix = environmentFileAccessor.botPrefix
         this.commandClient.botPrefix = environmentFileAccessor.botPrefix

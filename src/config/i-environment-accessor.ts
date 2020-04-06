@@ -1,4 +1,4 @@
-export interface IEnvironmentFileAccessor {
+export interface IEnvironmentAccessor {
     discordToken: string
     botPrefix: string
     botInstanceName: string
