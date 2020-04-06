@@ -32,7 +32,7 @@ describe("SertaUserService", () => {
   test("getUsers shall return jfuerlinger as a test user", async () => {
     let found = false
     users.forEach(user => {
-      if (user.discordUser.username === "jfuerlinger") {
+      if (user.discordUser.username === "p.bauer") {
         found = true
       }
     })
