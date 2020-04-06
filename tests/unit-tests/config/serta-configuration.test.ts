@@ -23,7 +23,8 @@ describe("Serta Configuration", () => {
             botPrefix: "!",
             botInstanceName: "Peter",
             azureStorageAccount: "p.bauer",
-            azureStorageAccessKey: "sdfkjlsdfkjlsdf"
+            azureStorageAccessKey: "sdfkjlsdfkjlsdf",
+            azureStorageBlobStorageConnectionstring: "ljldfssdflj"
         }
     })
 
