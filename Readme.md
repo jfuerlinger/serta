@@ -22,7 +22,10 @@ npm start
 npm test
 ```
 
-*Hint*: Start the testing in an dedicated terminal window.
+*Hint 1*: Start the testing in a dedicated terminal window.
+
+*Hint 2*: Start the testing of **all** (unit and integration) tests. This can be changed by changing the
+jest configuration file.
 
 
 
