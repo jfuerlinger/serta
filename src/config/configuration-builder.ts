@@ -21,7 +21,10 @@ export class EnvironmentAccessor implements IEnvironmentAccessor {
     }
 
     private static getDoteEnvEntry(dotEnvEntry?:string): string {
-        return dotEnvEntry === undefined ? "" : dotEnvEntry;
+        if (dotEnvEntry === undefined) {
+            throw new Error("Environment is not set properly. Are you missing a .env file or call to read it?")
+        }
+        return dotEnvEntry;
     }
 }
 

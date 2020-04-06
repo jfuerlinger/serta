@@ -1,8 +1,17 @@
 import {ConfigurationBuilder} from "../../../src/config/configuration-builder";
 import {SertaConfiguration} from "../../../src/config/serta-configuration";
 import {IEnvironmentAccessor} from "../../../src/config/i-environment-accessor";
+import * as FakeEnvironment from "./fake-environment"
 
 describe("ConfigurationBuilder", () => {
+    beforeAll(()=>{
+        FakeEnvironment.setup()
+    })
+
+    afterAll(() => {
+        FakeEnvironment.tearDown()
+    })
+
     test("getConfiguration returns a valid  object", () => {
         const config = ConfigurationBuilder.getConfiguration()
         expect(config).not.toBeNull()
