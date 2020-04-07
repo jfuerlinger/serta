@@ -54,7 +54,7 @@ export class SertaUserService implements UserService {
             const level = daoUser.levelId
             user = new SertaUser(botUser, level)
         } else {
-            user = new SertaUser(botUser, 5)
+            user = new SertaUser(botUser, 1)
         }
         return user;
     }
