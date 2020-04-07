@@ -3,6 +3,7 @@ import {CommandClient, User} from "eris";
 import {SertaUser} from "../model/serta-user";
 import {UserDao} from "../dao/user-dao";
 import {DbUserEntry} from "../model/db-user-entry";
+import {ConfigurationBuilder} from "../config/configuration-builder";
 
 const createLogger = require('logging').default;
 const logger = createLogger('serta-user-service');
@@ -54,7 +55,8 @@ export class SertaUserService implements UserService {
             const level = daoUser.levelId
             user = new SertaUser(botUser, level)
         } else {
-            this._userDao.add(new DbUserEntry(botUser.id, 1))
+            const initialLevel = ConfigurationBuilder.getConfiguration().initialLevel
+            this._userDao.add(new DbUserEntry(botUser.id, initialLevel.id))
             user = new SertaUser(botUser, 1)
         }
         return user;
