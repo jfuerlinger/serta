@@ -72,10 +72,8 @@ export class SertaStatisticsCommand implements SertaCommand {
             }
         }
 
-        SertaUtils.createInfoMessage(this._bot, msg.channel.id, generalInfo)
-        SertaUtils.createInfoMessage(this._bot, msg.channel.id, medicineInfo)
-
-        // SertaUtils.createInfoMessage(this._bot, msg.channel.id, medicineInfo)
+        SertaUtils.createInfoMessage(this._bot, msg.channel.id, { embed: generalInfo })
+        SertaUtils.createInfoMessage(this._bot, msg.channel.id, { embed: medicineInfo })
 
         // https://cdn.discordapp.com/embed/avatars/4.png
         // https://cdn.discordapp.com/avatars/509427140832526336/b9e7a194f8ca9adf14ee77e894409d1a.jpg?size=128

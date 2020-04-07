@@ -1,11 +1,11 @@
 import {CommandClient} from "eris";
-import {FakeUser, fakeUsers} from "./fake-users";
+import {FakeDiscordUser, fakeDiscordUsers} from "./fake-discord-users";
 
 export class FakeCommandClient extends CommandClient {
-    constructor(users?: FakeUser[]) {
+    constructor(users?: FakeDiscordUser[]) {
         super("a.fake.discord.token")
         if (users === undefined) {
-            fakeUsers.forEach(u => this.users.add(u))
+            fakeDiscordUsers.forEach(u => this.users.add(u))
         } else {
             users.forEach(u => this.users.add(u))
         }

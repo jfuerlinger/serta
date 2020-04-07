@@ -2,14 +2,14 @@ import {SertaUserService} from "../../../src/services/serta-user-service";
 import {UserDao} from "../../../src/dao/user-dao";
 import {DbUserEntry} from "../../../src/model/db-user-entry";
 import {FakeCommandClient} from "./fake-command-client";
-import {fakeUsers} from "./fake-users";
+import {fakeDiscordUsers} from "./fake-discord-users";
 
 describe("SertaUserService", () => {
     test("returns a valid user when get with a DiscordId is called", async () => {
         const fakeCommandClient = new FakeCommandClient()
         const userDao = new FakeUserDao()
         const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
-        const user = await sertaUserService.get(fakeUsers[0].id)
+        const user = await sertaUserService.get(fakeDiscordUsers[0].id)
         expect(user.levelId).not.toBeNull()
     })
 })
