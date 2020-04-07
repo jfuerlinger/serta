@@ -4,13 +4,27 @@ import {DbUserEntry} from "../../../src/model/db-user-entry";
 import {FakeCommandClient} from "./fake-command-client";
 import {fakeDiscordUsers} from "./fake-discord-users";
 
-describe("SertaUserService", () => {
-    test("returns a valid user when get with a DiscordId is called", async () => {
+describe("SertaUserService get", () => {
+    test("returns a valid user when called with an existing DiscordId", async () => {
         const fakeCommandClient = new FakeCommandClient()
         const userDao = new FakeUserDao()
         const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
         const user = await sertaUserService.get(fakeDiscordUsers[0].id)
         expect(user.levelId).not.toBeNull()
+    })
+
+    test("rejects promise when non-existing DiscordId is provided", async done => {
+        const fakeCommandClient = new FakeCommandClient()
+        const userDao = new FakeUserDao()
+        const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
+
+        sertaUserService.get("fakeDiscordUsers[0].id")
+            .then(() => {
+                done.fail("Returned a user though non-existing id was provided")
+            })
+            .catch(() => {
+                done()
+            })
     })
 })
 
@@ -32,7 +46,7 @@ class FakeUserDao implements UserDao {
     }
 
     getAll(): Promise<DbUserEntry[]> {
-        return new Promise<DbUserEntry[]>(resolve =>  {
+        return new Promise<DbUserEntry[]>(resolve => {
             if (this.storage.size > 0) {
                 const userEntries: DbUserEntry[] = Array.from(this.storage.values())
                 resolve(userEntries)
