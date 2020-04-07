@@ -24,7 +24,7 @@ describe("ConfigurationBuilder", () => {
     })
 })
 
-describe("Serta Configuration", () => {
+describe("SertaConfiguration", () => {
     let fakeEnvironmentAccessor: IEnvironmentAccessor
     let config: SertaConfiguration
 
