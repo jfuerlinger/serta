@@ -34,7 +34,7 @@ describe("SertaUserService getByDiscordUserId", () => {
     })
 
     test("rejects promise when non-existing DiscordId is provided", async done => {
-        sertaUserService.getByDiscordUserId("fakeDiscordUsers[0].id")
+        sertaUserService.getByDiscordUserId("anyInvalidId")
             .then(() => {
                 done.fail("Returned a user though non-existing id was provided")
             })
@@ -100,6 +100,23 @@ describe("SertaUserService getByDiscordUserName", () => {
 
         const user = await sertaUserService.getByDiscordUserName(fakeDiscordUsers[2].username)
         expect(user.discordUserId).toBe(fakeDiscordUsers[2].id)
+        FakeEnvironment.tearDown()
+    })
+
+    test("rejects promes when non-existing Discord user name is provided", async (done) => {
+        const fakeCommandClient = new FakeCommandClient()
+        const userDao = new FakeUserDao()
+        const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
+        FakeEnvironment.setup()
+
+        sertaUserService.getByDiscordUserName("anyNotExistingName")
+            .then(() => {
+                done.fail("Returned user though non-existing id was provided")
+            })
+            .catch(() => {
+                done()
+            })
+
         FakeEnvironment.tearDown()
     })
 })
