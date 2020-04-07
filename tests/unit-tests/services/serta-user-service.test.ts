@@ -53,6 +53,15 @@ describe("SertaUserService get", () => {
 
         expect(user.levelId).toBe(defaultLevel)
     })
+
+    test("when user is not present it stores it with default values", async () => {
+        const fakeUser = fakeDiscordUsers[3]
+
+        await sertaUserService.get(fakeUser.id);
+
+        const daoUser = await userDao.getById(fakeUser.id)
+        expect(daoUser).toBeTruthy()
+    })
 })
 
 class FakeUserDao implements UserDao {

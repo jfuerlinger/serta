@@ -33,7 +33,7 @@ export class SertaUserService implements UserService {
         const botUser = this.getDiscordUser(userId)
         if (botUser) {
             const daoUser = await this.getDaoUser(userId)
-            let user = SertaUserService.assembleSertaUser(daoUser, botUser);
+            let user = this.assembleSertaUser(daoUser, botUser);
             resolve(user)
         } else {
             reject("Discord user not found")
@@ -48,12 +48,13 @@ export class SertaUserService implements UserService {
         return await this._userDao.getById(userId);
     }
 
-    private static assembleSertaUser(daoUser: DbUserEntry, botUser: User): SertaUser {
+    private assembleSertaUser(daoUser: DbUserEntry, botUser: User): SertaUser {
         let user: SertaUser
         if (daoUser) {
             const level = daoUser.levelId
             user = new SertaUser(botUser, level)
         } else {
+            this._userDao.add(new DbUserEntry(botUser.id, 1))
             user = new SertaUser(botUser, 1)
         }
         return user;
