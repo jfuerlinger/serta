@@ -6,7 +6,7 @@ import {fakeDiscordUsers} from "./fake-discord-users";
 import * as FakeEnvironment from "./../config/fake-environment"
 import {ConfigurationBuilder} from "../../../src/config/configuration-builder";
 
-describe("SertaUserService get", () => {
+describe("SertaUserService getByDiscordUserId", () => {
     let fakeCommandClient: FakeCommandClient
     let userDao: FakeUserDao
     let sertaUserService: SertaUserService
@@ -23,18 +23,18 @@ describe("SertaUserService get", () => {
     })
 
     test("returns a valid user when called with an existing DiscordId", async () => {
-        const user = await sertaUserService.get(fakeDiscordUsers[0].id)
+        const user = await sertaUserService.getByDiscordUserId(fakeDiscordUsers[0].id)
         expect(user.levelId).not.toBeNull()
     })
 
     test("returns the correct user when called with an existing DiscordId", async () => {
-        const user = await sertaUserService.get(fakeDiscordUsers[0].id)
+        const user = await sertaUserService.getByDiscordUserId(fakeDiscordUsers[0].id)
         expect(user.discordUserId).toBe(fakeDiscordUsers[0].id)
         expect(user.discordUserName).toBe(fakeDiscordUsers[0].username)
     })
 
     test("rejects promise when non-existing DiscordId is provided", async done => {
-        sertaUserService.get("fakeDiscordUsers[0].id")
+        sertaUserService.getByDiscordUserId("fakeDiscordUsers[0].id")
             .then(() => {
                 done.fail("Returned a user though non-existing id was provided")
             })
@@ -50,7 +50,7 @@ describe("SertaUserService get", () => {
         const anyExperiencePoints = 249
         await userDao.add(new DbUserEntry(fakeUser.id, anyLevel, anyImmuneLevel, anyExperiencePoints))
 
-        const user = await sertaUserService.get(fakeUser.id)
+        const user = await sertaUserService.getByDiscordUserId(fakeUser.id)
 
         expect(user.levelId).toBe(anyLevel)
         expect(user.immuneLevel).toBe(anyImmuneLevel)
@@ -64,7 +64,7 @@ describe("SertaUserService get", () => {
         const anyExperiencePoints = 196
         await userDao.add(new DbUserEntry(fakeUser.id, anyLevel, anyImmuneLevel, anyExperiencePoints))
 
-        const user = await sertaUserService.get(fakeUser.id)
+        const user = await sertaUserService.getByDiscordUserId(fakeUser.id)
 
         expect(user.levelId).toBe(anyLevel)
         expect(user.immuneLevel).toBe(anyImmuneLevel)
@@ -75,7 +75,7 @@ describe("SertaUserService get", () => {
         const expectedInitialLevel = ConfigurationBuilder.getConfiguration().initialLevel
         const fakeUser = fakeDiscordUsers[2]
 
-        const user = await sertaUserService.get(fakeUser.id)
+        const user = await sertaUserService.getByDiscordUserId(fakeUser.id)
 
         expect(user.levelId).toBe(expectedInitialLevel.id)
         //expect(user.immuneLevel).toBe(expectedInitialLevel.minimumImmuneLevel)
@@ -84,11 +84,15 @@ describe("SertaUserService get", () => {
     test("when user is not present it stores it with initial values", async () => {
         const fakeUser = fakeDiscordUsers[3]
 
-        await sertaUserService.get(fakeUser.id);
+        await sertaUserService.getByDiscordUserId(fakeUser.id);
 
         const daoUser = await userDao.getById(fakeUser.id)
         expect(daoUser.levelId).toBe(ConfigurationBuilder.getConfiguration().initialLevel.id)
     })
+})
+
+describe("SertaUserService getByDiscordUserName", () => {
+
 })
 
 class FakeUserDao implements UserDao {

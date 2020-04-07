@@ -21,7 +21,7 @@ export class SertaUserService implements UserService {
         this._userDao = userDao;
     }
 
-    public async get(userId: string): Promise<SertaUser> {
+    public async getByDiscordUserId(userId: string): Promise<SertaUser> {
         return new Promise<SertaUser>(async (resolve, reject) => {
             await this.getUserAndClearPromise(userId, resolve, reject);
         })
