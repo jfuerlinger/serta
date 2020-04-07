@@ -20,6 +20,11 @@ describe("SertaUserService get", () => {
         expect(user.levelId).not.toBeNull()
     })
 
+    test("returns the correct user when called with an existing DiscordId", async () => {
+        const user = await sertaUserService.get(fakeDiscordUsers[0].id)
+        expect(user.discordUser.username).toBe(fakeDiscordUsers[0].username)
+    })
+
     test("rejects promise when non-existing DiscordId is provided", async done => {
         sertaUserService.get("fakeDiscordUsers[0].id")
             .then(() => {
