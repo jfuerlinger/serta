@@ -23,25 +23,26 @@ export class SertaUserService implements UserService {
 
     public async getByDiscordUserId(userId: string): Promise<SertaUser> {
         return new Promise<SertaUser>(async (resolve, reject) => {
-            await this.getUserAndClearPromise(userId, resolve, reject);
+            await this.getUserAndClearPromise(userId, this.getDiscordUserById, resolve, reject);
         })
     }
 
     private async getUserAndClearPromise(
-        userId: string,
+        userIdOrName: string,
+        getDiscordUser: (userIdOrName: string) => User | undefined,
         resolve: (user: SertaUser) => void,
         reject: (reason: string) => void): Promise<void> {
-        const botUser = this.getDiscordUser(userId)
-        if (botUser) {
-            const daoUser = await this.getDaoUser(userId)
-            let user = this.assembleSertaUser(daoUser, botUser);
+        const discordUser = getDiscordUser.call(this, userIdOrName)
+        if (discordUser) {
+            const daoUser = await this.getDaoUser(discordUser.id)
+            let user = this.assembleSertaUser(daoUser, discordUser);
             resolve(user)
         } else {
             reject("Discord user not found")
         }
     }
 
-    private getDiscordUser(userId: string): User | undefined {
+    private getDiscordUserById(userId: string): User | undefined {
         return this._bot.users.get(userId);
     }
 
@@ -60,6 +61,22 @@ export class SertaUserService implements UserService {
             user = new SertaUser(botUser, dbEntry)
         }
         return user;
+    }
+
+    public async getByDiscordUserName(userName: string): Promise<SertaUser> {
+        return new Promise<SertaUser>(async (resolve, reject) => {
+            await this.getUserAndClearPromise(userName, this.getDiscordUserByUserName, resolve, reject)
+        })
+    }
+
+    private getDiscordUserByUserName(userName: string): User | undefined {
+        let foundUser:User | undefined = undefined
+        this._bot.users.map((oneUser) => {
+            if (oneUser.username === userName) {
+                foundUser = oneUser
+            }
+        })
+        return foundUser
     }
 
     public async getAll(): Promise<SertaUser[]> {

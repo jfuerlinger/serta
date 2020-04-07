@@ -78,7 +78,7 @@ describe("SertaUserService getByDiscordUserId", () => {
         const user = await sertaUserService.getByDiscordUserId(fakeUser.id)
 
         expect(user.levelId).toBe(expectedInitialLevel.id)
-        //expect(user.immuneLevel).toBe(expectedInitialLevel.minimumImmuneLevel)
+        expect(user.immuneLevel).toBe(expectedInitialLevel.minimumImmuneLevel)
     })
 
     test("when user is not present it stores it with initial values", async () => {
@@ -88,6 +88,19 @@ describe("SertaUserService getByDiscordUserId", () => {
 
         const daoUser = await userDao.getById(fakeUser.id)
         expect(daoUser.levelId).toBe(ConfigurationBuilder.getConfiguration().initialLevel.id)
+    })
+})
+
+describe("SertaUserService getByDiscordUserName", () => {
+    test("returns the correct user if called with a valid user name", async () => {
+        const fakeCommandClient = new FakeCommandClient()
+        const userDao = new FakeUserDao()
+        const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
+        FakeEnvironment.setup()
+
+        const user = await sertaUserService.getByDiscordUserName(fakeDiscordUsers[2].username)
+        expect(user.discordUserId).toBe(fakeDiscordUsers[2].id)
+        FakeEnvironment.tearDown()
     })
 })
 
