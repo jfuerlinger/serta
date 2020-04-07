@@ -21,18 +21,18 @@ describe("SertaUserService", () => {
     users = await userService.GetUsers(guildId);
   })
 
-  test('getUsers shall return a number of three test users', async () => {
-    expect(users.length).toBe(3)
-  })
-
-  test("getUsers shall return 3 valid test users", async() => {
+  test("getUsers shall return a users property", async() => {
     expect(users).toBeTruthy()
   })
 
-  test("getUsers shall return jfuerlinger as a test user", async () => {
+  test('getUsers shall return at least one user (the bot)', async () => {
+    expect(users.length).toBeGreaterThan(0)
+  })
+
+  test("getUsers shall return the bot as a test user", async () => {
     let found = false
     users.forEach(user => {
-      if (user.discordUser.username === "p.bauer") {
+      if (user.discordUser.username === "Serta") {
         found = true
       }
     })
