@@ -92,23 +92,27 @@ describe("SertaUserService getByDiscordUserId", () => {
 })
 
 describe("SertaUserService getByDiscordUserName", () => {
-    test("returns the correct user if called with a valid user name", async () => {
-        const fakeCommandClient = new FakeCommandClient()
-        const userDao = new FakeUserDao()
-        const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
-        FakeEnvironment.setup()
+    let fakeCommandClient: FakeCommandClient
+    let userDao: FakeUserDao
+    let sertaUserService: SertaUserService
 
-        const user = await sertaUserService.getByDiscordUserName(fakeDiscordUsers[2].username)
-        expect(user.discordUserId).toBe(fakeDiscordUsers[2].id)
+    beforeAll(() => {
+        fakeCommandClient = new FakeCommandClient()
+        userDao = new FakeUserDao()
+        sertaUserService = new SertaUserService(fakeCommandClient, userDao)
+        FakeEnvironment.setup()
+    })
+
+    afterAll(() => {
         FakeEnvironment.tearDown()
     })
 
-    test("rejects promes when non-existing Discord user name is provided", async (done) => {
-        const fakeCommandClient = new FakeCommandClient()
-        const userDao = new FakeUserDao()
-        const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
-        FakeEnvironment.setup()
+    test("returns the correct user if called with a valid user name", async () => {
+        const user = await sertaUserService.getByDiscordUserName(fakeDiscordUsers[2].username)
+        expect(user.discordUserId).toBe(fakeDiscordUsers[2].id)
+    })
 
+    test("rejects promes when non-existing Discord user name is provided", async (done) => {
         sertaUserService.getByDiscordUserName("anyNotExistingName")
             .then(() => {
                 done.fail("Returned user though non-existing id was provided")
@@ -116,8 +120,6 @@ describe("SertaUserService getByDiscordUserName", () => {
             .catch(() => {
                 done()
             })
-
-        FakeEnvironment.tearDown()
     })
 })
 
