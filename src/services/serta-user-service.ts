@@ -1,7 +1,8 @@
 import {UserService} from "./user-service";
-import {CommandClient} from "eris";
+import {CommandClient, User} from "eris";
 import {SertaUser} from "../model/serta-user";
 import {UserDao} from "../dao/user-dao";
+import {DbUserEntry} from "../model/db-user-entry";
 
 const createLogger = require('logging').default;
 const logger = createLogger('serta-user-service');
@@ -21,20 +22,41 @@ export class SertaUserService implements UserService {
 
     public async get(userId: string): Promise<SertaUser> {
         return new Promise<SertaUser>(async (resolve, reject) => {
-            const botUser = this._bot.users.get(userId)
-            if (botUser) {
-                const daoUser = await this._userDao.getById(userId)
-                if (daoUser) {
-                    const level = daoUser.levelId
-                    const user = new SertaUser(botUser, level)
-                    resolve(user)
-                } else {
-                    resolve(new SertaUser(botUser, 5))
-                }
-            } else {
-                reject("user not found")
-            }
+            await this.getUserAndClearPromise(userId, resolve, reject);
         })
+    }
+
+    private async getUserAndClearPromise(
+        userId: string,
+        resolve: (user: SertaUser) => void,
+        reject: (reason: string) => void): Promise<void> {
+        const botUser = this.getDiscordUser(userId)
+        if (botUser) {
+            const daoUser = await this.getDaoUser(userId)
+            let user = SertaUserService.assembleSertaUser(daoUser, botUser);
+            resolve(user)
+        } else {
+            reject("Discord user not found")
+        }
+    }
+
+    private getDiscordUser(userId: string): User | undefined {
+        return this._bot.users.get(userId);
+    }
+
+    private async getDaoUser(userId: string): Promise<DbUserEntry> {
+        return await this._userDao.getById(userId);
+    }
+
+    private static assembleSertaUser(daoUser: DbUserEntry, botUser: User): SertaUser {
+        let user: SertaUser
+        if (daoUser) {
+            const level = daoUser.levelId
+            user = new SertaUser(botUser, level)
+        } else {
+            user = new SertaUser(botUser, 5)
+        }
+        return user;
     }
 
     public async GetUsers(guildId: string): Promise<SertaUser[]> {
