@@ -3,6 +3,7 @@ import {UserDao} from "../../../src/dao/user-dao";
 import {DbUserEntry} from "../../../src/model/db-user-entry";
 import {FakeCommandClient} from "./fake-command-client";
 import {fakeDiscordUsers} from "./fake-discord-users";
+import * as FakeEnvironment from "./../config/fake-environment"
 
 describe("SertaUserService get", () => {
     let fakeCommandClient: FakeCommandClient
@@ -13,6 +14,11 @@ describe("SertaUserService get", () => {
         fakeCommandClient = new FakeCommandClient()
         userDao = new FakeUserDao()
         sertaUserService = new SertaUserService(fakeCommandClient, userDao)
+        FakeEnvironment.setup()
+    })
+
+    afterAll(() => {
+        FakeEnvironment.tearDown()
     })
 
     test("returns a valid user when called with an existing DiscordId", async () => {

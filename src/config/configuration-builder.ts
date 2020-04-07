@@ -11,16 +11,16 @@ export class EnvironmentAccessor implements IEnvironmentAccessor {
     discordToken: string
 
     constructor() {
-        this.discordToken = EnvironmentAccessor.getDoteEnvEntry(process.env.DISCORD_TOKEN)
-        this.botPrefix = EnvironmentAccessor.getDoteEnvEntry(process.env.BOT_PREFIX)
-        this.botInstanceName = EnvironmentAccessor.getDoteEnvEntry(process.env.BOT_INSTANCE_NAME)
+        this.discordToken = EnvironmentAccessor.getDotEnvEntry(process.env.DISCORD_TOKEN)
+        this.botPrefix = EnvironmentAccessor.getDotEnvEntry(process.env.BOT_PREFIX)
+        this.botInstanceName = EnvironmentAccessor.getDotEnvEntry(process.env.BOT_INSTANCE_NAME)
 
-        this.azureStorageAccount = EnvironmentAccessor.getDoteEnvEntry(process.env.AZURE_STORAGE_ACCOUNT)
-        this.azureStorageAccessKey = EnvironmentAccessor.getDoteEnvEntry(process.env.AZURE_STORAGE_ACCESS_KEY)
-        this.azureStorageBlobStorageConnectionstring = EnvironmentAccessor.getDoteEnvEntry(process.env.AZURE_BLOBSTORAGE_CONNECTIONSTRING)
+        this.azureStorageAccount = EnvironmentAccessor.getDotEnvEntry(process.env.AZURE_STORAGE_ACCOUNT)
+        this.azureStorageAccessKey = EnvironmentAccessor.getDotEnvEntry(process.env.AZURE_STORAGE_ACCESS_KEY)
+        this.azureStorageBlobStorageConnectionstring = EnvironmentAccessor.getDotEnvEntry(process.env.AZURE_BLOBSTORAGE_CONNECTIONSTRING)
     }
 
-    private static getDoteEnvEntry(dotEnvEntry?:string): string {
+    private static getDotEnvEntry(dotEnvEntry?:string): string {
         if (dotEnvEntry === undefined) {
             throw new Error("Environment is not set properly. Are you missing a .env file or call to read it?")
         }
