@@ -62,7 +62,7 @@ export class SertaUserService implements UserService {
         return user;
     }
 
-    public async GetUsers(guildId: string): Promise<SertaUser[]> {
+    public async getAll(): Promise<SertaUser[]> {
         return new Promise<SertaUser[]>(async (resolve) => {
 
             let result = this._bot.users.map(async (erisUser) => {
@@ -84,5 +84,4 @@ export class SertaUserService implements UserService {
 
 
     }
-
 }

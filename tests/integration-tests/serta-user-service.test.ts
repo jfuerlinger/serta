@@ -18,7 +18,7 @@ describe("SertaUserService", () => {
   beforeEach(async () => {
     userDao = new TableStorageUserDao(guildId);
     userService = new SertaUserService(bot._bot, userDao);
-    users = await userService.GetUsers(guildId);
+    users = await userService.getAll();
   })
 
   test("getUsers shall return a users property", async() => {

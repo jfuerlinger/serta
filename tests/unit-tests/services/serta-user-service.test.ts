@@ -91,10 +91,6 @@ describe("SertaUserService getByDiscordUserId", () => {
     })
 })
 
-describe("SertaUserService getByDiscordUserName", () => {
-
-})
-
 class FakeUserDao implements UserDao {
     private storage = new Map<string, DbUserEntry>()
 
