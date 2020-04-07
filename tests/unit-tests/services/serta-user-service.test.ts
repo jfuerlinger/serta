@@ -121,6 +121,20 @@ describe("SertaUserService getByDiscordUserName", () => {
     })
 })
 
+describe("SertaUserService getAll", () => {
+    test("returns list of the same length as fakeDiscordUsers", async () => {
+        const fakeCommandClient = new FakeCommandClient()
+        const userDao = new FakeUserDao()
+        const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
+        FakeEnvironment.setup()
+
+        const users = await sertaUserService.getAll()
+
+        expect(users.length).toBe(fakeDiscordUsers.length)
+        FakeEnvironment.tearDown()
+    })
+})
+
 class FakeUserDao implements UserDao {
     private storage = new Map<string, DbUserEntry>()
 
