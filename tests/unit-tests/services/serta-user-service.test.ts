@@ -5,19 +5,22 @@ import {FakeCommandClient} from "./fake-command-client";
 import {fakeDiscordUsers} from "./fake-discord-users";
 
 describe("SertaUserService get", () => {
+    let fakeCommandClient: FakeCommandClient
+    let userDao: FakeUserDao
+    let sertaUserService: SertaUserService
+
+    beforeAll(() => {
+        fakeCommandClient = new FakeCommandClient()
+        userDao = new FakeUserDao()
+        sertaUserService = new SertaUserService(fakeCommandClient, userDao)
+    })
+
     test("returns a valid user when called with an existing DiscordId", async () => {
-        const fakeCommandClient = new FakeCommandClient()
-        const userDao = new FakeUserDao()
-        const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
         const user = await sertaUserService.get(fakeDiscordUsers[0].id)
         expect(user.levelId).not.toBeNull()
     })
 
     test("rejects promise when non-existing DiscordId is provided", async done => {
-        const fakeCommandClient = new FakeCommandClient()
-        const userDao = new FakeUserDao()
-        const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
-
         sertaUserService.get("fakeDiscordUsers[0].id")
             .then(() => {
                 done.fail("Returned a user though non-existing id was provided")
