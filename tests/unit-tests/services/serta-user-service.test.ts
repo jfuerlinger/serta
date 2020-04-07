@@ -34,6 +34,16 @@ describe("SertaUserService get", () => {
                 done()
             })
     })
+
+    test("when user dao is present it takes right data from user dao", async () => {
+        const fakeUser = fakeDiscordUsers[1]
+        const anyLevel = 20
+        userDao.add(new DbUserEntry(fakeUser.id, anyLevel))
+
+        const user = await sertaUserService.get(fakeUser.id)
+
+        expect(user.levelId).toBe(anyLevel)
+    })
 })
 
 class FakeUserDao implements UserDao {
