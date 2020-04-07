@@ -1,18 +1,22 @@
 import { User } from "eris";
+import {DbUserEntry} from "./db-user-entry";
 
 export class SertaUser {
 
-    private _levelId: number | undefined;
     private _discordUser : User;
+    private dbUserEntry: DbUserEntry
 
-    get discordUser(): User { return this._discordUser; }
-    get levelId(): number | undefined { return this._levelId; }
+    get discordUserId(): string { return this._discordUser.id}
+    get discordUserName(): string { return this._discordUser.username }
+    get levelId(): number | undefined { return this.dbUserEntry.levelId; }
+    get immuneLevel(): number | undefined { return this.dbUserEntry.immuneLevel }
+    get experiencePoints(): number | undefined { return this.dbUserEntry.experiencePoints }
 
     constructor(
         discordUser: User,
-        levelId: number | undefined) {
+        userDao: DbUserEntry) {
             this._discordUser = discordUser;
-            this._levelId = levelId;
+            this.dbUserEntry = userDao
         }
 
 }

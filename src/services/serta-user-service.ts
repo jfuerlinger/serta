@@ -49,22 +49,20 @@ export class SertaUserService implements UserService {
         return await this._userDao.getById(userId);
     }
 
-    private assembleSertaUser(daoUser: DbUserEntry, botUser: User): SertaUser {
+    private assembleSertaUser(dbUserEntry: DbUserEntry, botUser: User): SertaUser {
         let user: SertaUser
-        if (daoUser) {
-            const level = daoUser.levelId
-            user = new SertaUser(botUser, level)
+        if (dbUserEntry) {
+            user = new SertaUser(botUser, dbUserEntry)
         } else {
             const initialLevel = ConfigurationBuilder.getConfiguration().initialLevel
-            this._userDao.add(new DbUserEntry(botUser.id, initialLevel.id))
-            user = new SertaUser(botUser, 1)
+            const dbEntry = new DbUserEntry(botUser.id, initialLevel.id, initialLevel.minimumImmuneLevel, 0)
+            this._userDao.add(dbEntry)
+            user = new SertaUser(botUser, dbEntry)
         }
         return user;
     }
 
     public async GetUsers(guildId: string): Promise<SertaUser[]> {
-
-        // const dao = new TableStorageUserDao(guildId);
         return new Promise<SertaUser[]>(async (resolve) => {
 
             let result = this._bot.users.map(async (erisUser) => {
@@ -72,18 +70,16 @@ export class SertaUserService implements UserService {
                 try {
                     let dbUser = await this._userDao.getById(erisUser.id);
                     if (dbUser) {
-                        return new SertaUser(erisUser, dbUser.levelId);
+                        return new SertaUser(erisUser, dbUser);
                     }
                 } catch (error) {
                     logger.warn(error);
                 }
-
-                return new SertaUser(erisUser, undefined);
+                return new SertaUser(erisUser, new DbUserEntry("", 0, 0, 0));
             });
 
             let debuggerHint = await Promise.all(result);
             resolve(debuggerHint);
-
         });
 
 

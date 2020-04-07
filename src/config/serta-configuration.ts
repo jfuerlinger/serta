@@ -54,7 +54,7 @@ export class SertaConfiguration {
     }
 }
 
-interface LevelInformation {
+export interface LevelInformation {
     id: number
     abbreviation: string
     name: string

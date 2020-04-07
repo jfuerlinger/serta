@@ -32,7 +32,7 @@ describe("SertaUserService", () => {
   test("getUsers shall return the bot as a test user", async () => {
     let found = false
     users.forEach(user => {
-      if (user.discordUser.username === "Serta") {
+      if (user.discordUserName === "Serta") {
         found = true
       }
     })
