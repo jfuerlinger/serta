@@ -1,9 +1,9 @@
-import {UserService} from "./user-service";
-import {CommandClient, User} from "eris";
-import {SertaUser} from "../model/serta-user";
-import {UserDao} from "../dao/user-dao";
-import {DbUserEntry} from "../model/db-user-entry";
-import {ConfigurationBuilder} from "../config/configuration-builder";
+import { UserService } from "./user-service";
+import { CommandClient, User } from "eris";
+import { SertaUser } from "../model/serta-user";
+import { UserDao } from "../dao/user-dao";
+import { DbUserEntry } from "../model/db-user-entry";
+import { ConfigurationBuilder } from "../config/configuration-builder";
 
 const createLogger = require('logging').default;
 const logger = createLogger('serta-user-service');
@@ -75,7 +75,7 @@ export class SertaUserService implements UserService {
     }
 
     private getDiscordUserByUserName(userName: string): User | undefined {
-        let foundUser:User | undefined = undefined
+        let foundUser: User | undefined = undefined
         this._bot.users.map((oneUser) => {
             if (oneUser.username === userName) {
                 foundUser = oneUser
@@ -103,8 +103,7 @@ export class SertaUserService implements UserService {
                 return new SertaUser(erisUser, new DbUserEntry("", 0, 0, 0));
             });
 
-            let debuggerHint = await Promise.all(result);
-            resolve(debuggerHint);
+            resolve(await Promise.all(result));
         })
     }
 }
