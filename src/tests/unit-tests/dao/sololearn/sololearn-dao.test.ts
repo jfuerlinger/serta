@@ -6,8 +6,10 @@ jest.mock("axios");
 
 describe("SololearnDao", () => {
 
-    test("fetches sucessfully the XP points from the sololearn platform", async () => {
-   
+    const validUserId = '6599010';
+
+    test("fetches sucessfully the XP points from sololearn", async () => {
+
         const data = `
 
 
@@ -1148,10 +1150,23 @@ describe("SololearnDao", () => {
         </html>`;
         axios.get.mockImplementationOnce(() => Promise.resolve({ "data": data }));
 
-        const userId = '6599010';
         const dao = new SololearnDao();
-        let xp = await dao.getXPForUser(userId);
+        let xp = await dao.getXPForUser(validUserId);
+        
         expect(xp).toBeGreaterThanOrEqual(40);
+        expect(axios.get).toHaveBeenCalledWith(
+            `https://www.sololearn.com/Profile/${validUserId}`,
+          );
+    });
+
+    test('fetches erroneously data from sololearn', async () => {
+        const errorMessage = 'Network Error';
+        axios.get.mockImplementationOnce(() =>
+            Promise.reject(new Error(errorMessage)),
+        );
+
+        const dao = new SololearnDao();
+        await expect(dao.getXPForUser(validUserId)).rejects.toThrow(errorMessage);
     });
 
 });
