@@ -6,8 +6,9 @@ export class MessageOfTheDay {
         this.messages = messages
     }
 
-    getMessage(level: number): Message | undefined {
-        return this.messages[level - 1][0]
+    getMessage(level: number): Message {
+        const index = Math.max(0, (level - 1))
+        return this.messages[index][0]
     }
 }
 
