@@ -21,6 +21,10 @@ describe("SertaUserService", () => {
     users = await userService.getAll();
   })
 
+  afterAll(async () => {
+    bot.stop();
+  });
+
   test("getUsers shall return a users property", async() => {
     expect(users).toBeTruthy()
   })
