@@ -6,7 +6,9 @@
   "scripts": {
     "clear": "rimraf dist/",
     "start": "tsc-watch --onSuccess \"node dist/\"",
-    "test": "jest .*.test.ts --watchAll"
+    "test": "jest --config jest.config.js --watchAll",
+    "test:unit": "jest --config jest.config.unittests.js --watchAll",
+    "test:integration": "jest --config jest.config.integrationtests.js --watchAll"
   },
   "keywords": [],
   "author": "",

@@ -1,6 +1,6 @@
 import { DbUserEntry } from "../model/db-user-entry";
 
-// Dao to get the Serta specific data for a user.
+// Dao to getAll the Serta specific data for a user.
 export interface UserDao {
     
     getAll() : Promise<DbUserEntry[]>;

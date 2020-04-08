@@ -20,10 +20,11 @@ npm start
 
 ```
 npm test
+npm run test:unit
+npm run test:integration
 ```
 
-*Hint*: Start the testing in an dedicated terminal window.
-
+*Hint 1*: Start the testing in a dedicated terminal window.
 
 
 ## Description

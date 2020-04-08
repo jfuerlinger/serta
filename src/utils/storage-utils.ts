@@ -29,8 +29,8 @@ export class StorageUtils {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
     // Get blob content from position 0 to the end
-    // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
-    // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
+    // In Node.js, getAll downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
+    // In browsers, getAll downloaded data by accessing downloadBlockBlobResponse.blobBody
     const downloadBlockBlobResponse = await blockBlobClient.download(0);
     logger.info('\nDownloaded blob content...');
     const streamAsString = await this.streamToString(downloadBlockBlobResponse.readableStreamBody);
@@ -105,7 +105,7 @@ export class StorageUtils {
 
 
     // Create a unique name for the blob
-    const blobName = 'bot-state.json';
+    // const blobName = 'bot-state.json';
 
     logger.info('\nListing blobs...');
 

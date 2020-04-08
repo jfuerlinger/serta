@@ -37,16 +37,18 @@ export class SertaBot {
         this._commands = new Map();
     }
 
-    run() {
-        this._bot.on("ready", () => { // When the bot is ready
-            logger.info("--> Ready <--");
-        });
-
+    run(): Promise<void> {
         this.registerCommands();
         this._bot.connect();
+        return new Promise((resolve) => {
+          this._bot.on("ready", () => { // When the bot is ready
+              logger.info("--> Ready <--")
+              resolve()
+          })
+        })
     }
 
-    registerCommands() {
+    private registerCommands(): void {
         logger.info("register commands ...");
 
         this.registerCommandAlias('help', 'halp');
@@ -58,7 +60,7 @@ export class SertaBot {
         logger.info("[DONE] commands registered.");
     }
 
-    registerCommand(commandName: string, command: SertaCommand, commandAlias: string) {
+    private registerCommand(commandName: string, command: SertaCommand, commandAlias: string): void {
 
         this._commands.set(commandName, command);
 
@@ -83,7 +85,7 @@ export class SertaBot {
         }
     }
 
-    registerCommandAlias(commandName: string, alias: string) {
+    private registerCommandAlias(commandName: string, alias: string): void {
         logger.info(`registering alias '${alias}' for command '${commandName}' ...`);
         this._bot.registerCommandAlias(alias, commandName);
         logger.info(`[DONE] alias '${alias}' registered.`);
