@@ -1,9 +1,9 @@
 import {
-    MessageOfTheDay,
+    MessageOfTheDayProvider,
     Message,
     InMemoryMessageOfTheDayImporter,
     MessageOfTheDayImporter
-} from "../../../src/config/message-of-the-day";
+} from "../../../src/config/message-of-the-day-provider";
 import * as MessagesOfTheDay from "../../../src/config/messages-of-the-day"
 
 const fakeMessages = [
@@ -75,11 +75,11 @@ describe("InMemoryMessageOfTheDayImporter", () => {
 
 describe("MessageOfTheDay", () => {
     let importer: MessageOfTheDayImporter
-    let motd: MessageOfTheDay
+    let motd: MessageOfTheDayProvider
 
     beforeEach(() => {
         importer = new InMemoryMessageOfTheDayImporter(fakeMessages)
-        motd = new MessageOfTheDay(importer)
+        motd = new MessageOfTheDayProvider(importer)
     })
 
     test("when asked for a message it must contain 'Hopauf'", () => {

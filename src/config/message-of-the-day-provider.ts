@@ -1,7 +1,7 @@
 const random = require('random');
 import * as MessagesOfTheDay from "./messages-of-the-day"
 
-export class MessageOfTheDay {
+export class MessageOfTheDayProvider {
 
     private readonly messages: Message[][]
 
