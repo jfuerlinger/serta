@@ -7,6 +7,7 @@ export const messages = [
     ],
     [
         {level: 3, text: "Your effort pays off. Keep on running"},
+        {level: 3, text: "Hospitals line up to get your help! "},
     ],
     [
         {level: 4, text: "You did more than half of the way! "},
