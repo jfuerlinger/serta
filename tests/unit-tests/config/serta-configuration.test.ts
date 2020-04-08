@@ -90,4 +90,8 @@ describe("SertaConfiguration", () => {
         const anyLevel = 4
         expect(config.getPreviousLevel(anyLevel)).toBe(config.getLevelInformation(anyLevel - 1))
     })
+
+    test("provides MessageOfTheDayProvider", () => {
+        expect(config.messageOfTheDayProvider).toBeTruthy()
+    })
 })

@@ -1,4 +1,5 @@
 import {IEnvironmentAccessor} from "./i-environment-accessor";
+import {InMemoryMessageOfTheDayImporter, MessageOfTheDayProvider} from "./message-of-the-day-provider";
 
 export class SertaConfiguration {
     commandClient = {
@@ -29,6 +30,12 @@ export class SertaConfiguration {
         return this.levels[this.levels.length - 1]
     }
 
+    private _messageOfTheDayProvider: MessageOfTheDayProvider
+
+    get messageOfTheDayProvider(): MessageOfTheDayProvider {
+        return this._messageOfTheDayProvider
+    }
+
     constructor(environmentFileAccessor: IEnvironmentAccessor) {
         this.commandClient.discordToken = environmentFileAccessor.discordToken
         this.commandClient.botPrefix = environmentFileAccessor.botPrefix
@@ -37,6 +44,8 @@ export class SertaConfiguration {
 
         this.azureStorage.account = environmentFileAccessor.azureStorageAccount
         this.azureStorage.accessKey = environmentFileAccessor.azureStorageAccessKey
+
+        this._messageOfTheDayProvider = new MessageOfTheDayProvider(new InMemoryMessageOfTheDayImporter())
     }
 
     getLevelInformation(levelId: number): LevelInformation {
