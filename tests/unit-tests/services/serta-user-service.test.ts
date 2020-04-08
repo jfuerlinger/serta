@@ -125,13 +125,13 @@ describe("SertaUserService getByDiscordUserName", () => {
 
 describe("SertaUserService getAll", () => {
     let fakeCommandClient: FakeCommandClient
-    let userDao: FakeUserDao
+    let fakeUserDao: FakeUserDao
     let sertaUserService: SertaUserService
 
     beforeEach(() => {
         fakeCommandClient = new FakeCommandClient()
-        userDao = new FakeUserDao()
-        sertaUserService = new SertaUserService(fakeCommandClient, userDao)
+        fakeUserDao = new FakeUserDao()
+        sertaUserService = new SertaUserService(fakeCommandClient, fakeUserDao)
         FakeEnvironment.setup()
     })
 
@@ -150,6 +150,19 @@ describe("SertaUserService getAll", () => {
         for(let i = 0; i < users.length; i++) {
             expect(users[i].discordUserId).toBe(fakeDiscordUsers[i].id)
         }
+    })
+
+    test("returned users have correct game data if they are already in the dao", async () => {
+        const anyUserId = fakeDiscordUsers[1].id;
+        const anyLevel = 4;
+        const anyImmuneLevel = 40;
+        const anyExperiencePoints = 99;
+        const dbUserEntry = new DbUserEntry(anyUserId, anyLevel, anyImmuneLevel, anyExperiencePoints)
+        fakeUserDao.add(dbUserEntry)
+
+        const users = await sertaUserService.getAll()
+
+        expect(users[1].levelId).toBe(anyLevel)
     })
 })
 

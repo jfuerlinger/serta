@@ -55,12 +55,17 @@ export class SertaUserService implements UserService {
         if (dbUserEntry) {
             user = new SertaUser(botUser, dbUserEntry)
         } else {
-            const initialLevel = ConfigurationBuilder.getConfiguration().initialLevel
-            const dbEntry = new DbUserEntry(botUser.id, initialLevel.id, initialLevel.minimumImmuneLevel, 0)
-            this._userDao.add(dbEntry)
+            const dbEntry = this.createAndStoreDbEntry(botUser);
             user = new SertaUser(botUser, dbEntry)
         }
         return user;
+    }
+
+    private createAndStoreDbEntry(botUser: User) {
+        const initialLevel = ConfigurationBuilder.getConfiguration().initialLevel
+        const dbEntry = new DbUserEntry(botUser.id, initialLevel.id, initialLevel.minimumImmuneLevel, 0)
+        this._userDao.add(dbEntry)
+        return dbEntry;
     }
 
     public async getByDiscordUserName(userName: string): Promise<SertaUser> {
