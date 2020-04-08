@@ -164,6 +164,12 @@ describe("SertaUserService getAll", () => {
 
         expect(users[1].levelId).toBe(anyLevel)
     })
+
+    test("returned users are created if not in data base", async () => {
+        await sertaUserService.getAll();
+        const allDbEntries = await fakeUserDao.getAll()
+        expect(allDbEntries.length).toBe(fakeDiscordUsers.length)
+    })
 })
 
 class FakeUserDao implements UserDao {
@@ -188,6 +194,8 @@ class FakeUserDao implements UserDao {
             if (this.storage.size > 0) {
                 const userEntries: DbUserEntry[] = Array.from(this.storage.values())
                 resolve(userEntries)
+            } else {
+                resolve(new Array<DbUserEntry>())
             }
         })
     }

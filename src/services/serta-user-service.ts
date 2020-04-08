@@ -61,7 +61,7 @@ export class SertaUserService implements UserService {
         return user;
     }
 
-    private createAndStoreDbEntry(botUser: User) {
+    private createAndStoreDbEntry(botUser: User): DbUserEntry {
         const initialLevel = ConfigurationBuilder.getConfiguration().initialLevel
         const dbEntry = new DbUserEntry(botUser.id, initialLevel.id, initialLevel.minimumImmuneLevel, 0)
         this._userDao.add(dbEntry)
@@ -93,6 +93,9 @@ export class SertaUserService implements UserService {
                     let dbUser = await this._userDao.getById(erisUser.id);
                     if (dbUser) {
                         return new SertaUser(erisUser, dbUser);
+                    } else {
+                        dbUser = this.createAndStoreDbEntry(erisUser)
+                        return new SertaUser(erisUser, dbUser)
                     }
                 } catch (error) {
                     logger.warn(error);
