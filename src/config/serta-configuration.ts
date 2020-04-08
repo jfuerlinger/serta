@@ -1,5 +1,6 @@
 import {IEnvironmentAccessor} from "./i-environment-accessor";
 import {InMemoryMessageOfTheDayImporter, MessageOfTheDayProvider} from "./message-of-the-day-provider";
+import {LevelInformation} from "./game-level-information";
 
 export class SertaConfiguration {
     commandClient = {
@@ -63,10 +64,3 @@ export class SertaConfiguration {
     }
 }
 
-export interface LevelInformation {
-    id: number
-    abbreviation: string
-    name: string
-    minimumImmuneLevel: number
-    maximumImmuneLevel: number
-}
