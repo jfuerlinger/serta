@@ -124,16 +124,32 @@ describe("SertaUserService getByDiscordUserName", () => {
 })
 
 describe("SertaUserService getAll", () => {
-    test("returns list of the same length as fakeDiscordUsers", async () => {
-        const fakeCommandClient = new FakeCommandClient()
-        const userDao = new FakeUserDao()
-        const sertaUserService = new SertaUserService(fakeCommandClient, userDao)
-        FakeEnvironment.setup()
+    let fakeCommandClient: FakeCommandClient
+    let userDao: FakeUserDao
+    let sertaUserService: SertaUserService
 
+    beforeEach(() => {
+        fakeCommandClient = new FakeCommandClient()
+        userDao = new FakeUserDao()
+        sertaUserService = new SertaUserService(fakeCommandClient, userDao)
+        FakeEnvironment.setup()
+    })
+
+    afterEach(() => {
+        FakeEnvironment.tearDown()
+    })
+
+    test("returns list of the same length as fakeDiscordUsers", async () => {
+        const users = await sertaUserService.getAll()
+        expect(users.length).toBe(fakeDiscordUsers.length)
+    })
+
+    test("returns equal array as fakeDiscordUsers", async () => {
         const users = await sertaUserService.getAll()
 
-        expect(users.length).toBe(fakeDiscordUsers.length)
-        FakeEnvironment.tearDown()
+        for(let i = 0; i < users.length; i++) {
+            expect(users[i].discordUserId).toBe(fakeDiscordUsers[i].id)
+        }
     })
 })
 
