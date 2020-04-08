@@ -1,4 +1,5 @@
 const random = require('random');
+import * as MessagesOfTheDay from "./messages-of-the-day"
 
 export class MessageOfTheDay {
 
@@ -21,4 +22,24 @@ export class MessageOfTheDay {
 export interface Message {
     level: number
     text: string
+}
+
+export interface MessageOfTheDayImporter {
+    import(): Message[][]
+}
+
+export class InMemoryMessageOfTheDayImporter implements MessageOfTheDayImporter {
+    private readonly messages: Message[][]
+
+    constructor(initialMessages?: Message[][]) {
+        if (initialMessages == undefined) {
+            this.messages = MessagesOfTheDay.messages
+        } else {
+            this.messages = initialMessages
+        }
+    }
+    import(): Message[][] {
+        return this.messages;
+    }
+
 }

@@ -1,52 +1,74 @@
-import {MessageOfTheDay, Message} from "../../../src/config/message-of-the-day";
+import {MessageOfTheDay, Message, InMemoryMessageOfTheDayImporter} from "../../../src/config/message-of-the-day";
+import * as MessagesOfTheDay from "../../../src/config/messages-of-the-day"
+
+const fakeMessages = [
+    [
+        {level: 1, text: "Hopauf1"},
+        {level: 1, text: "Hopauf2"},
+        {level: 1, text: "Hopauf3"},
+        {level: 1, text: "Hopauf4"},
+        {level: 1, text: "Hopauf5"}
+    ],
+    [
+        {level: 2, text: "Hopauf1"},
+        {level: 2, text: "Hopauf2"},
+        {level: 2, text: "Hopauf3"},
+        {level: 2, text: "Hopauf4"},
+        {level: 2, text: "Hopauf5"},
+        {level: 2, text: "Hopauf6"},
+    ],
+    [
+        {level: 3, text: "Hopauf1"},
+        {level: 3, text: "Hopauf2"},
+        {level: 3, text: "Hopauf3"},
+    ],
+    [
+        {level: 4, text: "Hopauf1"},
+        {level: 4, text: "Hopauf2"},
+        {level: 4, text: "Hopauf3"},
+        {level: 4, text: "Hopauf4"},
+        {level: 4, text: "Hopauf5"},
+        {level: 4, text: "Hopauf6"},
+    ],
+    [
+        {level: 5, text: "Hopauf1"},
+        {level: 5, text: "Hopauf2"},
+        {level: 5, text: "Hopauf3"},
+        {level: 5, text: "Hopauf4"},
+        {level: 5, text: "Hopauf5"},
+        {level: 5, text: "Hopauf6"},
+    ],
+    [
+        {level: 6, text: "Hopauf1"},
+        {level: 6, text: "Hopauf2"},
+        {level: 6, text: "Hopauf3"},
+        {level: 6, text: "Hopauf4"},
+        {level: 6, text: "Hopauf5"},
+        {level: 6, text: "Hopauf6"},
+    ]
+]
+
+describe("InMemoryMessageOfTheDayImporter", () => {
+    test("when instantiated without parameters the default file is loaded", () => {
+        const importer = new InMemoryMessageOfTheDayImporter()
+
+        const expectedFirstMessage = MessagesOfTheDay.messages[0][0]
+        const firstMessage = importer.import()[0][0]
+
+        expect(firstMessage).toBe(expectedFirstMessage)
+    })
+
+    test("when instantiated with a parameter the messages passed are loaded", () =>{
+        const importer = new InMemoryMessageOfTheDayImporter(fakeMessages)
+
+        const expectedFirstMessage = fakeMessages[3][2]
+        const firstMessage = importer.import()[3][2]
+
+        expect(firstMessage).toBe(expectedFirstMessage)
+    })
+})
 
 describe("MessageOfTheDay", () => {
-    const fakeMessages = [
-        [
-            {level: 1, text: "Hopauf1"},
-            {level: 1, text: "Hopauf2"},
-            {level: 1, text: "Hopauf3"},
-            {level: 1, text: "Hopauf4"},
-            {level: 1, text: "Hopauf5"}
-        ],
-        [
-            {level: 2, text: "Hopauf1"},
-            {level: 2, text: "Hopauf2"},
-            {level: 2, text: "Hopauf3"},
-            {level: 2, text: "Hopauf4"},
-            {level: 2, text: "Hopauf5"},
-            {level: 2, text: "Hopauf6"},
-        ],
-        [
-            {level: 3, text: "Hopauf1"},
-            {level: 3, text: "Hopauf2"},
-            {level: 3, text: "Hopauf3"},
-        ],
-        [
-            {level: 4, text: "Hopauf1"},
-            {level: 4, text: "Hopauf2"},
-            {level: 4, text: "Hopauf3"},
-            {level: 4, text: "Hopauf4"},
-            {level: 4, text: "Hopauf5"},
-            {level: 4, text: "Hopauf6"},
-        ],
-        [
-            {level: 5, text: "Hopauf1"},
-            {level: 5, text: "Hopauf2"},
-            {level: 5, text: "Hopauf3"},
-            {level: 5, text: "Hopauf4"},
-            {level: 5, text: "Hopauf5"},
-            {level: 5, text: "Hopauf6"},
-        ],
-        [
-            {level: 6, text: "Hopauf1"},
-            {level: 6, text: "Hopauf2"},
-            {level: 6, text: "Hopauf3"},
-            {level: 6, text: "Hopauf4"},
-            {level: 6, text: "Hopauf5"},
-            {level: 6, text: "Hopauf6"},
-        ]
-    ]
     test("when constructed an array of messages must be feeded", () => {
         new MessageOfTheDay(fakeMessages);
     })
