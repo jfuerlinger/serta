@@ -1,10 +1,10 @@
-import {SertaUserService} from "../../../src/services/serta-user-service";
-import {UserDao} from "../../../src/dao/user-dao";
-import {DbUserEntry} from "../../../src/model/db-user-entry";
+import {SertaUserService} from "../../../services/serta-user-service";
+import {UserDao} from "../../../dao/user-dao";
+import {DbUserEntry} from "../../../model/db-user-entry";
 import {FakeCommandClient} from "./fake-command-client";
 import {fakeDiscordUsers} from "./fake-discord-users";
-import * as FakeEnvironment from "./../config/fake-environment"
-import {ConfigurationBuilder} from "../../../src/config/configuration-builder";
+import * as FakeEnvironment from "../config/fake-environment"
+import {ConfigurationBuilder} from "../../../config/configuration-builder";
 
 describe("SertaUserService getByDiscordUserId", () => {
     let fakeCommandClient: FakeCommandClient

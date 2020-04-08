@@ -3,8 +3,8 @@ import {
     Message,
     InMemoryMessageOfTheDayImporter,
     MessageOfTheDayImporter
-} from "../../../src/config/message-of-the-day-provider";
-import * as MessagesOfTheDay from "../../../src/config/messages-of-the-day"
+} from "../../../config/message-of-the-day-provider";
+import * as MessagesOfTheDay from "../../../config/messages-of-the-day"
 
 const fakeMessages = [
     [

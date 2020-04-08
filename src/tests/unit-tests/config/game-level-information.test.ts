@@ -2,8 +2,8 @@ import {
     GameLevelInformation,
     InMemoryGameLevelImporter,
     LevelInformation
-} from "../../../src/config/game-level-information";
-import * as Game from "../../../src/config/game"
+} from "../../../config/game-level-information";
+import * as Game from "../../../config/game"
 
 const fakeGameLevels: LevelInformation[] = [
     { id: 1, abbreviation: "S", name: "A", minimumImmuneLevel: 0, maximumImmuneLevel: 1 },

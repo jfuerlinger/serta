@@ -1,6 +1,6 @@
-import {ConfigurationBuilder} from "../../../src/config/configuration-builder";
-import {SertaConfiguration} from "../../../src/config/serta-configuration";
-import {IEnvironmentAccessor} from "../../../src/config/i-environment-accessor";
+import {ConfigurationBuilder} from "../../../config/configuration-builder";
+import {SertaConfiguration} from "../../../config/serta-configuration";
+import {IEnvironmentAccessor} from "../../../config/i-environment-accessor";
 import * as FakeEnvironment from "./fake-environment"
 
 describe("ConfigurationBuilder", () => {
