@@ -165,10 +165,17 @@ describe("SertaUserService getAll", () => {
         expect(users[1].levelId).toBe(anyLevel)
     })
 
-    test("returned users are created if not in data base", async () => {
+    test("missing users are created if not in data base", async () => {
         await sertaUserService.getAll();
         const allDbEntries = await fakeUserDao.getAll()
         expect(allDbEntries.length).toBe(fakeDiscordUsers.length)
+    })
+
+    test("created users have correct initial level information", async () => {
+        const users = await sertaUserService.getAll()
+
+        const initialLevelId = ConfigurationBuilder.getConfiguration().initialLevel.id
+        users.forEach(user => expect(user.levelId).toBe(initialLevelId))
     })
 })
 

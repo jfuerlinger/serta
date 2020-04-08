@@ -105,8 +105,6 @@ export class SertaUserService implements UserService {
 
             let debuggerHint = await Promise.all(result);
             resolve(debuggerHint);
-        });
-
-
+        })
     }
 }
