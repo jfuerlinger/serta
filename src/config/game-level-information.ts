@@ -13,8 +13,18 @@ export interface LevelInformation {
 }
 
 export class InMemoryGameLevelImporter implements GameLevelImporter {
+    levels: LevelInformation[]
+
+    constructor(levels?: LevelInformation[]) {
+        if (levels) {
+            this.levels = levels
+        } else {
+            this.levels = Game.levels
+        }
+    }
+
     import(): LevelInformation[] {
-        return Game.levels;
+        return this.levels;
     }
 
 }
