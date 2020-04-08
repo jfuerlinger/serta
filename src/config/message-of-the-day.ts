@@ -5,8 +5,8 @@ export class MessageOfTheDay {
 
     private readonly messages: Message[][]
 
-    constructor(messages: Message[][]) {
-        this.messages = messages
+    constructor(importer: MessageOfTheDayImporter) {
+        this.messages = importer.import()
     }
 
     getMessage(level: number): Message {

@@ -1,4 +1,9 @@
-import {MessageOfTheDay, Message, InMemoryMessageOfTheDayImporter} from "../../../src/config/message-of-the-day";
+import {
+    MessageOfTheDay,
+    Message,
+    InMemoryMessageOfTheDayImporter,
+    MessageOfTheDayImporter
+} from "../../../src/config/message-of-the-day";
 import * as MessagesOfTheDay from "../../../src/config/messages-of-the-day"
 
 const fakeMessages = [
@@ -69,41 +74,39 @@ describe("InMemoryMessageOfTheDayImporter", () => {
 })
 
 describe("MessageOfTheDay", () => {
-    test("when constructed an array of messages must be feeded", () => {
-        new MessageOfTheDay(fakeMessages);
+    let importer: MessageOfTheDayImporter
+    let motd: MessageOfTheDay
+
+    beforeEach(() => {
+        importer = new InMemoryMessageOfTheDayImporter(fakeMessages)
+        motd = new MessageOfTheDay(importer)
     })
 
     test("when asked for a message it must contain 'Hopauf'", () => {
-        const motd = new MessageOfTheDay(fakeMessages)
         const anyLevel = 3;
         expect(motd.getMessage(anyLevel).text).toContain("Hopauf")
     })
 
     test("returns a message for each level", () => {
-        const motd: MessageOfTheDay = new MessageOfTheDay(fakeMessages)
         for (let i = 1; i <= 6; i++) {
             expect(motd.getMessage(i).level).toBe(i)
         }
     })
 
     test("returns a message for level 2", () => {
-        const motd = new MessageOfTheDay(fakeMessages)
 
         expect(motd.getMessage(2).level).toBe(2)
     })
 
     test("when asked for a too small level returns the smallest", () => {
-        const motd = new MessageOfTheDay(fakeMessages)
         expect(motd.getMessage(0).level).toBe(1)
     })
 
     test("when asked for a too high level returns the highest", () => {
-        const motd = new MessageOfTheDay(fakeMessages)
         expect(motd.getMessage(fakeMessages.length + 1).level).toBe(6)
     })
 
     test("when asked for a level often the available messages shall be chosen randomly", () =>{
-        const motd = new MessageOfTheDay(fakeMessages)
         const messageSequence = new Array<Message>()
         const anyLevel = 3
         const closeToVeryOften = 10000;
