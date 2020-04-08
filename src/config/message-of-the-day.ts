@@ -1,19 +1,13 @@
 export class MessageOfTheDay {
 
-    private messages: Message[]
+    private messages: Message[][]
 
-    constructor(messages: Message[]) {
+    constructor(messages: Message[][]) {
         this.messages = messages
     }
 
     getMessage(level: number): Message | undefined {
-        let selectedMessage: Message | undefined = undefined
-
-        this.messages.forEach(message => {
-            if (message.level == level)
-                selectedMessage = message
-        })
-        return selectedMessage
+        return this.messages[level - 1][0]
     }
 }
 
