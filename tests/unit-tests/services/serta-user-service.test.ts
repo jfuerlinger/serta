@@ -72,7 +72,7 @@ describe("SertaUserService getByDiscordUserId", () => {
     })
 
     test("when user dao is not present it returns initial value", async () => {
-        const expectedInitialLevel = ConfigurationBuilder.getConfiguration().initialLevel
+        const expectedInitialLevel = ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel
         const fakeUser = fakeDiscordUsers[2]
 
         const user = await sertaUserService.getByDiscordUserId(fakeUser.id)
@@ -87,7 +87,7 @@ describe("SertaUserService getByDiscordUserId", () => {
         await sertaUserService.getByDiscordUserId(fakeUser.id);
 
         const daoUser = await userDao.getById(fakeUser.id)
-        expect(daoUser.levelId).toBe(ConfigurationBuilder.getConfiguration().initialLevel.id)
+        expect(daoUser.levelId).toBe(ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel.id)
     })
 })
 
@@ -174,7 +174,7 @@ describe("SertaUserService getAll", () => {
     test("created users have correct initial level information", async () => {
         const users = await sertaUserService.getAll()
 
-        const initialLevelId = ConfigurationBuilder.getConfiguration().initialLevel.id
+        const initialLevelId = ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel.id
         users.forEach(user => expect(user.levelId).toBe(initialLevelId))
     })
 })

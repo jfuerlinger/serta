@@ -54,4 +54,8 @@ describe("SertaConfiguration", () => {
     test("provides MessageOfTheDayProvider", () => {
         expect(config.messageOfTheDayProvider).toBeTruthy()
     })
+
+    test("provides GameLevelInformation", () => {
+        expect(config.gameLevelInformation).toBeTruthy()
+    })
 })

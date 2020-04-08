@@ -62,7 +62,7 @@ export class SertaUserService implements UserService {
     }
 
     private createAndStoreDbEntry(botUser: User): DbUserEntry {
-        const initialLevel = ConfigurationBuilder.getConfiguration().initialLevel
+        const initialLevel = ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel
         const dbEntry = new DbUserEntry(botUser.id, initialLevel.id, initialLevel.minimumImmuneLevel, 0)
         this._userDao.add(dbEntry)
         return dbEntry;
