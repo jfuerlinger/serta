@@ -6,6 +6,7 @@ export interface StatusInformation {
     readyToBePromoted?: boolean
     timeTillNextMedication?: string
     levelId?: number
+    messageOfTheDay?: string
 }
 
 export class StatusMessageLayouter {
@@ -17,6 +18,7 @@ export class StatusMessageLayouter {
                 name: statusInformation.name,
                 icon_url: statusInformation.icon_url
             },
+            description: statusInformation.messageOfTheDay,
             fields: [
                 this.createField("Level", statusInformation.levelName),
                 this.createField("Immunization Level", statusInformation.immunizationLevel),

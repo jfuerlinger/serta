@@ -8,6 +8,7 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
         immunizationLevel: 52,
         readyToBePromoted: true,
         timeTillNextMedication: "3h 24m 17s",
+        messageOfTheDay: "A message a day keeps the doctor away"
     }
 
     let layout: any
@@ -100,5 +101,9 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
 
     test("color is white if levelId is undefined", () => {
         expect(layout.color).toBe(0xFFFFFF)
+    })
+
+    test("description shows message of the day", () => {
+        expect(layout.description).toBe(testStatusInformation.messageOfTheDay)
     })
 })
