@@ -18,21 +18,20 @@ export class StatusMessageLayouter {
                 icon_url: statusInformation.icon_url
             },
             fields: [
-                {
-                    name: "Level",
-                    value: statusInformation.levelName
-                },
-                {
-                    name: "Immunization Level",
-                    value: statusInformation.immunizationLevel
-                },
-                {
-                    name: "Ready to be\nPromoted",
-                    value: statusInformation.readyToBePromoted
-                }
+                this.createField("Level", statusInformation.levelName),
+                this.createField("Immunization Level", statusInformation.immunizationLevel),
+                statusInformation.readyToBePromoted ? this.createField("Ready to be\nPromoted", "yes") : undefined
             ],
             footer: this.getFooter(statusInformation)
         }
+    }
+
+    private static createField(name: string, value?: string | number) {
+        return {
+            name: name,
+            value: value,
+            inline: true
+        };
     }
 
     private static colorLevels = [0xEB261F, 0xED62A7, 0xF7B92B, 0x000000, 0x1CA4FC, 0x65D643]

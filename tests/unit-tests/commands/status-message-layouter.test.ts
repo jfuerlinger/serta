@@ -47,7 +47,16 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
 
     test("has a field reflecting StatusInformation.readyForPromotion", () => {
         expect(layout.fields[2].name).toBe("Ready to be\nPromoted")
-        expect(layout.fields[2].value).toBe(testStatusInformation.readyToBePromoted)
+        expect(layout.fields[2].value).toBe("yes")
+    })
+
+    test("misses the field for promotion if readyForPromotion == false", () => {
+        const layout = StatusMessageLayouter.getLayout({})
+        expect(layout.fields[2]).toBeFalsy()
+    })
+
+    test("fields must be inline", () => {
+        expect(layout.fields[1].inline).toBe(true)
     })
 
     test("indicates in footer how much time left to get rid of infection", () => {
