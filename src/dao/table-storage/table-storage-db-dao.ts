@@ -48,7 +48,7 @@ export abstract class DbDao<T extends DbTableEntry> {
         });
     }
 
-    protected async getRecord(rowKey: string): Promise<T> {
+    protected async getRecord(rowKey: string): Promise<T | undefined> {
         return new Promise<T>((resolve, reject) => {
             try {
                 this._tableService.retrieveEntity<T>(

@@ -46,11 +46,11 @@ export class SertaUserService implements UserService {
         return this._bot.users.get(userId);
     }
 
-    private async getDaoUser(userId: string): Promise<DbUserEntry> {
+    private async getDaoUser(userId: string): Promise<DbUserEntry | undefined> {
         return await this._userDao.getById(userId);
     }
 
-    private assembleSertaUser(dbUserEntry: DbUserEntry, botUser: User): SertaUser {
+    private assembleSertaUser(dbUserEntry: DbUserEntry | undefined, botUser: User): SertaUser {
         let user: SertaUser
         if (dbUserEntry) {
             user = new SertaUser(botUser, dbUserEntry)
@@ -89,18 +89,13 @@ export class SertaUserService implements UserService {
 
             let result = this._bot.users.map(async (erisUser) => {
 
-                try {
-                    let dbUser = await this._userDao.getById(erisUser.id);
-                    if (dbUser) {
-                        return new SertaUser(erisUser, dbUser);
-                    } else {
-                        dbUser = this.createAndStoreDbEntry(erisUser)
-                        return new SertaUser(erisUser, dbUser)
-                    }
-                } catch (error) {
-                    logger.warn(error);
+                let dbUser = await this._userDao.getById(erisUser.id);
+                if (dbUser) {
+                    return new SertaUser(erisUser, dbUser);
+                } else {
+                    dbUser = this.createAndStoreDbEntry(erisUser)
+                    return new SertaUser(erisUser, dbUser)
                 }
-                return new SertaUser(erisUser, new DbUserEntry("", 0, 0, 0));
             });
 
             resolve(await Promise.all(result));

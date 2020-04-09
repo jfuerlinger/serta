@@ -17,7 +17,7 @@ export class TableStorageUserDao extends DbDao<DbUserEntry> implements UserDao {
         return this.deleteRecord(id);
     }
 
-    getById(id: string): Promise<DbUserEntry> {
+    getById(id: string): Promise<DbUserEntry | undefined> {
         return this.getRecord(id);
     }
 
