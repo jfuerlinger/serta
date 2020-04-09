@@ -4,12 +4,14 @@ const axios = require("axios");
 
 jest.mock("axios");
 
-describe("SololearnDao", () => {
+describe("SololearnDao.getXPForUser", () => {
 
     const validUserId = '6599010';
+    const invalidUserId = '-1';
 
-    test("fetches sucessfully the XP points from sololearn", async () => {
+    test("it returns the correct xp when called with a valid userid", async () => {
 
+        // arrange
         const data = `
 
 
@@ -1149,26 +1151,56 @@ describe("SololearnDao", () => {
         </body>
         </html>`;
         axios.get.mockImplementationOnce(() => Promise.resolve({ "data": data }));
-
         const dao = new SololearnDao();
+
+        // act
         let xp = await dao.getXPForUser(validUserId);
         
+        // assert
         expect(xp).toBeGreaterThanOrEqual(40);
         expect(axios.get).toHaveBeenCalledWith(
             `https://www.sololearn.com/Profile/${validUserId}`,
           );
     });
 
-    test('fetches erroneously data from sololearn', async () => {
+    test('it returns 0 xp when called with an invalid userid', async () => {
+
+        // arrange
+        const data = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <title>Some Title</title>
+        </head>
+        <body>
+        </body>
+        </html>`;
+        axios.get.mockImplementationOnce(() => Promise.resolve({ "data": data }));
+        const errorMessage = 'Unable to fetch the xp from sololearn!';
+        const dao = new SololearnDao();
+
+        // act
+        let xp = await dao.getXPForUser(invalidUserId);
+
+        // assert
+        expect(xp).toBe(0);
+    });
+
+    test('it throws an error when network errors occure', async () => {
+
+        // arrange
         const errorMessage = 'Network Error';
         axios.get.mockImplementationOnce(() =>
             Promise.reject(new Error(errorMessage)),
         );
-
         const dao = new SololearnDao();
+
+        // act / assert
         await expect(dao.getXPForUser(validUserId)).rejects.toThrow(errorMessage);
     });
 
+    
 });
 
 

@@ -3,6 +3,10 @@ import { ISololearnDao } from "./i-sololearn-dao";
 import axios from "axios";
 const cheerio = require("cheerio");
 
+const createLogger = require('logging').default;
+const logger = createLogger('sololearn-dao');
+
+
 export class SololearnDao implements ISololearnDao {
 
     private _siteUrl = "https://www.sololearn.com/Profile/";
@@ -13,10 +17,16 @@ export class SololearnDao implements ISololearnDao {
     }
 
     async getXPForUser(userId: string): Promise<number> {
-        const $ = await this.fetchData(userId);
-        return Number($('.detail > div:nth-child(2)')
-            .text()
-            .replace(' XP', '')
-            .trim());
+            const $ = await this.fetchData(userId);
+            try {
+                const divXp = $('.detail > div:nth-child(2)');
+                return Number(divXp
+                    .text()
+                    .replace(' XP', '')
+                    .trim());
+            } catch (er) {
+                logger.error(`Error at fetching the xp from sololearn: ${er}`);
+                throw Error("Unable to fetch the xp from sololearn!");
+            }
     }
 }
