@@ -58,4 +58,8 @@ describe("SertaConfiguration", () => {
     test("provides GameLevelInformation", () => {
         expect(config.gameLevelInformation).toBeTruthy()
     })
+
+    test("provides base url for images", () => {
+        expect(config.baseUrlForImages).toContain("http")
+    })
 })

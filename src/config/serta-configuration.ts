@@ -15,12 +15,12 @@ export class SertaConfiguration {
     }
 
     private readonly _messageOfTheDayProvider: MessageOfTheDayProvider
-    get messageOfTheDayProvider(): MessageOfTheDayProvider {
-        return this._messageOfTheDayProvider
-    }
+    get messageOfTheDayProvider(): MessageOfTheDayProvider { return this._messageOfTheDayProvider }
 
     private readonly _gameLevelInformation: GameLevelInformation;
     get gameLevelInformation() { return this._gameLevelInformation }
+
+    get baseUrlForImages() { return "http://localhost:8000/level-images/assets/" }
 
     constructor(environmentFileAccessor: IEnvironmentAccessor) {
         this.commandClient.discordToken = environmentFileAccessor.discordToken
