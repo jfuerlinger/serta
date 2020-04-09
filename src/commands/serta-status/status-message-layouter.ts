@@ -1,6 +1,6 @@
 export interface StatusInformation {
     name?: string
-    icon_url?: string
+    avatar_url?: string
     levelName?: string
     immunizationLevel?: number
     readyToBePromoted?: boolean
@@ -16,7 +16,7 @@ export class StatusMessageLayouter {
             title: "Status",
             author: {
                 name: statusInformation.name,
-                icon_url: statusInformation.icon_url
+                icon_url: statusInformation.avatar_url
             },
             description: statusInformation.messageOfTheDay,
             fields: [

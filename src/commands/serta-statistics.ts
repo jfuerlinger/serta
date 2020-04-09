@@ -65,7 +65,7 @@ export class SertaStatisticsCommand implements SertaCommand {
 //             description: entry.message,
 //             author: { // Author property
 //                 name: entry.username,
-//                 icon_url: entry.avatarURL
+//                 avatar_url: entry.avatarURL
 //             },
 //             color: entry.color ? entry.color : 0x008000, // Color, either in hex (show), or a base-10 integer
 //             fields: [

@@ -3,7 +3,7 @@ import {StatusMessageLayouter} from "../../../src/commands/serta-status/status-m
 describe("SertaStatusLayouter getLayout returns embed", () => {
     const testStatusInformation = {
         name: "Peter",
-        icon_url: "some://url",
+        avatar_url: "some://url",
         levelName: "Methods",
         immunizationLevel: 52,
         readyToBePromoted: true,
@@ -33,7 +33,7 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
     })
 
     test("has an author.url called StatusInformation.url", () => {
-        expect(layout.author.icon_url).toBe(testStatusInformation.icon_url)
+        expect(layout.author.icon_url).toBe(testStatusInformation.avatar_url)
     })
 
     test("has a field reflecting StatusInformation.levelName", () => {
