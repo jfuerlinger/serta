@@ -1,3 +1,5 @@
+import {ConfigurationBuilder} from "../../config/configuration-builder";
+
 export interface StatusInformation {
     name?: string
     avatar_url?: string
@@ -55,12 +57,13 @@ export class StatusMessageLayouter {
     private static getThumbnailUrl(levelId?: number, timeTillNextMedication?: string, readyToBePromoted?: boolean): string | undefined {
         if (levelId) {
             const levelPrefix = this.levelPrefixes[levelId - 1]
+            const baseUrlAndStuff = ConfigurationBuilder.getConfiguration().baseUrlForImages + "/" + levelPrefix
             if (timeTillNextMedication) {
-                return levelPrefix + "-red.png"
+                return baseUrlAndStuff + "-red.png"
             } else if (readyToBePromoted) {
-                return levelPrefix + "-green.png"
+                return baseUrlAndStuff + "-green.png"
             } else {
-                return levelPrefix + "-yellow.png"
+                return baseUrlAndStuff + "-yellow.png"
             }
         }
     }

@@ -1,4 +1,6 @@
 import {StatusMessageLayouter} from "../../../src/commands/serta-status/status-message-layouter";
+import {ConfigurationBuilder} from "../../../src/config/configuration-builder";
+import * as FakeEnvironment from "../config/fake-environment"
 
 describe("SertaStatusLayouter getLayout returns embed", () => {
     const testStatusInformation = {
@@ -13,8 +15,11 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
 
     let layout: any
     beforeEach(() => {
+        FakeEnvironment.setup()
         layout = StatusMessageLayouter.getLayout(testStatusInformation)
     })
+
+    afterEach(() => FakeEnvironment.tearDown())
 
     test("is truthy", () => {
         expect(layout).toBeTruthy()
@@ -141,5 +146,12 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
         const statusInformation = { levelId: 2, readyToBePromoted: true}
         const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
         expect(thumbnail.url).toContain("a-green.png")
+    })
+
+    test("adds base url for images from config to level thumbnails", () => {
+        const statusInformation = { levelId: 2, readyToBePromoted: true}
+        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        const baseUrl = ConfigurationBuilder.getConfiguration().baseUrlForImages
+        expect(thumbnail.url).toBe(baseUrl+"/a-green.png")
     })
 })
