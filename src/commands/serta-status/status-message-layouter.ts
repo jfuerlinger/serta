@@ -1,0 +1,49 @@
+export interface StatusInformation {
+    name?: string
+    icon_url?: string
+    levelName?: string
+    immunizationLevel?: number
+    readyToBePromoted?: boolean
+    timeTillNextMedication?: string
+    levelId?: number
+}
+
+export class StatusMessageLayouter {
+    static getLayout(statusInformation: StatusInformation): any {
+        return {
+            color: this.getColor(statusInformation.levelId),
+            title: "Status",
+            author: {
+                name: statusInformation.name,
+                icon_url: statusInformation.icon_url
+            },
+            fields: [
+                {
+                    name: "Level",
+                    value: statusInformation.levelName
+                },
+                {
+                    name: "Immunization Level",
+                    value: statusInformation.immunizationLevel
+                },
+                {
+                    name: "Ready to be\nPromoted",
+                    value: statusInformation.readyToBePromoted
+                }
+            ],
+            footer: this.getFooter(statusInformation)
+        }
+    }
+
+    private static colorLevels = [0xEB261F, 0xED62A7, 0xF7B92B, 0x000000, 0x1CA4FC, 0x65D643]
+
+    private static getColor(levelId?: number): number {
+        return levelId ? StatusMessageLayouter.colorLevels[levelId - 1] : 0xFFFFFF;
+    }
+
+    private static getFooter(statusInformation: StatusInformation): string {
+        return statusInformation.timeTillNextMedication ?
+            `INFECTION ALERT!! You have ${statusInformation.timeTillNextMedication} left to get a medication` :
+            ""
+    }
+}

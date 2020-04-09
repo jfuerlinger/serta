@@ -22,7 +22,7 @@ describe("InMemoryGameLevelImporter", () => {
         expect(actualGameLevelEntry).toBe(anyExpectedGameLevelEntry)
     })
 
-    test("when created without parameters the level information must be correct", () => {
+    test("when created without parameters the levelName information must be correct", () => {
         const importer = new InMemoryGameLevelImporter()
 
         const anyExpectedGameLevelEntryName = Game.levels[2].name
@@ -31,7 +31,7 @@ describe("InMemoryGameLevelImporter", () => {
         expect(actualGameLevelEntryName).toBe(anyExpectedGameLevelEntryName)
     })
 
-    test("when created with parameter the level information passed is used", () => {
+    test("when created with parameter the levelName information passed is used", () => {
         const importer = new InMemoryGameLevelImporter(fakeGameLevels)
 
         const anyExpectedGameLevelMin = fakeGameLevels[1].minimumImmuneLevel
@@ -48,34 +48,34 @@ describe("GameLevelInformation", () => {
         gameLevelInformation = new GameLevelInformation(new InMemoryGameLevelImporter(fakeGameLevels))
     })
 
-    test("provides initial level information", () => {
+    test("provides initial levelName information", () => {
         expect(gameLevelInformation.initialLevel).toBeTruthy()
         expect(gameLevelInformation.initialLevel.abbreviation).toBe("S")
     })
 
-    test("provides top level information", () => {
+    test("provides top levelName information", () => {
         expect(gameLevelInformation.topLevel.id).toBe(fakeGameLevels[fakeGameLevels.length - 1].id)
     })
 
-    test("provides initial level information as information for level 1", () => {
+    test("provides initial levelName information as information for levelName 1", () => {
         expect(gameLevelInformation.getLevelInformation(1).id).toBe(gameLevelInformation.initialLevel.id)
         expect(gameLevelInformation.getLevelInformation(1).abbreviation).toBe(gameLevelInformation.initialLevel.abbreviation)
     })
 
-    test("provides level information for other level", () => {
+    test("provides levelName information for other levelName", () => {
         const anyLevel = 2
         expect(gameLevelInformation.getLevelInformation(anyLevel).id).toBe(anyLevel)
     })
 
-    test("provides top level information if level is too high", () => {
+    test("provides top levelName information if levelName is too high", () => {
         expect(gameLevelInformation.getLevelInformation(7).id).toBe(gameLevelInformation.topLevel.id)
     })
 
-    test("provides initial level information of level is too low", () =>{
+    test("provides initial levelName information of levelName is too low", () =>{
         expect(gameLevelInformation.getLevelInformation(0).id).toBe(gameLevelInformation.initialLevel.id)
     })
 
-    test("provides next level", () => {
+    test("provides next levelName", () => {
         expect(gameLevelInformation.getNextLevel(1)).toBe(gameLevelInformation.getLevelInformation(2))
     })
 
@@ -83,7 +83,7 @@ describe("GameLevelInformation", () => {
         const topLevelId = gameLevelInformation.topLevel.id
         expect(gameLevelInformation.getNextLevel(topLevelId)).toBe(gameLevelInformation.getLevelInformation(topLevelId))
     })
-    test("provides previous level", () => {
+    test("provides previous levelName", () => {
         const anyLevel = 3
         expect(gameLevelInformation.getPreviousLevel(anyLevel)).toBe(gameLevelInformation.getLevelInformation(anyLevel - 1))
     })

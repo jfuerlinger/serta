@@ -19,7 +19,7 @@ export class SertaUpLevelCommand implements SertaCommand {
         }
         const levelNotToBeChanged = SertaUtils.getMaxLevel()
         const changeLevelAction = (levelIndex:number) => SertaUtils.getNextLevel(levelIndex)
-        const warningMessageIfImpossible = "is already in the highest level!"
+        const warningMessageIfImpossible = "is already in the highest levelName!"
         SertaUtils.changeLevelOfMentionedUsersIn(this._bot, msg, levelNotToBeChanged, changeLevelAction, warningMessageIfImpossible)
     }
 }

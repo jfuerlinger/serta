@@ -87,26 +87,26 @@ describe("MessageOfTheDay", () => {
         expect(motd.getMessage(anyLevel).text).toContain("Hopauf")
     })
 
-    test("returns a message for each level", () => {
+    test("returns a message for each levelName", () => {
         for (let i = 1; i <= 6; i++) {
             expect(motd.getMessage(i).level).toBe(i)
         }
     })
 
-    test("returns a message for level 2", () => {
+    test("returns a message for levelName 2", () => {
 
         expect(motd.getMessage(2).level).toBe(2)
     })
 
-    test("when asked for a too small level returns the smallest", () => {
+    test("when asked for a too small levelName returns the smallest", () => {
         expect(motd.getMessage(0).level).toBe(1)
     })
 
-    test("when asked for a too high level returns the highest", () => {
+    test("when asked for a too high levelName returns the highest", () => {
         expect(motd.getMessage(fakeMessages.length + 1).level).toBe(6)
     })
 
-    test("when asked for a level often the available messages shall be chosen randomly", () =>{
+    test("when asked for a levelName often the available messages shall be chosen randomly", () =>{
         const messageSequence = new Array<Message>()
         const anyLevel = 3
         const closeToVeryOften = 10000;

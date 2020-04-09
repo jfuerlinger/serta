@@ -171,7 +171,7 @@ describe("SertaUserService getAll", () => {
         expect(allDbEntries.length).toBe(fakeDiscordUsers.length)
     })
 
-    test("created users have correct initial level information", async () => {
+    test("created users have correct initial levelName information", async () => {
         const users = await sertaUserService.getAll()
 
         const initialLevelId = ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel.id

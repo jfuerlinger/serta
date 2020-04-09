@@ -43,7 +43,7 @@ export class SertaStatisticsCommand implements SertaCommand {
                 }
             ],
             footer: { // Footer text
-                text: "HTL Leonding"
+                text: "INFECTION ALERT!! You have 3h 24m 10s left to get a medication"
             }
         }
         SertaUtils.createInfoMessage(this._bot, msg.channel.id, { embed: generalInfo })
@@ -71,12 +71,12 @@ export class SertaStatisticsCommand implements SertaCommand {
 //             fields: [
 //                 {
 //                     name: "Level",
-//                     value: entry.level ? entry.level.name : SertaUtils.getDefaultLevel().name,
+//                     value: entry.levelName ? entry.levelName.name : SertaUtils.getDefaultLevel().name,
 //                     inline: true
 //                 },
 //                 {
 //                     name: "Level Id",
-//                     value: entry.level ? entry.level.id : SertaUtils.getDefaultLevel().id,
+//                     value: entry.levelName ? entry.levelName.id : SertaUtils.getDefaultLevel().id,
 //                     inline: true
 //                 },
 //                 {

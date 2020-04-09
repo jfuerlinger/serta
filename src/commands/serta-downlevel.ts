@@ -20,7 +20,7 @@ export class SertaDownLevelCommand implements SertaCommand {
         }
         const levelNotToBeChanged = 0;
         const changeLevelAction = (levelIndex: number) => SertaUtils.getPrevLevel(levelIndex)
-        const warningMessageIfImpossible = "is already in the lowest level!"
+        const warningMessageIfImpossible = "is already in the lowest levelName!"
         SertaUtils.changeLevelOfMentionedUsersIn(this._bot, msg, levelNotToBeChanged, changeLevelAction, warningMessageIfImpossible)
     }
 }
