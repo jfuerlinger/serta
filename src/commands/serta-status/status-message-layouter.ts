@@ -24,6 +24,9 @@ export class StatusMessageLayouter {
                 this.createField("Immunization Level", statusInformation.immunizationLevel),
                 statusInformation.readyToBePromoted ? this.createField("Ready to be\nPromoted", "yes") : undefined
             ],
+            thumbnail: {
+                url: this.getThumbnailUrl(statusInformation.levelId, statusInformation.timeTillNextMedication, statusInformation.readyToBePromoted)
+            },
             footer: this.getFooter(statusInformation)
         }
     }
@@ -46,5 +49,19 @@ export class StatusMessageLayouter {
         return statusInformation.timeTillNextMedication ?
             `INFECTION ALERT!! You have ${statusInformation.timeTillNextMedication} left to get a medication` :
             ""
+    }
+
+    static levelPrefixes = ["s", "a", "m", "c", "f", "p"]
+    private static getThumbnailUrl(levelId?: number, timeTillNextMedication?: string, readyToBePromoted?: boolean): string | undefined {
+        if (levelId) {
+            const levelPrefix = this.levelPrefixes[levelId - 1]
+            if (timeTillNextMedication) {
+                return levelPrefix + "-red.png"
+            } else if (readyToBePromoted) {
+                return levelPrefix + "-green.png"
+            } else {
+                return levelPrefix + "-yellow.png"
+            }
+        }
     }
 }

@@ -106,4 +106,40 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
     test("description shows message of the day", () => {
         expect(layout.description).toBe(testStatusInformation.messageOfTheDay)
     })
+
+    test("shows level pic for S in red if infected", () => {
+        const statusInformation = { levelId: 1, timeTillNextMedication: "some time"}
+        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        expect(thumbnail.url).toContain("s-red.png")
+    })
+
+    test("shows level pic for S in yellow if not infected and not promoted", () => {
+        const statusInformation = { levelId: 1}
+        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        expect(thumbnail.url).toContain("s-yellow.png")
+    })
+
+    test("shows level pic for S in green if not infected and promoted", () => {
+        const statusInformation = { levelId: 1, readyToBePromoted: true}
+        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        expect(thumbnail.url).toContain("s-green.png")
+    })
+
+    test("shows level pic for A in red if infected", () => {
+        const statusInformation = { levelId: 2, timeTillNextMedication: "some time"}
+        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        expect(thumbnail.url).toContain("a-red.png")
+    })
+
+    test("shows level pic for A in yellow if not infected and not promoted", () => {
+        const statusInformation = { levelId: 2}
+        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        expect(thumbnail.url).toContain("a-yellow.png")
+    })
+
+    test("shows level pic for A in green if not infected and promoted", () => {
+        const statusInformation = { levelId: 2, readyToBePromoted: true}
+        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        expect(thumbnail.url).toContain("a-green.png")
+    })
 })
