@@ -1,7 +1,8 @@
 import { User } from "eris";
 import {DbUserEntry} from "./db-user-entry";
+import {ISertaUser} from "./ISertaUser";
 
-export class SertaUser {
+export class SertaUser implements ISertaUser {
 
     private _discordUser : User;
     private dbUserEntry: DbUserEntry
