@@ -68,9 +68,9 @@ export class SertaUserService implements UserService {
         return dbEntry;
     }
 
-    public async getByDiscordUserName(userName: string): Promise<SertaUser> {
+    public async getByDiscordUserName(discordUserName: string): Promise<SertaUser> {
         return new Promise<SertaUser>(async (resolve, reject) => {
-            await this.getUserAndClearPromise(userName, this.getDiscordUserByUserName, resolve, reject)
+            await this.getUserAndClearPromise(discordUserName, this.getDiscordUserByUserName, resolve, reject)
         })
     }
 
