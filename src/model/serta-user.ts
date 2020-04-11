@@ -4,7 +4,7 @@ import {ISertaUser} from "./ISertaUser";
 
 export class SertaUser implements ISertaUser {
 
-    private _discordUser : User;
+    private _discordUser: User;
     private dbUserEntry: DbUserEntry
 
     get discordUserId(): string { return this._discordUser.id}

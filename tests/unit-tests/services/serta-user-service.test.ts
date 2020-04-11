@@ -147,7 +147,7 @@ describe("SertaUserService getAll", () => {
     test("returns equal array as fakeDiscordUsers", async () => {
         const users = await sertaUserService.getAll()
 
-        for(let i = 0; i < users.length; i++) {
+        for (let i = 0; i < users.length; i++) {
             expect(users[i].discordUserId).toBe(fakeDiscordUsers[i].id)
         }
     })
@@ -179,7 +179,7 @@ describe("SertaUserService getAll", () => {
     })
 })
 
-class FakeUserDao implements UserDao {
+export class FakeUserDao implements UserDao {
     private storage = new Map<string, DbUserEntry>()
 
     add(entry: DbUserEntry): Promise<DbUserEntry> {

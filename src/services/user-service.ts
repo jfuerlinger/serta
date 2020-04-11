@@ -1,7 +1,7 @@
-import { SertaUser } from "../model/serta-user";
+import {ISertaUser} from "../model/ISertaUser";
 
 export interface UserService {
-    getByDiscordUserId(discordUserId: string): Promise<SertaUser>
-    getByDiscordUserName(discordUserName: string): Promise<SertaUser>
-    getAll() : Promise<SertaUser[]>
+    getByDiscordUserId(discordUserId: string): Promise<ISertaUser>
+    getByDiscordUserName(discordUserName: string): Promise<ISertaUser>
+    getAll() : Promise<ISertaUser[]>
 }
