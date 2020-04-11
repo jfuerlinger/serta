@@ -36,6 +36,9 @@ describe("SertaStatusReporter", () => {
 
         // then
         expect(statusInformation.levelId).toBe(expectedUserEntry.levelId)
+        expect(statusInformation.immunizationLevel).toBe(expectedUserEntry.immuneLevel)
+        expect(statusInformation.name).toBe(expectedUserEntry.discordUserName)
+        // expect(statusInformation.avatar_url).toBe(expectedUserEntry.avatar_url)
     })
 
     // test.skip("getStatus with a bot shall return no status", () => {

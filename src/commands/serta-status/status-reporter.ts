@@ -7,6 +7,6 @@ export class StatusReporter {
     }
 
     getStatus(discordUserName: string): StatusInformation {
-        return {levelId: 1}
+        return {levelId: 1, immunizationLevel: 15, name: "p.bauer"}
     }
 }
