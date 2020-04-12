@@ -41,6 +41,8 @@ describe("SertaStatusReporter", () => {
         // expect(statusInformation.avatar_url).toBe(expectedUserEntry.avatar_url)
     })
 
+    // test.skip("getStatus with a valid user returns remaining information", () => {
+    // })
     // test.skip("getStatus with a bot shall return no status", () => {
     //
     // })
