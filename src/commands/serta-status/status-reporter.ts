@@ -18,6 +18,7 @@ export class StatusReporter {
             name: sertaUser.discordUserName,
             avatar_url: sertaUser.avatarUrl,
             levelId: sertaUser.levelId,
+            levelName: ConfigurationBuilder.getConfiguration().gameLevelInformation.getLevelInformation(sertaUser.levelId).name,
             immunizationLevel: sertaUser.immuneLevel,
             timeTillNextMedication: timeTillNextMedication,
             readyToBePromoted: readyToBePromoted

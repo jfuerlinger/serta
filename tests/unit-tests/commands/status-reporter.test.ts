@@ -108,6 +108,16 @@ describe("SertaStatusReporter", () => {
         expect(statusInformation.readyToBePromoted).toBe(false)
     })
 
+    test("getStatus with a valid user returns a correct level name", async () => {
+        // given
+        FakeEnvironment.setup()
+
+        // when
+        const statusInformation = await sut.getStatus("j.fuerlinger")
+
+        // then
+        expect(statusInformation.levelName).toBe("Methods")
+    })
     // test.skip("getStatus with a valid user returns remaining information", () => {
     // })
     // test.skip("getStatus with a bot shall return no status", () => {
