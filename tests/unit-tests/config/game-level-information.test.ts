@@ -6,9 +6,9 @@ import {
 import * as Game from "../../../src/config/game"
 
 const fakeGameLevels: LevelInformation[] = [
-    { id: 1, abbreviation: "S", name: "A", minimumImmuneLevel: 0, maximumImmuneLevel: 1 },
-    { id: 2, abbreviation: "A", name: "Be", minimumImmuneLevel: 2, maximumImmuneLevel: 3 },
-    { id: 3, abbreviation: "M", name: "Ceh", minimumImmuneLevel: 4, maximumImmuneLevel: 5 }
+    { id: 1, abbreviation: "S", name: "A", minimumImmuneLevel: 0, maximumImmuneLevel: 1, timeSpanForMedication: 24 },
+    { id: 2, abbreviation: "A", name: "Be", minimumImmuneLevel: 2, maximumImmuneLevel: 3, timeSpanForMedication: 12 },
+    { id: 3, abbreviation: "M", name: "Ceh", minimumImmuneLevel: 4, maximumImmuneLevel: 5, timeSpanForMedication: 6 }
 ]
 
 describe("InMemoryGameLevelImporter", () => {

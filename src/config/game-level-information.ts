@@ -10,6 +10,7 @@ export interface LevelInformation {
     name: string
     minimumImmuneLevel: number
     maximumImmuneLevel: number
+    timeSpanForMedication: number
 }
 
 export class InMemoryGameLevelImporter implements GameLevelImporter {

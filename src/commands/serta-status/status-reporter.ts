@@ -1,6 +1,7 @@
 import {UserService} from "../../services/user-service";
 import {StatusInformation} from "./status-message-layouter";
 import {TimeSpanFormatter} from "./time-span-formatter";
+import {ConfigurationBuilder} from "../../config/configuration-builder";
 
 export class StatusReporter {
     private userService: UserService
@@ -13,7 +14,8 @@ export class StatusReporter {
         const nextMedicationDue = sertaUser.timestampOfLastInfection
         let timeTillNextMedication = ""
         if (nextMedicationDue) {
-            nextMedicationDue.setHours(nextMedicationDue.getHours() + 24)
+            const timespanForMedication = ConfigurationBuilder.getConfiguration().gameLevelInformation.getLevelInformation(sertaUser.levelId).timeSpanForMedication
+            nextMedicationDue.setHours(nextMedicationDue.getHours() + timespanForMedication)
             timeTillNextMedication = TimeSpanFormatter.format(nextMedicationDue.valueOf() - Date.now())
         }
         return {

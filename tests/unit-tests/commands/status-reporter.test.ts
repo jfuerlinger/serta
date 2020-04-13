@@ -29,6 +29,7 @@ describe("SertaStatusReporter", () => {
 
     test("getStatus with a valid user shall return a status information according to the information given from the user service", async () => {
         // given
+        FakeEnvironment.setup()
         const validDiscordUserName = "p.bauer"
         const expectedUserEntry = await fakeUserService.getByDiscordUserName(validDiscordUserName)
 
@@ -40,6 +41,7 @@ describe("SertaStatusReporter", () => {
         expect(statusInformation.immunizationLevel).toBe(expectedUserEntry.immuneLevel)
         expect(statusInformation.name).toBe(expectedUserEntry.discordUserName)
         expect(statusInformation.avatar_url).toBe(expectedUserEntry.avatarUrl)
+        FakeEnvironment.tearDown()
     })
 
     test("getStatus with another valid user shall return a status information according to the information given from the user service", async () => {
