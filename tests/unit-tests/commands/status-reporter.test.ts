@@ -2,7 +2,7 @@ import {UserService} from "../../../src/services/user-service";
 import {StatusReporter} from "../../../src/commands/serta-status/status-reporter"
 import {FakeSertaUser} from "../test-doubles/fake-serta-user";
 import {ISertaUser} from "../../../src/model/i-serta-user";
-//import * as FakeEnvironment from "../config/fake-environment"
+import * as FakeEnvironment from "../config/fake-environment"
 
 describe("SertaStatusReporter", () => {
     let fakeUserService: FakeUserService
@@ -57,16 +57,17 @@ describe("SertaStatusReporter", () => {
         expect(statusInformation.avatar_url).toBe(expectedUserEntry.avatarUrl)
     })
 
-    // test("getStatus with a valid user returns a correct time till medication", async () => {
-    //     // given
-    //     FakeEnvironment.setup()
-    //
-    //     // when
-    //     const statusInformation = await sut.getStatus("p.bauer")
-    //
-    //     // then
-    //     expect(statusInformation.timeTillNextMedication).toBe("")
-    // })
+    test("getStatus with a valid user returns a correct time till medication", async () => {
+        // given
+        FakeEnvironment.setup()
+
+        // when
+        const statusInformation = await sut.getStatus("p.bauer")
+
+        // then
+        expect(statusInformation.timeTillNextMedication).toContain("20h 37m 4") // seconds depend on latency in calculation
+        FakeEnvironment.tearDown()
+    })
     // test("getStatus with a valid user returns a correct ready to be promoted", async () => {
     //     // given
     //     FakeEnvironment.setup()
@@ -105,7 +106,9 @@ class FakeUserService implements UserService {
     getByDiscordUserName(discordUserName: string): Promise<ISertaUser> {
         return new Promise<ISertaUser>(async resolve => {
             if (discordUserName === "p.bauer") {
-                resolve(new FakeSertaUser("some.discord.id", "p.bauer", "http://avatarUrl/pb.png", 1, 35, 15, ))
+                const now = Date.now()
+                const lastInfection = now - (3 * 60 * 60 + 22 * 60 + 12) * 1000
+                resolve(new FakeSertaUser("some.discord.id", "p.bauer", "http://avatarUrl/pb.png", 1, 35, 15, new Date(lastInfection)))
             } else {
                 resolve(new FakeSertaUser("another.discord.id", "jfuerlinger", "http://avatarUrl/jf.png", 3, 187, 45))
             }
