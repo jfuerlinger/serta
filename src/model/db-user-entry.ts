@@ -6,6 +6,7 @@ export class DbUserEntry implements DbTableEntry {
     public levelId: number
     public immuneLevel: number
     public experiencePoints: number
+    public timeStampOfLastInfection?: Date
 
     constructor(
         id: string,

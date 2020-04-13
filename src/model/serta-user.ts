@@ -1,6 +1,6 @@
 import { User } from "eris";
 import {DbUserEntry} from "./db-user-entry";
-import {ISertaUser} from "./ISertaUser";
+import {ISertaUser} from "./i-serta-user";
 
 export class SertaUser implements ISertaUser {
 

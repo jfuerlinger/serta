@@ -1,4 +1,4 @@
-import {ISertaUser} from "../model/ISertaUser";
+import {ISertaUser} from "../model/i-serta-user";
 
 export interface UserService {
     getByDiscordUserId(discordUserId: string): Promise<ISertaUser>

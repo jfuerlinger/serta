@@ -5,4 +5,5 @@ export interface ISertaUser {
     readonly levelId?: number
     readonly immuneLevel?: number
     readonly experiencePoints?: number
+    timestampOfLastInfection?: Date
 }
