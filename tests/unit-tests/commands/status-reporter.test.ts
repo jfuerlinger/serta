@@ -59,7 +59,7 @@ describe("SertaStatusReporter", () => {
         expect(statusInformation.avatar_url).toBe(expectedUserEntry.avatarUrl)
     })
 
-    test("getStatus with a valid user returns a correct time till medication", async () => {
+    test("getStatus with a valid user being infected returns a correct time till medication", async () => {
         // given
         FakeEnvironment.setup()
 
@@ -71,7 +71,20 @@ describe("SertaStatusReporter", () => {
         FakeEnvironment.tearDown()
     })
 
-    test("getStatus with a valid user returns a correct ready to be promoted", async () => {
+    test("getStatus with a valid user not being infected returns an undefined timeTillNextMedication", async () => {
+        // given
+        FakeEnvironment.setup()
+
+        // when
+        const statusInformation = await sut.getStatus("jfuerlinger")
+
+        // then
+        expect(statusInformation.timeTillNextMedication).toBeFalsy()
+
+        FakeEnvironment.tearDown()
+    })
+
+    test("getStatus with a valid user not being infected returns a correct ready to be promoted", async () => {
         // given
         FakeEnvironment.setup()
 
@@ -82,6 +95,17 @@ describe("SertaStatusReporter", () => {
         expect(statusInformation.readyToBePromoted).toBe(true)
 
         FakeEnvironment.tearDown()
+    })
+
+    test("getStatus with a valid user but infected must not be promoted", async () =>{
+        // given
+        FakeEnvironment.setup()
+
+        // when
+        const statusInformation = await sut.getStatus("p.bauer")
+
+        // then
+        expect(statusInformation.readyToBePromoted).toBe(false)
     })
 
     // test.skip("getStatus with a valid user returns remaining information", () => {

@@ -12,20 +12,29 @@ export class StatusReporter {
 
     async getStatus(discordUserName: string): Promise<StatusInformation> {
         const sertaUser = await this.userService.getByDiscordUserName(discordUserName)
-        let timeTillNextMedication = StatusReporter.getTimeTillNextMedication(sertaUser);
+        const timeTillNextMedication = StatusReporter.getTimeTillNextMedication(sertaUser);
+        const readyToBePromoted = StatusReporter.getReadyToBePromoted(sertaUser, timeTillNextMedication);
         return {
             name: sertaUser.discordUserName,
             avatar_url: sertaUser.avatarUrl,
             levelId: sertaUser.levelId,
             immunizationLevel: sertaUser.immuneLevel,
             timeTillNextMedication: timeTillNextMedication,
-            readyToBePromoted: sertaUser.immuneLevel >= ConfigurationBuilder.getConfiguration().gameLevelInformation.getLevelInformation(sertaUser.levelId).maximumImmuneLevel
+            readyToBePromoted: readyToBePromoted
         }
     }
 
-    private static getTimeTillNextMedication(sertaUser: ISertaUser): string {
+    private static getReadyToBePromoted(sertaUser: ISertaUser, timeTillNextMedication?:string):boolean {
+        let readyToBePromoted = false
+        if (!timeTillNextMedication) {
+            readyToBePromoted = sertaUser.immuneLevel >= ConfigurationBuilder.getConfiguration().gameLevelInformation.getLevelInformation(sertaUser.levelId).maximumImmuneLevel
+        }
+        return readyToBePromoted;
+    }
+
+    private static getTimeTillNextMedication(sertaUser: ISertaUser): string | undefined {
         const nextMedicationDue = sertaUser.timestampOfLastInfection
-        let timeTillNextMedication = ""
+        let timeTillNextMedication
         if (nextMedicationDue) {
             const timespanForMedication = ConfigurationBuilder.getConfiguration().gameLevelInformation.getLevelInformation(sertaUser.levelId).timeSpanForMedication
             nextMedicationDue.setHours(nextMedicationDue.getHours() + timespanForMedication)
