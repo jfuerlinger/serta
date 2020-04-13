@@ -3,7 +3,7 @@ export interface ISertaUser {
     readonly discordUserName: string
     readonly avatarUrl: string
     readonly levelId: number
-    readonly immuneLevel?: number
+    readonly immuneLevel: number
     readonly experiencePoints?: number
     timestampOfLastInfection?: Date
 }

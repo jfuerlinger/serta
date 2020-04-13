@@ -70,18 +70,19 @@ describe("SertaStatusReporter", () => {
         expect(statusInformation.timeTillNextMedication).toContain("20h 37m 4") // seconds depend on latency in calculation
         FakeEnvironment.tearDown()
     })
-    // test("getStatus with a valid user returns a correct ready to be promoted", async () => {
-    //     // given
-    //     FakeEnvironment.setup()
-    //
-    //     // when
-    //     const statusInformation = await sut.getStatus("jfuerlinger")
-    //
-    //     // then
-    //     expect(statusInformation.readyToBePromoted).toBe(true)
-    //
-    //     FakeEnvironment.tearDown()
-    // })
+
+    test("getStatus with a valid user returns a correct ready to be promoted", async () => {
+        // given
+        FakeEnvironment.setup()
+
+        // when
+        const statusInformation = await sut.getStatus("jfuerlinger")
+
+        // then
+        expect(statusInformation.readyToBePromoted).toBe(true)
+
+        FakeEnvironment.tearDown()
+    })
 
     // test.skip("getStatus with a valid user returns remaining information", () => {
     // })
