@@ -12,18 +12,24 @@ export class StatusReporter {
 
     async getStatus(discordUserName: string): Promise<StatusInformation> {
         const sertaUser = await this.userService.getByDiscordUserName(discordUserName)
-        if (!sertaUser.isBot) {
-            const timeTillNextMedication = StatusReporter.getTimeTillNextMedication(sertaUser);
-            const readyToBePromoted = StatusReporter.getReadyToBePromoted(sertaUser, timeTillNextMedication);
-            return {
-                name: sertaUser.discordUserName,
-                avatar_url: sertaUser.avatarUrl,
-                levelId: sertaUser.levelId,
-                levelName: ConfigurationBuilder.getConfiguration().gameLevelInformation.getLevelInformation(sertaUser.levelId).name,
-                immunizationLevel: sertaUser.immuneLevel,
-                timeTillNextMedication: timeTillNextMedication,
-                readyToBePromoted: readyToBePromoted,
-                messageOfTheDay: ConfigurationBuilder.getConfiguration().messageOfTheDayProvider.getMessage(sertaUser.levelId).text
+        if (sertaUser) {
+            if (!sertaUser.isBot) {
+                const timeTillNextMedication = StatusReporter.getTimeTillNextMedication(sertaUser);
+                const readyToBePromoted = StatusReporter.getReadyToBePromoted(sertaUser, timeTillNextMedication);
+                return {
+                    name: sertaUser.discordUserName,
+                    avatar_url: sertaUser.avatarUrl,
+                    levelId: sertaUser.levelId,
+                    levelName: ConfigurationBuilder.getConfiguration().gameLevelInformation.getLevelInformation(sertaUser.levelId).name,
+                    immunizationLevel: sertaUser.immuneLevel,
+                    timeTillNextMedication: timeTillNextMedication,
+                    readyToBePromoted: readyToBePromoted,
+                    messageOfTheDay: ConfigurationBuilder.getConfiguration().messageOfTheDayProvider.getMessage(sertaUser.levelId).text
+                }
+            } else {
+                return new Promise<StatusInformation>(resolve => {
+                    resolve()
+                })
             }
         } else {
             return new Promise<StatusInformation>(resolve => {

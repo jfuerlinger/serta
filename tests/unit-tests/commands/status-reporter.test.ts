@@ -136,7 +136,8 @@ describe("SertaStatusReporter", () => {
     })
 
     test("getStatus with an invalid user should return no status", async () => {
-
+        const statusInformation = await sut.getStatus("A.NonExisting.User")
+        expect(statusInformation).toBeFalsy()
     })
 })
 
@@ -166,6 +167,9 @@ class FakeUserService implements UserService {
                 case "Serta":
                     resolve(new FakeSertaUser("bot.discord.id", "Serta", "", 0, 0, 0, undefined, true))
                     break
+
+                default:
+                    resolve(undefined)
             }
         })
     }
