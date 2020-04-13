@@ -12,19 +12,25 @@ describe("SertaStatusReporter", () => {
         fakeUserService = new FakeUserService()
         sut = new StatusReporter(fakeUserService)
     })
+
     test("construction with UserService should return a valid object", () => {
+        FakeEnvironment.setup()
         expect(sut).toBeTruthy()
+        FakeEnvironment.tearDown()
     })
 
-    test("getStatus with a valid user shall return a valid StatusInformation", () => {
+    test("getStatus with a valid user shall return a valid StatusInformation", async () => {
         // given
+        FakeEnvironment.setup()
         const validDiscordUserName = "p.bauer";
 
         // when
-        const statusInformation = sut.getStatus(validDiscordUserName)
+        const statusInformation = await sut.getStatus(validDiscordUserName)
 
         // then
         expect(statusInformation).toBeTruthy()
+
+        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user shall return a status information according to the information given from the user service", async () => {
@@ -46,6 +52,7 @@ describe("SertaStatusReporter", () => {
 
     test("getStatus with another valid user shall return a status information according to the information given from the user service", async () => {
         // given
+        FakeEnvironment.setup()
         const validDiscordUserName = "jfuerlinger"
         const expectedUserEntry = await fakeUserService.getByDiscordUserName(validDiscordUserName)
 
@@ -57,6 +64,8 @@ describe("SertaStatusReporter", () => {
         expect(statusInformation.immunizationLevel).toBe(expectedUserEntry.immuneLevel)
         expect(statusInformation.name).toBe(expectedUserEntry.discordUserName)
         expect(statusInformation.avatar_url).toBe(expectedUserEntry.avatarUrl)
+
+        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user being infected returns a correct time till medication", async () => {
@@ -97,7 +106,7 @@ describe("SertaStatusReporter", () => {
         FakeEnvironment.tearDown()
     })
 
-    test("getStatus with a valid user but infected must not be promoted", async () =>{
+    test("getStatus with a valid user but infected must not be promoted", async () => {
         // given
         FakeEnvironment.setup()
 
@@ -106,6 +115,8 @@ describe("SertaStatusReporter", () => {
 
         // then
         expect(statusInformation.readyToBePromoted).toBe(false)
+
+        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user returns a correct level name", async () => {
@@ -113,17 +124,37 @@ describe("SertaStatusReporter", () => {
         FakeEnvironment.setup()
 
         // when
-        const statusInformation = await sut.getStatus("j.fuerlinger")
+        const statusInformation = await sut.getStatus("jfuerlinger")
 
         // then
         expect(statusInformation.levelName).toBe("Methods")
+        FakeEnvironment.tearDown()
     })
-    // test.skip("getStatus with a valid user returns remaining information", () => {
-    // })
-    // test.skip("getStatus with a bot shall return no status", () => {
-    //
-    // })
-    //
+
+    test("getStatus with a valid user returns a message of the day", async () => {
+        // given
+        FakeEnvironment.setup()
+
+        // when
+        const statusInformation = await sut.getStatus("jfuerlinger")
+
+        // then
+        expect(statusInformation.messageOfTheDay).toBeTruthy()
+        FakeEnvironment.tearDown()
+    })
+
+    test("getStatus with a bot shall return no status", async () => {
+        // given
+        FakeEnvironment.setup()
+
+        // when
+        const statusInformation = await sut.getStatus("Serta")
+
+        // then
+        expect(statusInformation).toBeFalsy()
+        FakeEnvironment.tearDown()
+    })
+
     // test.skip("getStatus with an invalid user should return no status", () => {
     //
     // })
@@ -142,12 +173,19 @@ class FakeUserService implements UserService {
 
     getByDiscordUserName(discordUserName: string): Promise<ISertaUser> {
         return new Promise<ISertaUser>(async resolve => {
-            if (discordUserName === "p.bauer") {
-                const now = Date.now()
-                const lastInfection = now - (3 * 60 * 60 + 22 * 60 + 12) * 1000
-                resolve(new FakeSertaUser("some.discord.id", "p.bauer", "http://avatarUrl/pb.png", 1, 35, 15, new Date(lastInfection)))
-            } else {
-                resolve(new FakeSertaUser("another.discord.id", "jfuerlinger", "http://avatarUrl/jf.png", 3, 187, 45))
+            switch (discordUserName) {
+                case "p.bauer":
+                    const now = Date.now()
+                    const lastInfection = now - (3 * 60 * 60 + 22 * 60 + 12) * 1000
+                    resolve(new FakeSertaUser("some.discord.id", "p.bauer", "http://avatarUrl/pb.png", 1, 35, 15, new Date(lastInfection)))
+                    break
+
+                case "jfuerlinger":
+                    resolve(new FakeSertaUser("another.discord.id", "jfuerlinger", "http://avatarUrl/jf.png", 3, 187, 45))
+                    break
+                case "Serta":
+                    resolve(new FakeSertaUser("bot.discord.id", "Serta", "", 0, 0, 0, undefined, true))
+                    break
             }
         })
     }

@@ -1,17 +1,18 @@
 import {ISertaUser} from "../../../src/model/i-serta-user";
 
 export class FakeSertaUser implements ISertaUser {
-    readonly discordUserId: string;
-    readonly discordUserName: string;
-    readonly avatarUrl: string;
-    readonly experiencePoints: number;
-    readonly immuneLevel: number;
-    readonly levelId: number;
+    readonly discordUserId: string
+    readonly discordUserName: string
+    readonly avatarUrl: string
+    readonly experiencePoints: number
+    readonly immuneLevel: number
+    readonly levelId: number
     timestampOfLastInfection?: Date
+    readonly isBot: boolean
 
     constructor(id: string, userName: string, avatarUrl: string,
                 levelId: number, xp: number, immuneLevel: number,
-                timestampOfLastInfection?: Date) {
+                timestampOfLastInfection?: Date, isBot?: boolean) {
         this.discordUserId = id
         this.discordUserName = userName
         this.avatarUrl = avatarUrl
@@ -19,5 +20,6 @@ export class FakeSertaUser implements ISertaUser {
         this.immuneLevel = immuneLevel
         this.experiencePoints = xp
         this.timestampOfLastInfection = timestampOfLastInfection
+        this.isBot = isBot === true
     }
 }
