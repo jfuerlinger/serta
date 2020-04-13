@@ -9,19 +9,22 @@ describe("SertaStatusReporter", () => {
     let sut: StatusReporter
 
     beforeEach(() => {
+        FakeEnvironment.setup()
+
         fakeUserService = new FakeUserService()
         sut = new StatusReporter(fakeUserService)
     })
 
-    test("construction with UserService should return a valid object", () => {
-        FakeEnvironment.setup()
-        expect(sut).toBeTruthy()
+    afterEach(() => {
         FakeEnvironment.tearDown()
+    })
+
+    test("construction with UserService should return a valid object", () => {
+        expect(sut).toBeTruthy()
     })
 
     test("getStatus with a valid user shall return a valid StatusInformation", async () => {
         // given
-        FakeEnvironment.setup()
         const validDiscordUserName = "p.bauer";
 
         // when
@@ -30,12 +33,10 @@ describe("SertaStatusReporter", () => {
         // then
         expect(statusInformation).toBeTruthy()
 
-        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user shall return a status information according to the information given from the user service", async () => {
         // given
-        FakeEnvironment.setup()
         const validDiscordUserName = "p.bauer"
         const expectedUserEntry = await fakeUserService.getByDiscordUserName(validDiscordUserName)
 
@@ -47,12 +48,10 @@ describe("SertaStatusReporter", () => {
         expect(statusInformation.immunizationLevel).toBe(expectedUserEntry.immuneLevel)
         expect(statusInformation.name).toBe(expectedUserEntry.discordUserName)
         expect(statusInformation.avatar_url).toBe(expectedUserEntry.avatarUrl)
-        FakeEnvironment.tearDown()
     })
 
     test("getStatus with another valid user shall return a status information according to the information given from the user service", async () => {
         // given
-        FakeEnvironment.setup()
         const validDiscordUserName = "jfuerlinger"
         const expectedUserEntry = await fakeUserService.getByDiscordUserName(validDiscordUserName)
 
@@ -64,100 +63,81 @@ describe("SertaStatusReporter", () => {
         expect(statusInformation.immunizationLevel).toBe(expectedUserEntry.immuneLevel)
         expect(statusInformation.name).toBe(expectedUserEntry.discordUserName)
         expect(statusInformation.avatar_url).toBe(expectedUserEntry.avatarUrl)
-
-        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user being infected returns a correct time till medication", async () => {
         // given
-        FakeEnvironment.setup()
 
         // when
         const statusInformation = await sut.getStatus("p.bauer")
 
         // then
         expect(statusInformation.timeTillNextMedication).toContain("20h 37m 4") // seconds depend on latency in calculation
-        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user not being infected returns an undefined timeTillNextMedication", async () => {
         // given
-        FakeEnvironment.setup()
 
         // when
         const statusInformation = await sut.getStatus("jfuerlinger")
 
         // then
         expect(statusInformation.timeTillNextMedication).toBeFalsy()
-
-        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user not being infected returns a correct ready to be promoted", async () => {
         // given
-        FakeEnvironment.setup()
 
         // when
         const statusInformation = await sut.getStatus("jfuerlinger")
 
         // then
         expect(statusInformation.readyToBePromoted).toBe(true)
-
-        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user but infected must not be promoted", async () => {
         // given
-        FakeEnvironment.setup()
 
         // when
         const statusInformation = await sut.getStatus("p.bauer")
 
         // then
         expect(statusInformation.readyToBePromoted).toBe(false)
-
-        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user returns a correct level name", async () => {
         // given
-        FakeEnvironment.setup()
 
         // when
         const statusInformation = await sut.getStatus("jfuerlinger")
 
         // then
         expect(statusInformation.levelName).toBe("Methods")
-        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a valid user returns a message of the day", async () => {
         // given
-        FakeEnvironment.setup()
 
         // when
         const statusInformation = await sut.getStatus("jfuerlinger")
 
         // then
         expect(statusInformation.messageOfTheDay).toBeTruthy()
-        FakeEnvironment.tearDown()
     })
 
     test("getStatus with a bot shall return no status", async () => {
         // given
-        FakeEnvironment.setup()
 
         // when
         const statusInformation = await sut.getStatus("Serta")
 
         // then
         expect(statusInformation).toBeFalsy()
-        FakeEnvironment.tearDown()
     })
 
-    // test.skip("getStatus with an invalid user should return no status", () => {
-    //
-    // })
+    test("getStatus with an invalid user should return no status", async () => {
+
+    })
 })
 
 class FakeUserService implements UserService {
