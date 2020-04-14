@@ -20,7 +20,7 @@ export class SertaConfiguration {
     private readonly _gameLevelInformation: GameLevelInformation;
     get gameLevelInformation() { return this._gameLevelInformation }
 
-    get baseUrlForImages() { return "http://localhost:8000/assets/level-images" }
+    get baseUrlForImages() { return "https://sertadev.blob.core.windows.net/level-images" }
 
     constructor(environmentFileAccessor: IEnvironmentAccessor) {
         this.commandClient.discordToken = environmentFileAccessor.discordToken
