@@ -12,6 +12,7 @@ const logger = createLogger('bot');
 
 const Eris = require("eris");
 import { CommandClient, Message } from "eris";
+import {SertaStatusCommand} from "./commands/serta-status/serta-status-command";
 
 export class SertaBot {
 
@@ -56,6 +57,7 @@ export class SertaBot {
         this.registerCommand('serta-uplevel', new SertaUpLevelCommand(this._bot), 'su');
         this.registerCommand('serta-downlevel', new SertaDownLevelCommand(this._bot), 'sd');
         this.registerCommand('serta-statistics', new SertaStatisticsCommand(this._bot), 'ss');
+        this.registerCommand('serta-status', new SertaStatusCommand(this._bot), 'stat');
 
         logger.info("[DONE] commands registered.");
     }

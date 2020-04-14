@@ -12,7 +12,7 @@ describe("SertaStatus", () => {
         expect(sertaStatus).toBeTruthy()
     })
 
-    test("given a valid command when execute is called some message is created", () => {
+    test.skip("given a valid command when execute is called some message is created", () => {
         // given
         const sertaStatus = new SertaStatusCommand(commandClient)
         jest.mock("eris")
