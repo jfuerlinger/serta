@@ -58,7 +58,7 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
 
     test("misses the field for promotion if readyForPromotion == false", () => {
         const layout = StatusMessageLayouter.getLayout({})
-        expect(layout.fields[2]).toBeFalsy()
+        expect(layout.fields.length).toBe(2)
     })
 
     test("fields must be inline", () => {

@@ -13,7 +13,7 @@ export interface StatusInformation {
 
 export class StatusMessageLayouter {
     static getLayout(statusInformation: StatusInformation): any {
-        return {
+        const statusMessage = {
             color: this.getColor(statusInformation.levelId),
             title: "Status",
             author: {
@@ -24,13 +24,16 @@ export class StatusMessageLayouter {
             fields: [
                 this.createField("Level", statusInformation.levelName),
                 this.createField("Immunization Level", statusInformation.immunizationLevel),
-                statusInformation.readyToBePromoted ? this.createField("Ready to be\nPromoted", "yes") : undefined
             ],
             thumbnail: {
                 url: this.getThumbnailUrl(statusInformation.levelId, statusInformation.timeTillNextMedication, statusInformation.readyToBePromoted)
             },
             footer: this.getFooter(statusInformation)
+        };
+        if (statusInformation.readyToBePromoted) {
+            statusMessage.fields.push(this.createField("Ready to be\nPromoted", "yes"))
         }
+        return statusMessage
     }
 
     private static createField(name: string, value?: string | number) {
