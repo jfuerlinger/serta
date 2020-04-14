@@ -1,4 +1,4 @@
-import {TimeSpanFormatter} from "../../../src/commands/serta-status/time-span-formatter";
+import {TimeSpanFormatter} from "../../../commands/serta-status/time-span-formatter";
 
 test("TimeSpanFormatter.format formats time span with full hours, minutes, and seconds", () => {
     const startDate = Date.parse("13 April 2020 7:33:00")

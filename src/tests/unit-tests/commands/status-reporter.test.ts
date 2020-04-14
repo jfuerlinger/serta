@@ -1,8 +1,8 @@
-import {UserService} from "../../../src/services/user-service";
-import {StatusReporter} from "../../../src/commands/serta-status/status-reporter"
 import {FakeSertaUser} from "../test-doubles/fake-serta-user";
-import {ISertaUser} from "../../../src/model/i-serta-user";
 import * as FakeEnvironment from "../config/fake-environment"
+import {StatusReporter} from "../../../commands/serta-status/status-reporter";
+import {UserService} from "../../../services/user-service";
+import {ISertaUser} from "../../../model/i-serta-user";
 
 describe("SertaStatusReporter", () => {
     let fakeUserService: FakeUserService

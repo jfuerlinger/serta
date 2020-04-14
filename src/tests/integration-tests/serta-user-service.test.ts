@@ -1,7 +1,7 @@
-import { SertaBot } from "../../src/bot";
-import { SertaUser } from "../../src/model/serta-user";
-import { SertaUserService } from "../../src/services/serta-user-service";
-import { TableStorageUserDao } from "../../src/dao/table-storage/table-storage-user-dao";
+import { SertaBot } from "../../bot";
+import { SertaUser } from "../../model/serta-user";
+import { SertaUserService } from "../../services/serta-user-service";
+import { TableStorageUserDao } from "../../dao/table-storage/table-storage-user-dao";
 
 describe("SertaUserService", () => {
   const bot = new SertaBot();
@@ -21,6 +21,10 @@ describe("SertaUserService", () => {
     users = await userService.getAll();
   })
 
+  afterAll(async () => {
+    bot.stop();
+  });
+
   test("getUsers shall return a users property", async() => {
     expect(users).toBeTruthy()
   })
@@ -32,7 +36,7 @@ describe("SertaUserService", () => {
   test("getUsers shall return the bot as a test user", async () => {
     let found = false
     users.forEach(user => {
-      if (user.discordUserName === "Serta") {
+      if (user.discordUserName.indexOf("Serta")) {
         found = true
       }
     })

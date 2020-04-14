@@ -1,4 +1,4 @@
-import {ISertaUser} from "../../../src/model/i-serta-user";
+import {ISertaUser} from "../../../model/i-serta-user";
 
 export class FakeSertaUser implements ISertaUser {
     readonly discordUserId: string

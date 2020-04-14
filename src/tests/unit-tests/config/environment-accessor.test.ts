@@ -1,4 +1,4 @@
-import {EnvironmentAccessor} from "../../../src/config/configuration-builder"
+import {EnvironmentAccessor} from "../../../config/configuration-builder"
 import * as FakeEnvironment from "./fake-environment"
 
 describe("EnvironmentAccessor getting valid entries", () => {

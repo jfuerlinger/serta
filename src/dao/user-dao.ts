@@ -4,7 +4,7 @@ import { DbUserEntry } from "../model/db-user-entry";
 export interface UserDao {
     
     getAll() : Promise<DbUserEntry[]>;
-    getById(id : string) : Promise<DbUserEntry>;
+    getById(id : string) : Promise<DbUserEntry | undefined>;
 
     add(entry : DbUserEntry) : Promise<DbUserEntry>;
     deleteById(id: string) : Promise<void>;

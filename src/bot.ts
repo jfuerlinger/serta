@@ -1,6 +1,6 @@
 import { SertaCommand } from "./commands/serta-command";
 
-import { SertaUpLevelCommand  } from "./commands/serta-uplevel";
+import { SertaUpLevelCommand } from "./commands/serta-uplevel";
 import { SertaDownLevelCommand } from "./commands/serta-downlevel";
 import { SertaStatisticsCommand } from "./commands/serta-statistics";
 import { SertaTestCommand } from "./commands/serta-test";
@@ -42,11 +42,15 @@ export class SertaBot {
         this.registerCommands();
         this._bot.connect();
         return new Promise((resolve) => {
-          this._bot.on("ready", () => { // When the bot is ready
-              logger.info("--> Ready <--")
-              resolve()
-          })
+            this._bot.on("ready", () => { // When the bot is ready
+                logger.info("--> Ready <--")
+                resolve()
+            })
         })
+    }
+
+    stop() {
+        this._bot.disconnect({ reconnect: false });
     }
 
     private registerCommands(): void {

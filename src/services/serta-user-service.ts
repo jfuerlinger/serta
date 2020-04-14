@@ -1,13 +1,10 @@
-import {UserService} from "./user-service";
-import {CommandClient, User} from "eris";
-import {SertaUser} from "../model/serta-user";
-import {UserDao} from "../dao/user-dao";
-import {DbUserEntry} from "../model/db-user-entry";
-import {ConfigurationBuilder} from "../config/configuration-builder";
-
-const createLogger = require('logging').default;
-const logger = createLogger('serta-user-service');
-
+import { UserService } from "./user-service";
+import { CommandClient, User } from "eris";
+import { SertaUser } from "../model/serta-user";
+import { UserDao } from "../dao/user-dao";
+import { DbUserEntry } from "../model/db-user-entry";
+import { ConfigurationBuilder } from "../config/configuration-builder";
+require('logging').default;
 
 export class SertaUserService implements UserService {
 
@@ -46,11 +43,11 @@ export class SertaUserService implements UserService {
         return this._bot.users.get(userId);
     }
 
-    private async getDaoUser(userId: string): Promise<DbUserEntry> {
+    private async getDaoUser(userId: string): Promise<DbUserEntry | undefined> {
         return await this._userDao.getById(userId);
     }
 
-    private assembleSertaUser(dbUserEntry: DbUserEntry, botUser: User): SertaUser {
+    private assembleSertaUser(dbUserEntry: DbUserEntry | undefined, botUser: User): SertaUser {
         let user: SertaUser
         if (dbUserEntry) {
             user = new SertaUser(botUser, dbUserEntry)
@@ -75,7 +72,7 @@ export class SertaUserService implements UserService {
     }
 
     private getDiscordUserByUserName(userName: string): User | undefined {
-        let foundUser:User | undefined = undefined
+        let foundUser: User | undefined = undefined
         this._bot.users.map((oneUser) => {
             if (oneUser.username === userName) {
                 foundUser = oneUser
@@ -89,22 +86,16 @@ export class SertaUserService implements UserService {
 
             let result = this._bot.users.map(async (erisUser) => {
 
-                try {
-                    let dbUser = await this._userDao.getById(erisUser.id);
-                    if (dbUser) {
-                        return new SertaUser(erisUser, dbUser);
-                    } else {
-                        dbUser = this.createAndStoreDbEntry(erisUser)
-                        return new SertaUser(erisUser, dbUser)
-                    }
-                } catch (error) {
-                    logger.warn(error);
+                let dbUser = await this._userDao.getById(erisUser.id);
+                if (dbUser) {
+                    return new SertaUser(erisUser, dbUser);
+                } else {
+                    dbUser = this.createAndStoreDbEntry(erisUser)
+                    return new SertaUser(erisUser, dbUser)
                 }
-                return new SertaUser(erisUser, new DbUserEntry("", 0, 0, 0));
             });
 
-            let debuggerHint = await Promise.all(result);
-            resolve(debuggerHint);
+            resolve(await Promise.all(result));
         })
     }
 }
