@@ -1,4 +1,4 @@
-import {CommandClient, Message, TextChannel} from "eris";
+import {CommandClient, Message, TextChannel, User} from "eris";
 import {SertaCommand} from "../serta-command";
 import {SertaUtils} from "../../utils/serta-utils";
 import {StatusReporter} from "./status-reporter";
@@ -18,12 +18,31 @@ export class SertaStatusCommand implements SertaCommand {
     async execute(msg: Message, args: any): Promise<void> {
         if (msg.channel instanceof TextChannel) {
             this.setupSertaUserService(msg);
-            if (msg.mentions.length > 0) {
-                msg.mentions.forEach(async user => {
-                    await this.reportStatus(user.username, msg.channel.id);
-                })
+            if (SertaStatusCommand.somebodyIsMentionedIn(msg)) {
+                this.reportStatusForMentions(msg.mentions, msg.channel.id);
+            } else {
+                await this.reportStatusForAllUsers(msg.channel.id);
             }
         }
+    }
+
+    private async reportStatusForAllUsers(channelId: string) {
+        if (this.userService) {
+            const allUsers = await this.userService.getAll()
+            allUsers.forEach(async user => {
+                await this.reportStatus(user.discordUserName, channelId)
+            })
+        }
+    }
+
+    private reportStatusForMentions(users: User[], channelId: string) {
+        users.forEach(async user => {
+            await this.reportStatus(user.username, channelId);
+        })
+    }
+
+    private static somebodyIsMentionedIn(msg: Message): boolean {
+        return msg.mentions.length > 0;
     }
 
     private setupSertaUserService(msg: Message): void {
