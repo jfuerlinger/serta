@@ -7,38 +7,43 @@ import {TableStorageUserDao} from "../../dao/table-storage/table-storage-user-da
 import {StatusMessageLayouter} from "./status-message-layouter";
 
 export class SertaStatusCommand implements SertaCommand {
-    private _bot: CommandClient
+    private readonly _bot: CommandClient
+
     constructor(commandClient: CommandClient) {
         this._bot = commandClient
     }
 
+    private userService?: SertaUserService
+
     async execute(msg: Message, args: any): Promise<void> {
         if (msg.channel instanceof TextChannel) {
-            const cha = msg.channel as TextChannel
-            const userService = new SertaUserService(this._bot, new TableStorageUserDao(cha.guild.id))
-            const reporter = new StatusReporter(userService)
-            const info = await reporter.getStatus(msg.mentions[0].username)
-            const statusMessage = StatusMessageLayouter.getLayout(info)
-            console.log(statusMessage);
-            // const statusMessage = {
-            //     color: 15410719,
-            //     title: 'Status',
-            //     author:
-            //         { name: 'p.bauer',
-            //             icon_url:
-            //                 'https://cdn.discordapp.com/avatars/509427140832526336/b9e7a194f8ca9adf14ee77e894409d1a.jpg?size=128' },
-            //     description: 'This is the start of a long journey. We trust in you',
-            //     fields:
-            //         [ { name: 'Level', value: 'Loops', inline: true },
-            //             { name: 'Immunization Level', value: 0, inline: true }
-            //             // undefined // to be fixed!
-            //         ],
-            //     thumbnail:
-            //         { url: 'http://localhost:8000/assets/level-images/s-yellow.png' },
-            //     footer: ''
-            // }
+            this.setupSertaUserService(msg);
+            if (msg.mentions.length > 0) {
+                msg.mentions.forEach(async user => {
+                    await this.reportStatus(user.username, msg.channel.id);
+                })
+            }
+        }
+    }
 
-            SertaUtils.createInfoMessage(this._bot, msg.channel.id, { embed: statusMessage }) //
+    private setupSertaUserService(msg: Message): void {
+        const textChannel = msg.channel as TextChannel
+        this.userService = new SertaUserService(this._bot, new TableStorageUserDao(textChannel.guild.id))
+    }
+
+    private async reportStatus(discordUserName: string, channelId: string) {
+        const statusMessage = await this.getStatusMessage(discordUserName);
+        if (statusMessage)
+            SertaUtils.createInfoMessage(this._bot, channelId, {embed: statusMessage})
+    }
+
+    private async getStatusMessage(discordUserName: string) {
+        if (this.userService) {
+            const reporter = new StatusReporter(this.userService)
+            const info = await reporter.getStatus(discordUserName)
+            if (info) {
+                return StatusMessageLayouter.getLayout(info);
+            }
         }
     }
 }
