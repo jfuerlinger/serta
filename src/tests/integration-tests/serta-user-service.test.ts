@@ -1,7 +1,7 @@
 import { SertaBot } from "../../bot";
-import { SertaUser } from "../../model/serta-user";
 import { SertaUserService } from "../../services/serta-user-service";
 import { TableStorageUserDao } from "../../dao/table-storage/table-storage-user-dao";
+import {ISertaUser} from "../../model/i-serta-user";
 
 describe("SertaUserService", () => {
   const bot = new SertaBot();
@@ -9,7 +9,7 @@ describe("SertaUserService", () => {
 
   let userDao: TableStorageUserDao
   let userService: SertaUserService
-  let users: SertaUser[]
+  let users: ISertaUser[]
 
   beforeAll(async () => {
     await bot.run()
