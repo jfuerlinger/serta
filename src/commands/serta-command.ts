@@ -8,4 +8,8 @@ export abstract class SertaCommand {
     }
 
     abstract execute(msg: Message, args: any) : void;
+
+    protected static somebodyIsMentionedIn(msg: Message): boolean {
+        return msg.mentions.length > 0;
+    }
 }

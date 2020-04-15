@@ -43,10 +43,6 @@ export class SertaStatusCommand extends SertaCommand {
         })
     }
 
-    private static somebodyIsMentionedIn(msg: Message): boolean {
-        return msg.mentions.length > 0;
-    }
-
     private async reportStatus(discordUserName: string, channelId: string) {
         const statusMessage = await this.getStatusMessage(discordUserName);
         if (statusMessage)
