@@ -108,6 +108,4 @@ export class SertaUtils {
 
     public static createInfoMessage(bot: any, channelId: any, message: any) { bot.createMessage(channelId, message); }
     public static createWarnMessage(bot: any, channelId: any, message: any) { bot.createMessage(channelId, `WARNING: ${message}`); }
-    public static createErrorMessage(bot: any, channelId: any, message: any) { bot.createMessage(channelId, `ERROR: ${message}`); }
-
 }

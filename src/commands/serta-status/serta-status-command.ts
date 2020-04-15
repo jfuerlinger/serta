@@ -1,6 +1,5 @@
 import {CommandClient, Message, TextChannel, User} from "eris";
 import {SertaCommand} from "../serta-command";
-import {SertaUtils} from "../../utils/serta-utils";
 import {StatusReporter} from "./status-reporter";
 import {SertaUserService} from "../../services/serta-user-service";
 import {TableStorageUserDao} from "../../dao/table-storage/table-storage-user-dao";
@@ -46,7 +45,7 @@ export class SertaStatusCommand extends SertaCommand {
     private async reportStatus(discordUserName: string, channelId: string) {
         const statusMessage = await this.getStatusMessage(discordUserName);
         if (statusMessage)
-            SertaUtils.createInfoMessage(this._bot, channelId, {embed: statusMessage})
+            this.createInfoMessage(channelId, {embed: statusMessage})
     }
 
     private async getStatusMessage(discordUserName: string) {

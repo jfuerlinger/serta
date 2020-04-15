@@ -1,6 +1,5 @@
 import {SertaCommand} from "./serta-command";
 
-import {SertaUtils} from "../utils/serta-utils";
 import {Message, CommandClient} from "eris";
 
 export class SertaStatisticsCommand extends SertaCommand {
@@ -44,7 +43,7 @@ export class SertaStatisticsCommand extends SertaCommand {
                 text: "INFECTION ALERT!! You have 3h 24m 10s left to get a medication"
             }
         }
-        SertaUtils.createInfoMessage(this._bot, msg.channel.id, { embed: generalInfo })
+        this.createInfoMessage(msg.channel.id, { embed: generalInfo })
 
         // https://cdn.discordapp.com/embed/avatars/4.png
         // https://cdn.discordapp.com/avatars/509427140832526336/b9e7a194f8ca9adf14ee77e894409d1a.jpg?size=128

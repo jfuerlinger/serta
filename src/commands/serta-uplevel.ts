@@ -13,7 +13,7 @@ export class SertaUpLevelCommand extends SertaCommand {
         SertaUtils.logDetails(msg, args);
 
         if (!SertaUpLevelCommand.somebodyIsMentionedIn(msg)) {
-            SertaUtils.createErrorMessage(this._bot, msg.channel.id, `You have to mention at least one player to level-up!`)
+            this.createErrorMessage(msg.channel.id, `You have to mention at least one player to level-up!`)
             return;
         }
         const levelNotToBeChanged = SertaUtils.getMaxLevel()
