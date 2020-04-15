@@ -12,7 +12,7 @@ export class SertaUser implements ISertaUser {
     get avatarUrl(): string { return this._discordUser.avatarURL }
     get levelId(): number { return this.dbUserEntry.levelId; }
     get immuneLevel(): number { return this.dbUserEntry.immuneLevel }
-    get experiencePoints(): number | undefined { return this.dbUserEntry.experiencePoints }
+    get experiencePointsSoFar(): number | undefined { return this.dbUserEntry.experiencePoints }
     get isBot(): boolean { return this._discordUser.bot }
     constructor(
         discordUser: User,
