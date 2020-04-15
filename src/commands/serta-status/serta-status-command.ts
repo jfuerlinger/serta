@@ -17,13 +17,17 @@ export class SertaStatusCommand implements SertaCommand {
 
     async execute(msg: Message, args: any): Promise<void> {
         if (msg.channel instanceof TextChannel) {
-            this.setupSertaUserService(msg);
+            this.setupSertaUserService(msg.channel as TextChannel);
             if (SertaStatusCommand.somebodyIsMentionedIn(msg)) {
                 this.reportStatusForMentions(msg.mentions, msg.channel.id);
             } else {
-                await this.reportStatusForAllUsers(msg.channel.id);
+                await this.reportStatusForAllUsers(msg.channel.id)
             }
         }
+    }
+
+    private setupSertaUserService(channel: TextChannel): void {
+        this.userService = new SertaUserService(this._bot, new TableStorageUserDao(channel.guild.id))
     }
 
     private async reportStatusForAllUsers(channelId: string) {
@@ -43,11 +47,6 @@ export class SertaStatusCommand implements SertaCommand {
 
     private static somebodyIsMentionedIn(msg: Message): boolean {
         return msg.mentions.length > 0;
-    }
-
-    private setupSertaUserService(msg: Message): void {
-        const textChannel = msg.channel as TextChannel
-        this.userService = new SertaUserService(this._bot, new TableStorageUserDao(textChannel.guild.id))
     }
 
     private async reportStatus(discordUserName: string, channelId: string) {
