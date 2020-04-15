@@ -4,7 +4,7 @@ export interface ISertaUser {
     readonly avatarUrl: string
     readonly levelId: number
     readonly immuneLevel: number
-    readonly experiencePointsSoFar?: number
+    readonly approvedExperiencePoints?: number
     timestampOfLastInfection?: Date
     readonly isBot: boolean
 }
