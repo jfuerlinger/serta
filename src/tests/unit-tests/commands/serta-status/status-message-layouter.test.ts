@@ -1,6 +1,6 @@
-import * as FakeEnvironment from "../config/fake-environment"
-import {StatusMessageLayouter} from "../../../commands/serta-status/status-message-layouter";
-import {ConfigurationBuilder} from "../../../config/configuration-builder";
+import * as FakeEnvironment from "../../config/fake-environment"
+import {StatusMessageLayouter} from "../../../../commands/serta-status/status-message-layouter";
+import {ConfigurationBuilder} from "../../../../config/configuration-builder";
 
 describe("SertaStatusLayouter getLayout returns embed", () => {
     const testStatusInformation = {
