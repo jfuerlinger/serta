@@ -4,12 +4,10 @@ import { SertaUtils } from "../utils/serta-utils";
 import { SertaCommand } from "./serta-command";
 import { Message, CommandClient } from "eris";
 
-export class SertaDownLevelCommand implements SertaCommand {
+export class SertaDownLevelCommand extends SertaCommand {
 
-    private _bot: CommandClient;
-
-    constructor(bot: any) {
-        this._bot = bot;
+    constructor(bot: CommandClient) {
+        super(bot)
     }
 
     execute(msg: Message, args: any) {

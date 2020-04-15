@@ -6,11 +6,9 @@ import {SertaUserService} from "../../services/serta-user-service";
 import {TableStorageUserDao} from "../../dao/table-storage/table-storage-user-dao";
 import {StatusMessageLayouter} from "./status-message-layouter";
 
-export class SertaStatusCommand implements SertaCommand {
-    private readonly _bot: CommandClient
-
+export class SertaStatusCommand extends SertaCommand {
     constructor(commandClient: CommandClient) {
-        this._bot = commandClient
+        super(commandClient)
     }
 
     private userService?: SertaUserService

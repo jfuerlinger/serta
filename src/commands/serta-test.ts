@@ -2,19 +2,16 @@
 import { SertaUtils } from "../utils/serta-utils";
 
 import { SertaCommand } from "./serta-command";
-import { CommandClient } from "eris";
 import { SertaUserService } from "../services/serta-user-service";
 import { TableStorageUserDao } from "../dao/table-storage/table-storage-user-dao";
 import { UserDao } from "../dao/user-dao";
 
 const createLogger = require('logging').default;
 createLogger('SertaTestCommand');
-export class SertaTestCommand implements SertaCommand {
-
-    private _bot: CommandClient;
+export class SertaTestCommand extends SertaCommand {
 
     constructor(bot: any) {
-        this._bot = bot;
+        super(bot)
     }
 
     async execute(msg: any, args: any) {

@@ -1,5 +1,11 @@
-import { Message } from "eris";
+import {CommandClient, Message} from "eris";
 
-export interface SertaCommand {
-    execute(msg: Message, args: any) : void;
+export abstract class SertaCommand {
+    protected readonly _bot: CommandClient
+
+    constructor(commandClient: CommandClient) {
+        this._bot = commandClient
+    }
+
+    abstract execute(msg: Message, args: any) : void;
 }

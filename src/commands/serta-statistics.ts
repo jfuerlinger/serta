@@ -3,12 +3,10 @@ import {SertaCommand} from "./serta-command";
 import {SertaUtils} from "../utils/serta-utils";
 import {Message, CommandClient} from "eris";
 
-export class SertaStatisticsCommand implements SertaCommand {
-
-    private readonly _bot: CommandClient;
+export class SertaStatisticsCommand extends SertaCommand {
 
     constructor(bot: CommandClient) {
-        this._bot = bot;
+        super(bot)
     }
 
     async execute(msg: Message, args: any) {
