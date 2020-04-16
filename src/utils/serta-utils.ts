@@ -56,16 +56,6 @@ export class SertaUtils {
         return this._levels.length - 1;
     }
 
-
-    public static somebodyIsMentionedIn(bot: any, msg: any, messageIfNot: string) {
-        if (msg.mentions.length === 0) {
-            this.createErrorMessage(bot, msg.channel.id, messageIfNot)
-            return false;
-        } else {
-            return true;
-        }
-    };
-
     public static async changeLevelOfMentionedUsersIn(
         userService: IUserService,
         bot: any, msg: any,
@@ -112,6 +102,4 @@ export class SertaUtils {
 
     public static createInfoMessage(bot: any, channelId: any, message: any) { bot.createMessage(channelId, message); }
     public static createWarnMessage(bot: any, channelId: any, message: any) { bot.createMessage(channelId, `WARNING: ${message}`); }
-    public static createErrorMessage(bot: any, channelId: any, message: any) { bot.createMessage(channelId, `ERROR: ${message}`); }
-
 }

@@ -17,7 +17,7 @@ export class SertaTestCommand extends SertaCommandBase {
         
         const userSvc = new SertaUserService(this.bot, this.getUserDao(guildId));
         let users = await userSvc.getAll();
-        SertaUtils.createInfoMessage(this.bot, msg.channel.id, `Fetched ${users.length} users.`);
+        this.createInfoMessage(msg.channel.id, `Fetched ${users.length} users.`);
     }
 }
 

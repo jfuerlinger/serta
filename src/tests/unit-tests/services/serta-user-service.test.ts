@@ -61,7 +61,7 @@ describe("SertaUserService getByDiscordUserId", () => {
 
         expect(user.levelId).toBe(anyLevel)
         expect(user.immuneLevel).toBe(anyImmuneLevel)
-        expect(user.experiencePoints).toBe(anyExperiencePoints)
+        expect(user.approvedExperiencePoints).toBe(anyExperiencePoints)
     })
 
     test("when user dao is present it takes right data from user dao; alternative data", async () => {
@@ -75,7 +75,7 @@ describe("SertaUserService getByDiscordUserId", () => {
 
         expect(user.levelId).toBe(anyLevel)
         expect(user.immuneLevel).toBe(anyImmuneLevel)
-        expect(user.experiencePoints).toBe(anyExperiencePoints)
+        expect(user.approvedExperiencePoints).toBe(anyExperiencePoints)
     })
 
     test("when user dao is not present it returns initial value", async () => {

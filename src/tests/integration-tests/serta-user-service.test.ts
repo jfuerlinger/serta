@@ -1,7 +1,6 @@
 import { SertaBot } from "../../bot";
-import { SertaUser } from "../../model/serta-user";
 import { SertaUserService } from "../../services/serta-user-service";
-import { TableStorageUserDao } from "../../dao/table-storage/table-storage-user-dao";
+import { ISertaUser } from "../../model/i-serta-user";
 import { AzureUtils } from "../../utils/azure-utils";
 
 jest.setTimeout(30000);
@@ -11,7 +10,7 @@ describe("SertaUserService", () => {
   const guildId = '692047042154987527' // TODO: not to be hidden here
 
   let userService: SertaUserService
-  let users: SertaUser[]
+  let users: ISertaUser[]
 
   beforeAll(async () => {
     await bot.run()
@@ -26,7 +25,7 @@ describe("SertaUserService", () => {
     bot.stop();
   });
 
-  test("getUsers shall return a users property", async() => {
+  test("getUsers shall return a users property", async () => {
     expect(users).toBeTruthy()
   })
 

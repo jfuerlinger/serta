@@ -4,6 +4,7 @@ import { SertaUser } from "../model/serta-user";
 import { IUserDao } from "../dao/i-user-dao";
 import { DbUserEntry } from "../model/db-user-entry";
 import { ConfigurationBuilder } from "../config/configuration-builder";
+import {ISertaUser} from "../model/i-serta-user";
 require('logging').default;
 
 export class SertaUserService implements IUserService {
@@ -22,8 +23,8 @@ export class SertaUserService implements IUserService {
         this.userDao.addOrMerge(user.DbUserEntry);
     }
 
-    public async getByDiscordUserId(userId: string): Promise<SertaUser> {
-        return new Promise<SertaUser>(async (resolve, reject) => {
+    public async getByDiscordUserId(userId: string): Promise<ISertaUser> {
+        return new Promise<ISertaUser>(async (resolve, reject) => {
             await this.getUserAndClearPromise(userId, this.getDiscordUserById, resolve, reject);
         })
     }
@@ -31,7 +32,7 @@ export class SertaUserService implements IUserService {
     private async getUserAndClearPromise(
         userIdOrName: string,
         getDiscordUser: (userIdOrName: string) => User | undefined,
-        resolve: (user: SertaUser) => void,
+        resolve: (user: ISertaUser) => void,
         reject: (reason: string) => void): Promise<void> {
         const discordUser = getDiscordUser.call(this, userIdOrName)
         if (discordUser) {
@@ -51,8 +52,8 @@ export class SertaUserService implements IUserService {
         return await this.userDao.getById(userId);
     }
 
-    private async assembleSertaUser(dbUserEntry: DbUserEntry | undefined, botUser: User): Promise<SertaUser> {
-        let user: SertaUser
+    private async assembleSertaUser(dbUserEntry: DbUserEntry | undefined, botUser: User): Promise<ISertaUser> {
+        let user: ISertaUser
         if (dbUserEntry) {
             user = new SertaUser(botUser, dbUserEntry)
         } else {
@@ -70,8 +71,8 @@ export class SertaUserService implements IUserService {
         return dbEntry;
     }
 
-    public async getByDiscordUserName(discordUserName: string): Promise<SertaUser> {
-        return new Promise<SertaUser>(async (resolve, reject) => {
+    public async getByDiscordUserName(discordUserName: string): Promise<ISertaUser> {
+        return new Promise<ISertaUser>(async (resolve, reject) => {
             await this.getUserAndClearPromise(discordUserName, this.getDiscordUserByUserName, resolve, reject)
         })
     }
@@ -86,8 +87,8 @@ export class SertaUserService implements IUserService {
         return foundUser
     }
 
-    public async getAll(): Promise<SertaUser[]> {
-        return new Promise<SertaUser[]>(async (resolve) => {
+    public async getAll(): Promise<ISertaUser[]> {
+        return new Promise<ISertaUser[]>(async (resolve) => {
 
             let result = this.bot.users.map(async (erisUser) => {
 

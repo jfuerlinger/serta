@@ -4,7 +4,7 @@ export class FakeSertaUser implements ISertaUser {
     readonly discordUserId: string
     readonly discordUserName: string
     readonly avatarUrl: string
-    readonly experiencePoints: number
+    readonly approvedExperiencePoints: number
     readonly immuneLevel: number
     readonly levelId: number
     timestampOfLastInfection?: Date
@@ -18,7 +18,7 @@ export class FakeSertaUser implements ISertaUser {
         this.avatarUrl = avatarUrl
         this.levelId = levelId
         this.immuneLevel = immuneLevel
-        this.experiencePoints = xp
+        this.approvedExperiencePoints = xp
         this.timestampOfLastInfection = timestampOfLastInfection
         this.isBot = isBot === true
     }

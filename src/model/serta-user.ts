@@ -16,6 +16,7 @@ export class SertaUser implements ISertaUser {
 
     get immuneLevel(): number { return this.dbUserEntry.immuneLevel }
     get experiencePoints(): number | undefined { return this.dbUserEntry.experiencePoints }
+    get approvedExperiencePoints(): number | undefined { return this.dbUserEntry.experiencePoints }
     get isBot(): boolean { return this.discordUser.bot; }
 
     get DbUserEntry(): DbUserEntry { return this.dbUserEntry; }

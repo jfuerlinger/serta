@@ -7,7 +7,8 @@ export class SertaDownLevelCommand extends SertaCommandBase {
 
         SertaUtils.logDetails(msg, args);
 
-        if (!SertaUtils.somebodyIsMentionedIn(this.bot, msg, `You have to mention at least one player to level-down!`)) {
+        if (!SertaDownLevelCommand.somebodyIsMentionedIn(msg)) {
+            this.createErrorMessage(msg.channel.id, `You have to mention at least one player to level-down!`)
             return;
         }
         const levelNotToBeChanged = 0;
