@@ -1,8 +1,11 @@
-import * as FakeEnvironment from "../config/fake-environment"
 import {StatusMessageLayouter} from "../../../commands/serta-status/status-message-layouter";
 import {ConfigurationBuilder} from "../../../config/configuration-builder";
+import { SettingResolver } from "../../../config/setting-resolver";
+import { FakeEnvironmentDao } from "../config/fake-environment-dao";
+import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
 
 describe("SertaStatusLayouter getLayout returns embed", () => {
+    
     const testStatusInformation = {
         name: "Peter",
         avatar_url: "some://url",
@@ -14,12 +17,16 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
     }
 
     let layout: any
-    beforeEach(() => {
-        FakeEnvironment.setup()
-        layout = StatusMessageLayouter.getLayout(testStatusInformation)
+    
+    beforeAll(() => {
+        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
+    });
+
+    beforeEach(async () => {
+        layout = await StatusMessageLayouter.getLayout(testStatusInformation)
     })
 
-    afterEach(() => FakeEnvironment.tearDown())
+    afterEach(() => {})
 
     test("is truthy", () => {
         expect(layout).toBeTruthy()
@@ -33,8 +40,10 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
         expect(layout.author.name).toBe(testStatusInformation.name)
     })
 
-    test("author.name changes if StatusInformation changes", () => {
-        expect(StatusMessageLayouter.getLayout({ name: "Joe" }).author.name).toBe("Joe")
+    test("author.name changes if StatusInformation changes", async () => {
+        const layout = await StatusMessageLayouter.getLayout({ name: "Joe" });
+
+        expect(layout.author.name).toBe("Joe")
     })
 
     test("has an author.url called StatusInformation.url", () => {
@@ -56,8 +65,8 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
         expect(layout.fields[2].value).toBe("yes")
     })
 
-    test("misses the field for promotion if readyForPromotion == false", () => {
-        const layout = StatusMessageLayouter.getLayout({})
+    test("misses the field for promotion if readyForPromotion == false", async () => {
+        const layout = await StatusMessageLayouter.getLayout({})
         expect(layout.fields.length).toBe(2)
     })
 
@@ -69,38 +78,38 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
         expect(layout.footer).toBe(`INFECTION ALERT!! You have ${testStatusInformation.timeTillNextMedication} left to get a medication`)
     })
 
-    test("footer is empty if timeTillNextMedication is undefined", () => {
-        const layout = StatusMessageLayouter.getLayout({})
+    test("footer is empty if timeTillNextMedication is undefined", async () => {
+        const layout = await StatusMessageLayouter.getLayout({})
         expect(layout.footer).toBe("")
     })
 
-    test("color is red if player is on levelId 1", () => {
-        const layout = StatusMessageLayouter.getLayout({levelId: 1})
+    test("color is red if player is on levelId 1", async () => {
+        const layout = await StatusMessageLayouter.getLayout({levelId: 1})
         expect(layout.color).toBe(0xEB261F)
     })
 
-    test("color is pink if player is on levelId 2", () => {
-        const layout = StatusMessageLayouter.getLayout({levelId: 2})
+    test("color is pink if player is on levelId 2", async () => {
+        const layout = await StatusMessageLayouter.getLayout({levelId: 2})
         expect(layout.color).toBe(0xED62A7)
     })
 
-    test("color is pink if player is on levelId 3", () => {
-        const layout = StatusMessageLayouter.getLayout({levelId: 3})
+    test("color is pink if player is on levelId 3", async () => {
+        const layout = await StatusMessageLayouter.getLayout({levelId: 3})
         expect(layout.color).toBe(0xF7B92B)
     })
 
-    test("color is pink if player is on levelId 4", () => {
-        const layout = StatusMessageLayouter.getLayout({levelId: 4})
+    test("color is pink if player is on levelId 4", async () => {
+        const layout = await StatusMessageLayouter.getLayout({levelId: 4})
         expect(layout.color).toBe(0x000000)
     })
 
-    test("color is pink if player is on levelId 5", () => {
-        const layout = StatusMessageLayouter.getLayout({levelId: 5})
+    test("color is pink if player is on levelId 5", async () => {
+        const layout = await StatusMessageLayouter.getLayout({levelId: 5})
         expect(layout.color).toBe(0x1CA4FC)
     })
 
-    test("color is pink if player is on levelId 6", () => {
-        const layout = StatusMessageLayouter.getLayout({levelId: 6})
+    test("color is pink if player is on levelId 6", async () => {
+        const layout = await StatusMessageLayouter.getLayout({levelId: 6})
         expect(layout.color).toBe(0x65D643)
     })
 
@@ -112,46 +121,54 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
         expect(layout.description).toBe(testStatusInformation.messageOfTheDay)
     })
 
-    test("shows level pic for S in red if infected", () => {
+    test("shows level pic for S in red if infected", async () => {
         const statusInformation = { levelId: 1, timeTillNextMedication: "some time"}
-        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        const layout = await StatusMessageLayouter.getLayout(statusInformation);
+        const thumbnail = layout.thumbnail;
         expect(thumbnail.url).toContain("s-red.png")
     })
 
-    test("shows level pic for S in yellow if not infected and not promoted", () => {
+    test("shows level pic for S in yellow if not infected and not promoted", async () => {
         const statusInformation = { levelId: 1}
-        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        const layout = await StatusMessageLayouter.getLayout(statusInformation);
+        const thumbnail = layout.thumbnail;
         expect(thumbnail.url).toContain("s-yellow.png")
     })
 
-    test("shows level pic for S in green if not infected and promoted", () => {
+    test("shows level pic for S in green if not infected and promoted", async () => {
         const statusInformation = { levelId: 1, readyToBePromoted: true}
-        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        const layout = await StatusMessageLayouter.getLayout(statusInformation);
+        const thumbnail = layout.thumbnail;
         expect(thumbnail.url).toContain("s-green.png")
     })
 
-    test("shows level pic for A in red if infected", () => {
+    test("shows level pic for A in red if infected", async () => {
         const statusInformation = { levelId: 2, timeTillNextMedication: "some time"}
-        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        const layout = await StatusMessageLayouter.getLayout(statusInformation);
+        const thumbnail = layout.thumbnail;
         expect(thumbnail.url).toContain("a-red.png")
     })
 
-    test("shows level pic for A in yellow if not infected and not promoted", () => {
+    test("shows level pic for A in yellow if not infected and not promoted", async () => {
         const statusInformation = { levelId: 2}
-        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        const layout = await StatusMessageLayouter.getLayout(statusInformation);
+        const thumbnail = layout.thumbnail;
         expect(thumbnail.url).toContain("a-yellow.png")
     })
 
-    test("shows level pic for A in green if not infected and promoted", () => {
+    test("shows level pic for A in green if not infected and promoted", async () => {
         const statusInformation = { levelId: 2, readyToBePromoted: true}
-        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
+        const layout = await StatusMessageLayouter.getLayout(statusInformation);
+        const thumbnail = layout.thumbnail;
         expect(thumbnail.url).toContain("a-green.png")
     })
 
-    test("adds base url for images from config to level thumbnails", () => {
+    test("adds base url for images from config to level thumbnails", async () => {
+        const config = await ConfigurationBuilder.getConfiguration();
         const statusInformation = { levelId: 2, readyToBePromoted: true}
-        const thumbnail = StatusMessageLayouter.getLayout(statusInformation).thumbnail
-        const baseUrl = ConfigurationBuilder.getConfiguration().baseUrlForImages
+        const layout = await StatusMessageLayouter.getLayout(statusInformation);
+        const thumbnail = layout.thumbnail;
+        const baseUrl = config.baseUrlForImages
         expect(thumbnail.url).toBe(baseUrl+"/a-green.png")
     })
 })

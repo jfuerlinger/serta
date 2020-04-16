@@ -1,16 +1,10 @@
-
 import { SertaUtils } from "../utils/serta-utils";
+import { SertaCommandBase } from "./serta-command-base";
 
-import { SertaCommand } from "./serta-command";
-import { Message, CommandClient } from "eris";
+export class SertaDownLevelCommand extends SertaCommandBase {
 
-export class SertaDownLevelCommand extends SertaCommand {
+    onCommandCalled(msg: any, args: any): void {
 
-    constructor(bot: CommandClient) {
-        super(bot)
-    }
-
-    execute(msg: Message, args: any) {
         SertaUtils.logDetails(msg, args);
 
         if (!SertaDownLevelCommand.somebodyIsMentionedIn(msg)) {
@@ -20,7 +14,11 @@ export class SertaDownLevelCommand extends SertaCommand {
         const levelNotToBeChanged = 0;
         const changeLevelAction = (levelIndex: number) => SertaUtils.getPrevLevel(levelIndex)
         const warningMessageIfImpossible = "is already in the lowest levelName!"
-        SertaUtils.changeLevelOfMentionedUsersIn(this._bot, msg, levelNotToBeChanged, changeLevelAction, warningMessageIfImpossible)
+        SertaUtils.changeLevelOfMentionedUsersIn(this.getUserService(msg.channel.guild.id),
+            this.bot, msg,
+            levelNotToBeChanged,
+            changeLevelAction,
+            warningMessageIfImpossible)
     }
 }
 

@@ -1,15 +1,22 @@
-import {FakeSertaUser} from "../test-doubles/fake-serta-user";
+import { FakeSertaUser } from "../test-doubles/fake-serta-user";
 import * as FakeEnvironment from "../config/fake-environment"
-import {StatusReporter} from "../../../commands/serta-status/status-reporter";
-import {UserService} from "../../../services/user-service";
-import {ISertaUser} from "../../../model/i-serta-user";
+import { StatusReporter } from "../../../commands/serta-status/status-reporter";
+import { IUserService } from "../../../services/i-user-service";
+import { ISertaUser } from "../../../model/i-serta-user";
+import { ConfigurationBuilder } from "../../../config/configuration-builder";
+import { SettingResolver } from "../../../config/setting-resolver";
+import { FakeEnvironmentDao } from "../config/fake-environment-dao";
+import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
 
 describe("SertaStatusReporter", () => {
     let fakeUserService: FakeUserService
     let sut: StatusReporter
 
+    beforeAll(() => {
+        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
+    });
+
     beforeEach(() => {
-        FakeEnvironment.setup()
 
         fakeUserService = new FakeUserService()
         sut = new StatusReporter(fakeUserService)
@@ -141,7 +148,21 @@ describe("SertaStatusReporter", () => {
     })
 })
 
-class FakeUserService implements UserService {
+class FakeUserService implements IUserService {
+    update(user: ISertaUser): Promise<void> {
+        return new Promise<void>(() => {
+        });
+    }
+    addOrMerge(user: ISertaUser): Promise<void> {
+        return new Promise<void>(() => {
+        });
+    }
+
+    save(user: ISertaUser): Promise<void> {
+        return new Promise<void>(() => {
+        });
+    }
+
     getAll(): Promise<ISertaUser[]> {
         return new Promise<ISertaUser[]>(() => {
         });

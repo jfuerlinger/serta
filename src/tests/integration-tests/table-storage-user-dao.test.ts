@@ -1,6 +1,6 @@
-import { TableStorageUserDao } from "../../dao/table-storage/table-storage-user-dao";
-import { UserDao } from "../../dao/user-dao";
+import { IUserDao } from "../../dao/i-user-dao";
 import { DbUserEntry } from "../../model/db-user-entry";
+import { AzureUtils } from "../../utils/azure-utils";
 
 const random = require('random');
 
@@ -10,12 +10,12 @@ describe('TableStorageUserDao', () => {
 
         const guildId: string = String(random.int(5000, 1000));
         const userId: string = String(random.int(1, 10000));
-        const dao: UserDao = new TableStorageUserDao(guildId);
+        const dao: IUserDao = AzureUtils.getUserDao(guildId);
         const levelId: number = random.int(0, 5);
         const immuneLevel = random.int(1, 100)
         const experiencePoints = random.int(1, 500)
 
-        const createdUser: DbUserEntry = await dao.add(new DbUserEntry(userId, levelId, immuneLevel, experiencePoints));
+        const createdUser: DbUserEntry = await dao.addOrMerge(new DbUserEntry(userId, levelId, immuneLevel, experiencePoints));
         expect(createdUser).toBeDefined();
         expect(createdUser.id).toBe(userId);
         expect(createdUser.levelId).toBe(levelId);

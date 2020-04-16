@@ -1,18 +1,14 @@
-import {CommandClient, Message, TextChannel, User} from "eris";
-import {SertaCommand} from "../serta-command";
-import {StatusReporter} from "./status-reporter";
-import {SertaUserService} from "../../services/serta-user-service";
-import {TableStorageUserDao} from "../../dao/table-storage/table-storage-user-dao";
-import {StatusMessageLayouter} from "./status-message-layouter";
+import { Message, TextChannel, User } from "eris";
+import { StatusReporter } from "./status-reporter";
+import { StatusMessageLayouter } from "./status-message-layouter";
+import { SertaCommandBase } from "../serta-command-base";
+import { IUserService } from "../../services/i-user-service";
 
-export class SertaStatusCommand extends SertaCommand {
-    constructor(commandClient: CommandClient) {
-        super(commandClient)
-    }
+export class SertaStatusCommand extends SertaCommandBase {
 
-    private userService?: SertaUserService
+    private userService?: IUserService;
 
-    async execute(msg: Message, args: any): Promise<void> {
+    async onCommandCalled(msg: Message, args: any): Promise<void> {
         if (msg.channel instanceof TextChannel) {
             this.setupSertaUserService(msg.channel as TextChannel);
             if (SertaStatusCommand.somebodyIsMentionedIn(msg)) {
@@ -24,7 +20,7 @@ export class SertaStatusCommand extends SertaCommand {
     }
 
     private setupSertaUserService(channel: TextChannel): void {
-        this.userService = new SertaUserService(this._bot, new TableStorageUserDao(channel.guild.id))
+        this.userService = this.getUserService(channel.guild.id)
     }
 
     private async reportStatusForAllUsers(channelId: string) {

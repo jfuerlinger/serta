@@ -14,7 +14,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@azure/app-configuration": "^1.0.1",
+    "@azure/identity": "^1.0.2",
+    "@azure/keyvault-secrets": "^4.0.2",
     "@azure/storage-blob": "^12.0.0",
+    "applicationinsights": "^1.7.4",
     "axios": "^0.19.2",
     "azure-storage": "^2.10.3",
     "cheerio": "^1.0.0-rc.3",

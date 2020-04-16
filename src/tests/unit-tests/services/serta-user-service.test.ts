@@ -1,21 +1,27 @@
-import {SertaUserService} from "../../../services/serta-user-service";
-import {UserDao} from "../../../dao/user-dao";
-import {DbUserEntry} from "../../../model/db-user-entry";
-import {FakeCommandClient} from "./fake-command-client";
-import {fakeDiscordUsers} from "./fake-discord-users";
+import { SertaUserService } from "../../../services/serta-user-service";
+import { IUserDao } from "../../../dao/i-user-dao";
+import { DbUserEntry } from "../../../model/db-user-entry";
+import { FakeCommandClient } from "./fake-command-client";
+import { fakeDiscordUsers } from "./fake-discord-users";
 import * as FakeEnvironment from "../config/fake-environment"
-import {ConfigurationBuilder} from "../../../config/configuration-builder";
+import { ConfigurationBuilder } from "../../../config/configuration-builder";
+import { FakeEnvironmentDao } from "../config/fake-environment-dao";
+import { SettingResolver } from "../../../config/setting-resolver";
+import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
 
 describe("SertaUserService getByDiscordUserId", () => {
     let fakeCommandClient: FakeCommandClient
     let userDao: FakeUserDao
     let sertaUserService: SertaUserService
 
+    beforeAll(() => {
+        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
+    });
+
     beforeEach(() => {
         fakeCommandClient = new FakeCommandClient()
         userDao = new FakeUserDao()
         sertaUserService = new SertaUserService(fakeCommandClient, userDao)
-        FakeEnvironment.setup()
     })
 
     afterEach(() => {
@@ -48,7 +54,7 @@ describe("SertaUserService getByDiscordUserId", () => {
         const anyLevel = 20
         const anyImmuneLevel = 34
         const anyExperiencePoints = 249
-        await userDao.add(new DbUserEntry(fakeUser.id, anyLevel, anyImmuneLevel, anyExperiencePoints))
+        await userDao.addOrMerge(new DbUserEntry(fakeUser.id, anyLevel, anyImmuneLevel, anyExperiencePoints))
 
         const user = await sertaUserService.getByDiscordUserId(fakeUser.id)
 
@@ -62,7 +68,7 @@ describe("SertaUserService getByDiscordUserId", () => {
         const anyLevel = 3
         const anyImmuneLevel = 45
         const anyExperiencePoints = 196
-        await userDao.add(new DbUserEntry(fakeUser.id, anyLevel, anyImmuneLevel, anyExperiencePoints))
+        await userDao.addOrMerge(new DbUserEntry(fakeUser.id, anyLevel, anyImmuneLevel, anyExperiencePoints))
 
         const user = await sertaUserService.getByDiscordUserId(fakeUser.id)
 
@@ -72,7 +78,8 @@ describe("SertaUserService getByDiscordUserId", () => {
     })
 
     test("when user dao is not present it returns initial value", async () => {
-        const expectedInitialLevel = ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel
+        const config = await ConfigurationBuilder.getConfiguration();
+        const expectedInitialLevel = config.gameLevelInformation.initialLevel
         const fakeUser = fakeDiscordUsers[2]
 
         const user = await sertaUserService.getByDiscordUserId(fakeUser.id)
@@ -83,11 +90,12 @@ describe("SertaUserService getByDiscordUserId", () => {
 
     test("when user is not present it stores it with initial values", async () => {
         const fakeUser = fakeDiscordUsers[3]
+        const config = await ConfigurationBuilder.getConfiguration();
 
         await sertaUserService.getByDiscordUserId(fakeUser.id);
 
         const daoUser = await userDao.getById(fakeUser.id)
-        expect(daoUser.levelId).toBe(ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel.id)
+        expect(daoUser.levelId).toBe(config.gameLevelInformation.initialLevel.id)
     })
 })
 
@@ -158,7 +166,7 @@ describe("SertaUserService getAll", () => {
         const anyImmuneLevel = 40;
         const anyExperiencePoints = 99;
         const dbUserEntry = new DbUserEntry(anyUserId, anyLevel, anyImmuneLevel, anyExperiencePoints)
-        fakeUserDao.add(dbUserEntry)
+        fakeUserDao.addOrMerge(dbUserEntry)
 
         const users = await sertaUserService.getAll()
 
@@ -172,17 +180,18 @@ describe("SertaUserService getAll", () => {
     })
 
     test("created users have correct initial levelName information", async () => {
+        const config = await ConfigurationBuilder.getConfiguration();
         const users = await sertaUserService.getAll()
 
-        const initialLevelId = ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel.id
+        const initialLevelId = config.gameLevelInformation.initialLevel.id
         users.forEach(user => expect(user.levelId).toBe(initialLevelId))
     })
 })
 
-export class FakeUserDao implements UserDao {
+export class FakeUserDao implements IUserDao {
     private storage = new Map<string, DbUserEntry>()
 
-    add(entry: DbUserEntry): Promise<DbUserEntry> {
+    addOrMerge(entry: DbUserEntry): Promise<DbUserEntry> {
         this.storage.set(entry.id, entry)
         return new Promise<DbUserEntry>((resolve) => {
             resolve(entry)
