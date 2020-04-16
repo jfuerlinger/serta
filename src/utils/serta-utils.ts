@@ -1,4 +1,5 @@
 import { StorageUtils } from "./storage-utils";
+import { IUserService } from "../services/i-user-service";
 
 const createLogger = require('logging').default;
 const logger = createLogger('serta-utils');
@@ -65,34 +66,26 @@ export class SertaUtils {
         }
     };
 
-
     public static async changeLevelOfMentionedUsersIn(
+        userService: IUserService,
         bot: any, msg: any,
         levelNotToBeChanged: any,
         changeLevelAction: any,
         warningMessageIfImpossible: string) {
 
-        let localState = await StorageUtils.getState();
-        localState
-            .map((stateEntry: any) => {
+        await msg.mentions.map(async (mentionEntry: any) => {
+            let userForMentionEntry = await userService.getByDiscordUserId(mentionEntry.id);
 
-                if (!stateEntry.level) {
-                    stateEntry.level = this.getDefaultLevel();
-                }
+            if (userForMentionEntry.levelId !== levelNotToBeChanged) {
+                const newLevelForUser = changeLevelAction(userForMentionEntry.levelId);
+                userForMentionEntry.levelId = newLevelForUser.id;
+                await userService.update(userForMentionEntry);
+                this.createInfoMessage(bot, msg.channel.id, `*${userForMentionEntry.discordUserName}* is now on level **${newLevelForUser.name}**`);
+            } else {
+                this.createWarnMessage(bot, msg.channel.id, `*${userForMentionEntry.discordUserName}* ${warningMessageIfImpossible}`);
+            }
 
-                if (msg.mentions.some((mentionEntry: any) => mentionEntry.username === stateEntry.username)) {
-
-                    if (stateEntry.level.id !== levelNotToBeChanged) {
-                        stateEntry.level = changeLevelAction(stateEntry.level.id);
-                        this.createInfoMessage(bot, msg.channel.id, `*${stateEntry.username}* is now on level **${stateEntry.level.name}**`);
-                    } else {
-                        this.createWarnMessage(bot, msg.channel.id, `*${stateEntry.username}* ${warningMessageIfImpossible}`);
-                    }
-                }
-
-            });
-
-        await StorageUtils.persistState(localState);
+        });
     }
 
     public static logDetails(msg: any, args: any) {

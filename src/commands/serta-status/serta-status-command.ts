@@ -1,21 +1,15 @@
-import {CommandClient, Message, TextChannel, User} from "eris";
-import {SertaCommand} from "../serta-command";
-import {SertaUtils} from "../../utils/serta-utils";
-import {StatusReporter} from "./status-reporter";
-import {SertaUserService} from "../../services/serta-user-service";
-import {TableStorageUserDao} from "../../dao/table-storage/table-storage-user-dao";
-import {StatusMessageLayouter} from "./status-message-layouter";
+import { Message, TextChannel, User } from "eris";
+import { SertaUtils } from "../../utils/serta-utils";
+import { StatusReporter } from "./status-reporter";
+import { SertaUserService } from "../../services/serta-user-service";
+import { StatusMessageLayouter } from "./status-message-layouter";
+import { SertaCommandBase } from "../serta-command-base";
 
-export class SertaStatusCommand implements SertaCommand {
-    private readonly _bot: CommandClient
-
-    constructor(commandClient: CommandClient) {
-        this._bot = commandClient
-    }
+export class SertaStatusCommand extends SertaCommandBase {
 
     private userService?: SertaUserService
 
-    async execute(msg: Message, args: any): Promise<void> {
+    async onCommandCalled(msg: Message, args: any): Promise<void> {
         if (msg.channel instanceof TextChannel) {
             this.setupSertaUserService(msg);
             if (SertaStatusCommand.somebodyIsMentionedIn(msg)) {
@@ -47,13 +41,13 @@ export class SertaStatusCommand implements SertaCommand {
 
     private setupSertaUserService(msg: Message): void {
         const textChannel = msg.channel as TextChannel
-        this.userService = new SertaUserService(this._bot, new TableStorageUserDao(textChannel.guild.id))
+        this.userService = new SertaUserService(this.bot, this.getUserDao(textChannel.guild.id))
     }
 
     private async reportStatus(discordUserName: string, channelId: string) {
         const statusMessage = await this.getStatusMessage(discordUserName);
         if (statusMessage)
-            SertaUtils.createInfoMessage(this._bot, channelId, {embed: statusMessage})
+            SertaUtils.createInfoMessage(this.bot, channelId, { embed: statusMessage })
     }
 
     private async getStatusMessage(discordUserName: string) {

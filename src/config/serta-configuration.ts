@@ -1,6 +1,5 @@
-import {IEnvironmentAccessor} from "./i-environment-accessor";
-import {InMemoryMessageOfTheDayImporter, MessageOfTheDayProvider} from "./message-of-the-day-provider";
-import {GameLevelInformation, InMemoryGameLevelImporter} from "./game-level-information";
+import { InMemoryMessageOfTheDayImporter, MessageOfTheDayProvider } from "./message-of-the-day-provider";
+import { GameLevelInformation, InMemoryGameLevelImporter } from "./game-level-information";
 
 export class SertaConfiguration {
     commandClient = {
@@ -22,15 +21,8 @@ export class SertaConfiguration {
 
     get baseUrlForImages() { return "https://sertadev.blob.core.windows.net/level-images" }
 
-    constructor(environmentFileAccessor: IEnvironmentAccessor) {
-        this.commandClient.discordToken = environmentFileAccessor.discordToken
-        this.commandClient.botPrefix = environmentFileAccessor.botPrefix
-        this.commandClient.botPrefix = environmentFileAccessor.botPrefix
-        this.commandClient.botInstanceName = environmentFileAccessor.botInstanceName
-
-        this.azureStorage.account = environmentFileAccessor.azureStorageAccount
-        this.azureStorage.accessKey = environmentFileAccessor.azureStorageAccessKey
-
+    constructor(
+    ) {
         this._messageOfTheDayProvider = new MessageOfTheDayProvider(new InMemoryMessageOfTheDayImporter())
         this._gameLevelInformation = new GameLevelInformation(new InMemoryGameLevelImporter())
     }

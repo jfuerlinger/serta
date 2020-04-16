@@ -1,5 +1,5 @@
 import { Message } from "eris";
 
-export interface SertaCommand {
+export interface ISertaCommand {
     execute(msg: Message, args: any) : void;
 }

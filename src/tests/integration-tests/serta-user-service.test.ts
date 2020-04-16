@@ -2,12 +2,14 @@ import { SertaBot } from "../../bot";
 import { SertaUser } from "../../model/serta-user";
 import { SertaUserService } from "../../services/serta-user-service";
 import { TableStorageUserDao } from "../../dao/table-storage/table-storage-user-dao";
+import { AzureUtils } from "../../utils/azure-utils";
+
+jest.setTimeout(30000);
 
 describe("SertaUserService", () => {
-  const bot = new SertaBot();
+  const bot = new SertaBot(AzureUtils.getSettingResolver());
   const guildId = '692047042154987527' // TODO: not to be hidden here
 
-  let userDao: TableStorageUserDao
   let userService: SertaUserService
   let users: SertaUser[]
 
@@ -16,8 +18,7 @@ describe("SertaUserService", () => {
   }, 10000)
 
   beforeEach(async () => {
-    userDao = new TableStorageUserDao(guildId);
-    userService = new SertaUserService(bot._bot, userDao);
+    userService = new SertaUserService(bot.bot, AzureUtils.getUserDao(guildId));
     users = await userService.getAll();
   })
 
