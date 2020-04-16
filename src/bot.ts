@@ -14,7 +14,6 @@ const Eris = require("eris");
 import { CommandClient, Message } from "eris";
 import { SertaStatusCommand } from "./commands/serta-status/serta-status-command";
 import { ISettingResolver } from "./config/i-setting-resolver";
-import { AzureUtils } from "./utils/azure-utils";
 
 export class SertaBot {
 
@@ -22,8 +21,6 @@ export class SertaBot {
     private commands: any;
 
     constructor(private settingResolver: ISettingResolver) {
-
-
         this.commands = new Map();
     }
 
@@ -46,8 +43,6 @@ export class SertaBot {
         });
 
         logger.info('[DONE] bot instantiated.');
-
-
     }
 
     run(): Promise<void> {
@@ -68,14 +63,12 @@ export class SertaBot {
     private registerCommands(): void {
         logger.info("register commands ...");
 
-
-
         this.registerCommandAlias('help', 'halp');
-        this.registerCommand('serta-test', new SertaTestCommand(this.settingResolver, this.bot), 'st');
-        this.registerCommand('serta-uplevel', new SertaUpLevelCommand(this.settingResolver, this.bot), 'su');
-        this.registerCommand('serta-downlevel', new SertaDownLevelCommand(this.settingResolver, this.bot), 'sd');
-        this.registerCommand('serta-statistics', new SertaStatisticsCommand(this.settingResolver, this.bot), 'ss');
-        this.registerCommand('serta-status', new SertaStatusCommand(this.settingResolver, this.bot), 'stat');
+        this.registerCommand('serta-test', new SertaTestCommand(this.settingResolver, this.bot, 'serta-test'), 'st');
+        this.registerCommand('serta-uplevel', new SertaUpLevelCommand(this.settingResolver, this.bot, 'serta-uplevel'), 'su');
+        this.registerCommand('serta-downlevel', new SertaDownLevelCommand(this.settingResolver, this.bot, 'serta-downlevel'), 'sd');
+        this.registerCommand('serta-statistics', new SertaStatisticsCommand(this.settingResolver, this.bot, 'serta-statistics'), 'ss');
+        this.registerCommand('serta-status', new SertaStatusCommand(this.settingResolver, this.bot, 'serta-status'), 'stat');
 
         logger.info("[DONE] commands registered.");
     }

@@ -6,14 +6,26 @@ import { AzureUtils } from "../utils/azure-utils";
 import { IUserService } from "../services/i-user-service";
 import { SertaUserService } from "../services/serta-user-service";
 
+let appInsights = require("applicationinsights");
+
+
 export abstract class SertaCommandBase implements ISertaCommand {
 
     constructor(
         protected readonly settingResolver: ISettingResolver,
-        protected readonly bot: CommandClient) { }
+        protected readonly bot: CommandClient,
+        protected readonly commandName: string) { }
 
     execute(msg: Message, args: any): void {
+        var success = false;
+        let startTime = Date.now();
+
         this.onCommandCalled(msg, args);
+
+        let duration = Date.now() - startTime;
+        success = true;
+
+        appInsights.defaultClient.trackDependency({ dependencyTypeName: "SertaCommand", name: this.commandName, duration: duration, success: success });
     }
 
     abstract onCommandCalled(msg: Message, args: any): void;
@@ -22,7 +34,7 @@ export abstract class SertaCommandBase implements ISertaCommand {
         return AzureUtils.getUserDao(guildId);
     }
 
-    protected getUserService(guildId: string) : IUserService {
+    protected getUserService(guildId: string): IUserService {
         return new SertaUserService(this.bot, this.getUserDao(guildId));
     }
 
