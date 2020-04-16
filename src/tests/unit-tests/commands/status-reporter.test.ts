@@ -6,15 +6,14 @@ import { ISertaUser } from "../../../model/i-serta-user";
 import { ConfigurationBuilder } from "../../../config/configuration-builder";
 import { SettingResolver } from "../../../config/setting-resolver";
 import { FakeEnvironmentDao } from "../config/fake-environment-dao";
-import { AppConfigurationDao } from "../../../dao/app-configuration/app-configuration-dao";
+import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
 
 describe("SertaStatusReporter", () => {
     let fakeUserService: FakeUserService
     let sut: StatusReporter
 
     beforeAll(() => {
-        const AppConfigurationDaoMock = <jest.Mock<AppConfigurationDao>>AppConfigurationDao;
-        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new AppConfigurationDaoMock());
+        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
     });
 
     beforeEach(() => {

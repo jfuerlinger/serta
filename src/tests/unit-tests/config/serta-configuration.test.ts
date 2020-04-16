@@ -4,12 +4,12 @@ import { ISettingResolver } from "../../../config/i-setting-resolver";
 import { SettingResolver } from "../../../config/setting-resolver";
 import { AppConfigurationDao } from "../../../dao/app-configuration/app-configuration-dao";
 import { FakeEnvironmentDao } from "./fake-environment-dao";
+import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
 
 
 describe("ConfigurationBuilder", () => {
     beforeAll(() => {
-        const AppConfigurationDaoMock = <jest.Mock<AppConfigurationDao>>AppConfigurationDao;
-        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new AppConfigurationDaoMock());
+        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
     })
 
     afterAll(() => {
@@ -32,8 +32,8 @@ describe("SertaConfiguration", () => {
     let settingResolver: ISettingResolver;
 
     beforeAll(async () => {
-        const AppConfigurationDaoMock = <jest.Mock<AppConfigurationDao>>AppConfigurationDao;
-        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new AppConfigurationDaoMock());
+        
+        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
     })
 
     test("sets commandClient properly", async () => {

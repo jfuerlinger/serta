@@ -5,9 +5,9 @@ import { FakeCommandClient } from "./fake-command-client";
 import { fakeDiscordUsers } from "./fake-discord-users";
 import * as FakeEnvironment from "../config/fake-environment"
 import { ConfigurationBuilder } from "../../../config/configuration-builder";
-import { AppConfigurationDao } from "../../../dao/app-configuration/app-configuration-dao";
 import { FakeEnvironmentDao } from "../config/fake-environment-dao";
 import { SettingResolver } from "../../../config/setting-resolver";
+import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
 
 describe("SertaUserService getByDiscordUserId", () => {
     let fakeCommandClient: FakeCommandClient
@@ -15,8 +15,7 @@ describe("SertaUserService getByDiscordUserId", () => {
     let sertaUserService: SertaUserService
 
     beforeAll(() => {
-        const AppConfigurationDaoMock = <jest.Mock<AppConfigurationDao>>AppConfigurationDao;
-        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new AppConfigurationDaoMock());
+        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
     });
 
     beforeEach(() => {

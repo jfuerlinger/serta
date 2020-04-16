@@ -1,9 +1,8 @@
-import * as FakeEnvironment from "../config/fake-environment"
 import {StatusMessageLayouter} from "../../../commands/serta-status/status-message-layouter";
 import {ConfigurationBuilder} from "../../../config/configuration-builder";
-import { AppConfigurationDao } from "../../../dao/app-configuration/app-configuration-dao";
 import { SettingResolver } from "../../../config/setting-resolver";
 import { FakeEnvironmentDao } from "../config/fake-environment-dao";
+import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
 
 describe("SertaStatusLayouter getLayout returns embed", () => {
     
@@ -20,8 +19,7 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
     let layout: any
     
     beforeAll(() => {
-        const AppConfigurationDaoMock = <jest.Mock<AppConfigurationDao>>AppConfigurationDao;
-        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new AppConfigurationDaoMock());
+        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
     });
 
     beforeEach(async () => {
