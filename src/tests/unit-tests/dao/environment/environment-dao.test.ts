@@ -41,7 +41,7 @@ describe("EnvironmentDao", () => {
             expect(actualValue).toEqual(FakeEnvironment.FAKE_VARIABLE_DUMMY);
         });
 
-        test("it returns correct value for an existing environment variable (ignore-case)", () => {
+        test.skip("it returns correct value for an existing environment variable (ignore-case)", () => {
 
             // arrange
             const dao: IEnvironmentDao = new EnvironmentDao();
@@ -88,7 +88,7 @@ describe("EnvironmentDao", () => {
             expect(actualValue).toEqual(FakeEnvironment.FAKE_VARIABLE_DUMMY);
         });
 
-        test("it returns correct value for an existing environment variable (ignore-case)", () => {
+        test.skip("it returns correct value for an existing environment variable (ignore-case)", () => {
 
             // arrange
             const dao: IEnvironmentDao = new EnvironmentDao();

@@ -1,6 +1,5 @@
 const createLogger = require('logging').default;
-const logger = createLogger('db-dao');
-
+createLogger('db-dao');
 require('dotenv').config();
 
 import * as storage from "azure-storage"
@@ -14,9 +13,9 @@ export abstract class DbDao<T extends DbTableEntry> {
     private tableService: storage.TableService;
 
 
-    protected get TableService(): storage.TableService { return this.tableService; }
+    // protected get TableService(): storage.TableService { return this.tableService; }
 
-    constructor(
+    protected constructor(
         private appConfigurationDao: IAppConfigurationDao,
         private tableName: string,
         private partitionKey: string) { }

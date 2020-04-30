@@ -25,15 +25,15 @@ describe("SertaUserService", () => {
     bot.stop();
   });
 
-  test("getUsers shall return a users property", async () => {
+  test.skip("getUsers shall return a users property", async () => {
     expect(users).toBeTruthy()
   })
 
-  test('getUsers shall return at least one user (the bot)', async () => {
+  test.skip('getUsers shall return at least one user (the bot)', async () => {
     expect(users.length).toBeGreaterThan(0)
   })
 
-  test("getUsers shall return the bot as a test user", async () => {
+  test.skip("getUsers shall return the bot as a test user", async () => {
     let found = false
     users.forEach(user => {
       if (user.discordUserName.indexOf("Serta")) {
