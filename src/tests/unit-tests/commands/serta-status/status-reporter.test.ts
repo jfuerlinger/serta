@@ -173,4 +173,8 @@ class FakeUserService implements UserService {
             }
         })
     }
+
+    put(sertaUser: ISertaUser): Promise<ISertaUser> {
+        return Promise.resolve(new FakeSertaUser("", "", "", 0, 0, 0));
+    }
 }

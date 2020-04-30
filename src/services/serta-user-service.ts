@@ -99,4 +99,9 @@ export class SertaUserService implements UserService {
             resolve(await Promise.all(result));
         })
     }
+
+    public async put(user: ISertaUser): Promise<ISertaUser> {
+        const dbUserEntry = await this._userDao.add(user.dbUserEntry)
+        return new SertaUser(user.discordUser, dbUserEntry)
+    }
 }

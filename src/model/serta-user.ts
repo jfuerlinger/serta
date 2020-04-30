@@ -20,10 +20,12 @@ export class SertaUser implements ISertaUser {
         return this.cloneDbUserEntry();
     }
 
-    private cloneDbUserEntry() {
+    private cloneDbUserEntry(): DbUserEntry {
         const js = JSON.stringify(this._dbUserEntry)
         return JSON.parse(js)
     }
+
+    get discordUser(): User { return this._discordUser }
 
     constructor(
         discordUser: User,
