@@ -4,7 +4,7 @@ import { DbUserEntry } from "../../model/db-user-entry";
 
 const random = require('random');
 
-describe('TableStorageUserDao', () => {
+describe.skip('TableStorageUserDao', () => {
 
     test('it to store a new user, fetch that user by id and successfully compare the fields for equality.', async () => {
 
