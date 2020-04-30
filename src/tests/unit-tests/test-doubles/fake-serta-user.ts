@@ -1,4 +1,5 @@
 import {ISertaUser} from "../../../model/i-serta-user";
+import {DbUserEntry} from "../../../model/db-user-entry";
 
 export class FakeSertaUser implements ISertaUser {
     readonly discordUserId: string
@@ -6,9 +7,11 @@ export class FakeSertaUser implements ISertaUser {
     readonly avatarUrl: string
     readonly approvedExperiencePoints: number
     readonly immuneLevel: number
-    readonly levelId: number
+    levelId: number
     timestampOfLastInfection?: Date
     readonly isBot: boolean
+
+    readonly dbUserEntry: DbUserEntry;
 
     constructor(id: string, userName: string, avatarUrl: string,
                 levelId: number, xp: number, immuneLevel: number,
@@ -21,6 +24,7 @@ export class FakeSertaUser implements ISertaUser {
         this.approvedExperiencePoints = xp
         this.timestampOfLastInfection = timestampOfLastInfection
         this.isBot = isBot === true
+        this.dbUserEntry = new DbUserEntry(id, levelId, immuneLevel, xp)
     }
 }
 
