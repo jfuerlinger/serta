@@ -9,7 +9,7 @@ A bot to motivate the studies ...
 1. Get the .env file from me (github.com/jfuerlinger) and locate it in the root directory
 
 
-### Start the Bot
+### Start the Bot in development mode
 
 * Method "Without Docker"
 
@@ -21,7 +21,7 @@ A bot to motivate the studies ...
 * Method "With Docker"
 
     ```
-    docker-compose -f .\docker-compose.dev.yml up
+    docker-compose -f .\docker-compose.dev.yml up --build
     ```
 
 
@@ -60,10 +60,10 @@ A bot to motivate the studies ...
         *Hint*: Start the testing in a dedicated terminal window.
 
 
-### Production build
+### Production build/startup
 
 ```
-docker-compose -f .\docker-compose.yml up
+docker-compose -f .\docker-compose.yml up --build
 ```
 
 

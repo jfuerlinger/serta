@@ -1,11 +1,13 @@
 version: '3'
 services: 
-    bot:
+    bot-dev:
         build: 
             context: .
             dockerfile: Dockerfile.dev
         volumes: 
             - /app/node_modules
             - .:/app
+        environment: 
+            - "TZ=Europe/Vienna"
         stdin_open: true
         tty: true
