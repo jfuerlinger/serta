@@ -9,22 +9,63 @@ A bot to motivate the studies ...
 1. Get the .env file from me (github.com/jfuerlinger) and locate it in the root directory
 
 
-### Bot start sequence
+### Start the Bot
+
+* Method "Without Docker"
+
+    ```
+    npm install
+    npm start
+    ```
+
+* Method "With Docker"
+
+    ```
+    docker-compose -f .\docker-compose.dev.yml up
+    ```
+
+
+
+### Run the tests
+
+* Method "Without Docker"
+
+    ```
+    npm test
+    npm run test:unit
+    npm run test:integration
+    ```
+
+    *Hint*: Start the testing in a dedicated terminal window.
+
+* Method "With Docker"
+
+    1. Check the `container-id`
+        ```
+        docker ps
+        ```
+
+    1. Run the unit tests
+   
+        ```
+        docker exec -it <container-id> npm run test:unit 
+        ```
+        *Hint*: Start the testing in a dedicated terminal window.
+
+    2. Run the integration tests
+
+        ```
+        docker exec -it <container-id> npm run test:integration
+        ```
+        *Hint*: Start the testing in a dedicated terminal window.
+
+
+### Production build
 
 ```
-npm install
-npm start
+docker-compose -f .\docker-compose.yml up
 ```
 
-### Inject the testing drugs
-
-```
-npm test
-npm run test:unit
-npm run test:integration
-```
-
-*Hint 1*: Start the testing in a dedicated terminal window.
 
 
 ## Description
