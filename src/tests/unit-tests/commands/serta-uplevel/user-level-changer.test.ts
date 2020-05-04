@@ -5,73 +5,94 @@ import {fakeGameLevels} from "../../test-doubles/fake-game-levels";
 
 describe("UserLevelChanger", () => {
     let fakeLevelInformation: LevelInformation[]
+    let sut: UserLevelChanger
 
     beforeEach(() => {
         fakeLevelInformation = fakeGameLevels
+        sut = new UserLevelChanger(fakeLevelInformation)
     })
 
-    test("it is constructed by passing level information", () => {
-        // when
-        const sut = new UserLevelChanger(fakeLevelInformation)
+    describe("upLevelIsPossible", () => {
+        test("it return false if SertaUser immune level is insufficient", () => {
+            // arrange
+            const userWithTooLowImmuneSystem: FakeSertaUser = fakeSertaUsers[0]
 
-        // then
-        expect(sut).toBeTruthy()
+            // assert
+            expect(sut.upLevelIsPossible(userWithTooLowImmuneSystem)).toBe(false)
+        })
+
+        test("it returns true if SertaUser immune level is exactly sufficient", () => {
+            // arrange
+            const userWithExactlyFittingImmuneSystem: FakeSertaUser = fakeSertaUsers[1]
+
+            // assert
+            expect(sut.upLevelIsPossible(userWithExactlyFittingImmuneSystem)).toBe(true)
+        })
+
+        test("it returns true if SertaUser immune level is more than sufficient", () => {
+            // arrange
+            const userWithOverFittingImmuneSystem: FakeSertaUser = fakeSertaUsers[2]
+
+            // assert
+            expect(sut.upLevelIsPossible(userWithOverFittingImmuneSystem)).toBe(true)
+        })
     })
 
-    test("it refuses uplevel if SertaUser immune level is insufficient", () => {
-        // given
-        const userWithTooLowImmuneSystem: FakeSertaUser = fakeSertaUsers[0]
+    describe("upLevel", () => {
+        test("it uplevels if SertaUser immune level is sufficient", () => {
+            // arrange
+            const userWithSufficientImmuneLevel = fakeSertaUsers[1]
+            const levelBeforeUplevel = userWithSufficientImmuneLevel.levelId
 
-        // when
-        const sut = new UserLevelChanger(fakeLevelInformation)
+            // act
+            sut.upLevel(userWithSufficientImmuneLevel)
 
-        // then
-        expect(sut.levelChangeIsPossible(userWithTooLowImmuneSystem)).toBe(false)
+            // assert
+            expect(userWithSufficientImmuneLevel.levelId).toBe(levelBeforeUplevel + 1)
+        })
+
+        test("it refuses uplevel if SertaUser immune level is insufficient", () => {
+            // arrange
+            const userWithInsufficientImmuneLevel = fakeSertaUsers[0]
+            const levelBeforeUpLevel = userWithInsufficientImmuneLevel.levelId
+
+            // act
+            sut.upLevel(userWithInsufficientImmuneLevel)
+
+            // assert
+            expect(userWithInsufficientImmuneLevel.levelId).toBe(levelBeforeUpLevel)
+        })
     })
 
-    test("it accepts uplevel if SertaUser immune level is exactly sufficient", () => {
-        // given
-        const userWithExactlyFittingImmuneSystem: FakeSertaUser = fakeSertaUsers[1]
+    describe("downLevelIsPossible", () => {
+        test("it returns false if immune level is too high", () => {
+            // arrange
+            const userWithTooHighImmuneLevelToBeDownLeveled = fakeSertaUsers[3]
 
-        // when
-        const sut = new UserLevelChanger(fakeLevelInformation)
+            // assert
+            expect(sut.downLevelIsPossible(userWithTooHighImmuneLevelToBeDownLeveled)).toBe(false)
+        })
 
-        // then
-        expect(sut.levelChangeIsPossible(userWithExactlyFittingImmuneSystem)).toBe(true)
-    })
+        test("it returns true if immune level is one too low for the current level", () => {
+            // arrange
+            const userWithTooLowImmuneLevel = fakeSertaUsers[4]
 
-    test("it accepts uplevel if SertaUser immune level is more than sufficient", () => {
-        // given
-        const userWithOverFittingImmuneSystem: FakeSertaUser = fakeSertaUsers[2]
+            // assert
+            expect(sut.downLevelIsPossible(userWithTooLowImmuneLevel)).toBe(true)
+        })
 
-        // when
-        const sut = new UserLevelChanger(fakeLevelInformation)
+        describe("downLevel", () => {
+            test("it down levels if immune level is one too low for the current level", () => {
+                // arrange
+                const userWithTooLowImmuneLevel = fakeSertaUsers[4]
+                const levelBeforeDownLevel = userWithTooLowImmuneLevel.levelId
 
-        // then
-        expect(sut.levelChangeIsPossible(userWithOverFittingImmuneSystem)).toBe(true)
-    })
+                // act
+                sut.downLevel(userWithTooLowImmuneLevel)
 
-    test("it uplevels if SertaUser immune level is sufficient", () => {
-        // given
-        const userWithSufficientImmuneLevel = fakeSertaUsers[1]
-        const sut = new UserLevelChanger(fakeLevelInformation)
-
-        // when
-        sut.upLevel(userWithSufficientImmuneLevel)
-
-        // then
-        expect(userWithSufficientImmuneLevel.levelId).toBe(1)
-    })
-
-    test("it refuses uplevel if SertaUser immune level is insufficient", () => {
-        // given
-        const userWithInsufficientImmuneLevel = fakeSertaUsers[0]
-        const sut = new UserLevelChanger(fakeLevelInformation)
-
-        // when
-        sut.upLevel(userWithInsufficientImmuneLevel)
-
-        // then
-        expect(userWithInsufficientImmuneLevel.levelId).toBe(0)
+                // assert
+                expect(userWithTooLowImmuneLevel.levelId).toBe(levelBeforeDownLevel - 1)
+            })
+        })
     })
 })

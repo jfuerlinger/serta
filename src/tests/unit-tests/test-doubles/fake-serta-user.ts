@@ -33,8 +33,9 @@ export class FakeSertaUser implements ISertaUser {
 }
 
 export const fakeSertaUsers: FakeSertaUser[] = [
-    new FakeSertaUser("some.discord.id.1", "jfuerlinger", "https://a.server/jf.png", 0, 50, 9),
-    new FakeSertaUser("some.discord.id.2", "p.bauer", "https://a.server/pb.png", 0, 50, 10),
-    new FakeSertaUser("some.discord.id.3", "PewPewPew", "https://a.server/pe.png", 0, 50, 11),
-    new FakeSertaUser("some.discord.id.4", "LebenderFux", "https://a.server/lf.png", 1, 50, 20)
+    new FakeSertaUser("some.discord.id.1", "jfuerlinger", "https://a.server/jf.png", 1, 50, 9),
+    new FakeSertaUser("some.discord.id.2", "p.bauer", "https://a.server/pb.png", 1, 50, 10),
+    new FakeSertaUser("some.discord.id.3", "PewPewPew", "https://a.server/pe.png", 1, 50, 11),
+    new FakeSertaUser("some.discord.id.4", "LebenderFux", "https://a.server/lf.png", 2, 50, 11),
+    new FakeSertaUser("some.discord.id.5", "OidaFux", "https://a.server/of.png", 2, 50, 10)
 ]
