@@ -1,5 +1,5 @@
-import {CommandClient, Message, MessageContent} from "eris";
+import {ISertaMessage} from "../i-serta-message";
 
 export interface ISertaCommand {
-    execute(msg: Message, args: any) : void;
+    execute(msg: ISertaMessage, args: any) : void;
 }
