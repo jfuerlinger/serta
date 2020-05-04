@@ -93,6 +93,18 @@ describe("UserLevelChanger", () => {
                 // assert
                 expect(userWithTooLowImmuneLevel.levelId).toBe(levelBeforeDownLevel - 1)
             })
+
+            test("it refuses downlevel if immune level is too high", () => {
+                // arrange
+                const userWithTooHighImmuneLevel = fakeSertaUsers[3]
+                const levelBeforeDownLevel = userWithTooHighImmuneLevel.levelId
+
+                // act
+                sut.downLevel(userWithTooHighImmuneLevel)
+
+                // assert
+                expect(userWithTooHighImmuneLevel.levelId).toBe(levelBeforeDownLevel)
+            })
         })
     })
 })

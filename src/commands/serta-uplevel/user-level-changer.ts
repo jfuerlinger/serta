@@ -23,6 +23,8 @@ export class UserLevelChanger {
     }
 
     downLevel(user: ISertaUser): void {
-        user.levelId--
+        if (this.downLevelIsPossible(user)) {
+            user.levelId--
+        }
     }
 }
