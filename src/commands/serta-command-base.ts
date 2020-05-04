@@ -17,7 +17,7 @@ export abstract class SertaCommandBase implements ISertaCommand {
         protected readonly commandName: string) { }
 
     execute(msg: Message, args: any): void {
-        var success = false;
+        let success: boolean;
         let startTime = Date.now();
 
         this.onCommandCalled(msg, args);
