@@ -37,5 +37,6 @@ export const fakeSertaUsers: FakeSertaUser[] = [
     new FakeSertaUser("some.discord.id.2", "p.bauer", "https://a.server/pb.png", 1, 50, 10),
     new FakeSertaUser("some.discord.id.3", "PewPewPew", "https://a.server/pe.png", 1, 50, 11),
     new FakeSertaUser("some.discord.id.4", "LebenderFux", "https://a.server/lf.png", 2, 50, 11),
-    new FakeSertaUser("some.discord.id.5", "OidaFux", "https://a.server/of.png", 2, 50, 10)
+    new FakeSertaUser("some.discord.id.5", "OidaFux", "https://a.server/of.png", 2, 50, 10),
+    new FakeSertaUser("some.discord.id.6", "Level3Player", "https://a.server/l3.png", 3, 450, 45)
 ]

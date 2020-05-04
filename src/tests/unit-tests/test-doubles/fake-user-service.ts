@@ -1,18 +1,12 @@
 import {IUserService} from "../../../services/i-user-service";
 import {ISertaUser} from "../../../model/i-serta-user";
-import {FakeSertaUser} from "./fake-serta-user";
+import {FakeSertaUser, fakeSertaUsers} from "./fake-serta-user";
 
 export class FakeUserService implements IUserService {
-    private fakeUsers: FakeSertaUser[]
+    fakeUsers: FakeSertaUser[]
 
     constructor() {
-        const now = Date.now()
-        const lastInfection = now - (3 * 60 * 60 + 22 * 60 + 12) * 1000
-        this.fakeUsers = [
-            new FakeSertaUser("some.discord.id", "p.bauer", "http://avatarUrl/pb.png", 1, 35, 15, new Date(lastInfection)),
-            new FakeSertaUser("another.discord.id", "jfuerlinger", "http://avatarUrl/jf.png", 3, 187, 45),
-            new FakeSertaUser("bot.discord.id", "Serta", "", 0, 0, 0, undefined, true)
-        ]
+        this.fakeUsers = fakeSertaUsers
     }
 
     update(user: ISertaUser): Promise<void> {
