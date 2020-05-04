@@ -75,7 +75,7 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
     })
 
     test("indicates in footer how much time left to get rid of infection", () => {
-        expect(layout.footer).toBe(`INFECTION ALERT!! You have ${testStatusInformation.timeTillNextMedication} left to get a medication`)
+        expect(layout.footer).toBe(`INFECTION ALERT!! You currently suffer from an infection and this will last another ${testStatusInformation.timeTillNextMedication}.`)
     })
 
     test("footer is empty if timeTillNextMedication is undefined", async () => {
