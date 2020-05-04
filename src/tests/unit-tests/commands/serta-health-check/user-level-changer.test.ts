@@ -1,5 +1,5 @@
 import {LevelInformation} from "../../../../config/game-level-information";
-import {UserLevelChanger} from "../../../../commands/serta-uplevel/user-level-changer";
+import {UserLevelChanger} from "../../../../commands/serta-health-check/user-level-changer";
 import {FakeSertaUser, fakeSertaUsers} from "../../test-doubles/fake-serta-user";
 import {fakeGameLevels} from "../../test-doubles/fake-game-levels";
 
