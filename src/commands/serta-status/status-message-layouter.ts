@@ -52,7 +52,7 @@ export class StatusMessageLayouter {
 
     private static getFooter(statusInformation: StatusInformation): string {
         return statusInformation.timeTillNextMedication ?
-            `INFECTION ALERT!! You have ${statusInformation.timeTillNextMedication} left to get a medication` :
+            `INFECTION ALERT!! You currently suffer from an infection and this will last another ${statusInformation.timeTillNextMedication}.` :
             ""
     }
 
