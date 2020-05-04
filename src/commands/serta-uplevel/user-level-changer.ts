@@ -8,12 +8,12 @@ export class UserLevelChanger {
         this.levelInformation = levelInformation
     }
 
-    upLevelIsPossible(user: ISertaUser): boolean {
+    levelChangeIsPossible(user: ISertaUser): boolean {
         return this.levelInformation[user.levelId].maximumImmuneLevel <= user.immuneLevel
     }
 
     upLevel(user: ISertaUser): void {
-        if (this.upLevelIsPossible(user)) {
+        if (this.levelChangeIsPossible(user)) {
             user.levelId++
         }
     }
