@@ -20,7 +20,7 @@ export class SertaUserService implements IUserService {
     }
     
     public async update(user: SertaUser): Promise<void> {
-        this.userDao.addOrMerge(user.DbUserEntry);
+        this.userDao.addOrMerge(user.dbUserEntry);
     }
 
     public async getByDiscordUserId(userId: string): Promise<ISertaUser> {
@@ -106,7 +106,7 @@ export class SertaUserService implements IUserService {
     }
 
     public async put(user: ISertaUser): Promise<ISertaUser> {
-        const dbUserEntry = await this._userDao.add(user.dbUserEntry)
+        const dbUserEntry = await this.userDao.addOrMerge(user.dbUserEntry)
         return new SertaUser(user.discordUser, dbUserEntry)
     }
 }

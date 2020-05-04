@@ -95,7 +95,8 @@ describe("SertaUserService", () => {
 
         test("it creates dbUserEntry in userDao with initial values when not present", async () => {
             // arrange
-            const expectedInitialLevel = ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel
+            const configuration = await ConfigurationBuilder.getConfiguration();
+            const expectedInitialLevel = configuration.gameLevelInformation.initialLevel
             const fakeUser = fakeDiscordUsers[2]
 
             // act
@@ -174,11 +175,14 @@ describe("SertaUserService", () => {
         })
 
         test("it creates users with correct initial levelName information", async () => {
+            // arrange
+            const config = await ConfigurationBuilder.getConfiguration();
+
             // act
             const users = await sertaUserService.getAll()
 
             // assert
-            const initialLevelId = ConfigurationBuilder.getConfiguration().gameLevelInformation.initialLevel.id
+            const initialLevelId = config.gameLevelInformation.initialLevel.id
             users.forEach(user => expect(user.levelId).toBe(initialLevelId))
         })
     })
@@ -199,7 +203,3 @@ describe("SertaUserService", () => {
     })
 })
 
-    getById(id: string): Promise<DbUserEntry> {
-        return new Promise<DbUserEntry>(resolve => resolve(this.storage.get(id)))
-    }
-}

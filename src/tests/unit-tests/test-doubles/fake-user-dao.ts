@@ -1,10 +1,10 @@
-import {UserDao} from "../../../dao/user-dao";
 import {DbUserEntry} from "../../../model/db-user-entry";
+import {IUserDao} from "../../../dao/i-user-dao";
 
-export class FakeUserDao implements UserDao {
+export class FakeUserDao implements IUserDao {
     private storage = new Map<string, DbUserEntry>()
 
-    add(entry: DbUserEntry): Promise<DbUserEntry> {
+    addOrMerge(entry: DbUserEntry): Promise<DbUserEntry> {
         this.storage.set(entry.id, entry)
         return new Promise<DbUserEntry>((resolve) => {
             resolve(entry)

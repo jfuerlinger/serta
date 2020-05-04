@@ -1,7 +1,7 @@
 import { SertaBot } from "../../bot";
 import { SertaUserService } from "../../services/serta-user-service";
-import { TableStorageUserDao } from "../../dao/table-storage/table-storage-user-dao";
 import {ISertaUser} from "../../model/i-serta-user";
+import {AzureUtils} from "../../utils/azure-utils";
 
 describe("SertaUserService", () => {
   const bot = new SertaBot(AzureUtils.getSettingResolver());

@@ -3,10 +3,10 @@ import * as FakeEnvironment from "../../config/fake-environment"
 import {StatusReporter} from "../../../../commands/serta-status/status-reporter";
 import {ISertaUser} from "../../../../model/i-serta-user";
 import { IUserService } from "../../../../services/i-user-service";
-import { ConfigurationBuilder } from "../../../config/configuration-builder";
-import { SettingResolver } from "../../../config/setting-resolver";
-import { FakeEnvironmentDao } from "../config/fake-environment-dao";
-import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
+import {ConfigurationBuilder} from "../../../../config/configuration-builder";
+import {SettingResolver} from "../../../../config/setting-resolver";
+import {FakeEnvironmentDao} from "../../config/fake-environment-dao";
+import {FakeAppConfigurationDao} from "../../dao/app-configuration/fake-app-configuration-dao";
 
 describe("SertaStatusReporter", () => {
     let fakeUserService: FakeUserService
