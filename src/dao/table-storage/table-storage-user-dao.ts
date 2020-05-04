@@ -1,15 +1,18 @@
 import { DbDao } from "./table-storage-db-dao";
-import { UserDao } from "../user-dao";
+import { IUserDao } from "../i-user-dao";
 import { DbUserEntry } from "../../model/db-user-entry";
+import { IAppConfigurationDao } from "../app-configuration/i-app-configuration-dao";
 
 // Dao to work with the SertaUsers table storage entries.
-export class TableStorageUserDao extends DbDao<DbUserEntry> implements UserDao {
+export class TableStorageUserDao extends DbDao<DbUserEntry> implements IUserDao {
 
-    constructor(guildId: string) {
-        super('SertaUsers', guildId);
+    constructor(
+        appConfigurationDao : IAppConfigurationDao,
+        guildId: string) {
+        super(appConfigurationDao, 'SertaUsers', guildId);
     }
 
-    add(entry: DbUserEntry): Promise<DbUserEntry> {
+    addOrMerge(entry: DbUserEntry): Promise<DbUserEntry> {
         return this.addOrMergeRecord(entry);
     }
 

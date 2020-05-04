@@ -12,7 +12,7 @@ export interface StatusInformation {
 }
 
 export class StatusMessageLayouter {
-    static getLayout(statusInformation: StatusInformation): any {
+    static async getLayout(statusInformation: StatusInformation): Promise<any> {
         const statusMessage = {
             color: this.getColor(statusInformation.levelId),
             title: "Status",
@@ -26,7 +26,7 @@ export class StatusMessageLayouter {
                 this.createField("Immunization Level", statusInformation.immunizationLevel),
             ],
             thumbnail: {
-                url: this.getThumbnailUrl(statusInformation.levelId, statusInformation.timeTillNextMedication, statusInformation.readyToBePromoted)
+                url: await this.getThumbnailUrl(statusInformation.levelId, statusInformation.timeTillNextMedication, statusInformation.readyToBePromoted)
             },
             footer: this.getFooter(statusInformation)
         };
@@ -57,10 +57,10 @@ export class StatusMessageLayouter {
     }
 
     static levelPrefixes = ["s", "a", "m", "c", "f", "p"]
-    private static getThumbnailUrl(levelId?: number, timeTillNextMedication?: string, readyToBePromoted?: boolean): string | undefined {
+    private static async getThumbnailUrl(levelId?: number, timeTillNextMedication?: string, readyToBePromoted?: boolean): Promise<string | undefined> {
         if (levelId) {
             const levelPrefix = this.levelPrefixes[levelId - 1]
-            const baseUrlAndStuff = ConfigurationBuilder.getConfiguration().baseUrlForImages + "/" + levelPrefix
+            const baseUrlAndStuff = (await ConfigurationBuilder.getConfiguration()).baseUrlForImages + "/" + levelPrefix
             if (timeTillNextMedication) {
                 return baseUrlAndStuff + "-red.png"
             } else if (readyToBePromoted) {

@@ -1,16 +1,22 @@
 import {FakeSertaUser} from "../../test-doubles/fake-serta-user";
 import * as FakeEnvironment from "../../config/fake-environment"
 import {StatusReporter} from "../../../../commands/serta-status/status-reporter";
-import {UserService} from "../../../../services/user-service";
 import {ISertaUser} from "../../../../model/i-serta-user";
+import { IUserService } from "../../../../services/i-user-service";
+import { ConfigurationBuilder } from "../../../config/configuration-builder";
+import { SettingResolver } from "../../../config/setting-resolver";
+import { FakeEnvironmentDao } from "../config/fake-environment-dao";
+import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
 
 describe("SertaStatusReporter", () => {
     let fakeUserService: FakeUserService
     let sut: StatusReporter
 
-    beforeEach(() => {
-        FakeEnvironment.setup()
+    beforeAll(() => {
+        ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
+    });
 
+    beforeEach(() => {
         fakeUserService = new FakeUserService()
         sut = new StatusReporter(fakeUserService)
     })
@@ -141,7 +147,21 @@ describe("SertaStatusReporter", () => {
     })
 })
 
-class FakeUserService implements UserService {
+class FakeUserService implements IUserService {
+    update(user: ISertaUser): Promise<void> {
+        return new Promise<void>(() => {
+        });
+    }
+    addOrMerge(user: ISertaUser): Promise<void> {
+        return new Promise<void>(() => {
+        });
+    }
+
+    save(user: ISertaUser): Promise<void> {
+        return new Promise<void>(() => {
+        });
+    }
+
     getAll(): Promise<ISertaUser[]> {
         return new Promise<ISertaUser[]>(() => {
         });
@@ -172,9 +192,5 @@ class FakeUserService implements UserService {
                     resolve(undefined)
             }
         })
-    }
-
-    put(sertaUser: ISertaUser): Promise<ISertaUser> {
-        return Promise.resolve(new FakeSertaUser("", "", "", 0, 0, 0));
     }
 }

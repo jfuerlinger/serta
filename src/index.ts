@@ -1,9 +1,30 @@
 import { SertaBot } from "./bot";
+import { ConfigurationBuilder } from "./config/configuration-builder";
+import { AzureUtils } from "./utils/azure-utils";
+import { ISettingResolver } from "./config/i-setting-resolver";
 
-const createLogger = require('logging').default;
-const logger = createLogger('driver');
+// initialization of the dependencies
 
-logger.info('test');
+const settingResolver: ISettingResolver = AzureUtils.getSettingResolver();
+ConfigurationBuilder.SettingResolver = settingResolver;
 
-const bot = new SertaBot();
-bot.run();
+const appInsights = require("applicationinsights");
+
+(async () => {
+
+    const aiInstrumentationKey = await settingResolver.getSetting('ai-instrumentation-key');
+    console.log(aiInstrumentationKey);
+    appInsights.setup(aiInstrumentationKey)
+        .setAutoDependencyCorrelation(true)
+        .setAutoCollectRequests(true)
+        .setAutoCollectPerformance(true)
+        .setAutoCollectExceptions(true)
+        .setAutoCollectDependencies(true)
+        .setAutoCollectConsole(true)
+        .setUseDiskRetryCaching(true)
+        .start();
+
+    const bot = new SertaBot(settingResolver);
+    await bot.initBot();
+    bot.run();
+})();

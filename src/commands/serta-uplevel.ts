@@ -1,24 +1,26 @@
-import {SertaUtils} from "../utils/serta-utils";
+import { SertaUtils } from "../utils/serta-utils";
 
-import {SertaCommand} from "./serta-command"
-import {Message} from "eris"
+import { SertaCommandBase } from "./serta-command-base";
 
-export class SertaUpLevelCommand extends SertaCommand {
+export class SertaUpLevelCommand extends SertaCommandBase {
 
-    constructor(bot: any) {
-        super(bot)
-    }
+    onCommandCalled(msg: any, args: any): void {
 
-    execute(msg : Message, args: any) {
         SertaUtils.logDetails(msg, args);
 
         if (!SertaUpLevelCommand.somebodyIsMentionedIn(msg)) {
             this.createErrorMessage(msg.channel.id, `You have to mention at least one player to level-up!`)
             return;
         }
+        
         const levelNotToBeChanged = SertaUtils.getMaxLevel()
-        const changeLevelAction = (levelIndex:number) => SertaUtils.getNextLevel(levelIndex)
+        const changeLevelAction = (levelIndex: number) => SertaUtils.getNextLevel(levelIndex)
         const warningMessageIfImpossible = "is already in the highest levelName!"
-        SertaUtils.changeLevelOfMentionedUsersIn(this._bot, msg, levelNotToBeChanged, changeLevelAction, warningMessageIfImpossible)
+        SertaUtils.changeLevelOfMentionedUsersIn(
+            this.getUserService(msg.channel.guild.id),
+            this.bot, msg, 
+            levelNotToBeChanged, 
+            changeLevelAction, 
+            warningMessageIfImpossible)
     }
 }

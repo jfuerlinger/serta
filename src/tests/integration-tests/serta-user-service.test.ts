@@ -3,11 +3,10 @@ import { SertaUserService } from "../../services/serta-user-service";
 import { TableStorageUserDao } from "../../dao/table-storage/table-storage-user-dao";
 import {ISertaUser} from "../../model/i-serta-user";
 
-describe.skip("SertaUserService", () => {
-  const bot = new SertaBot();
+describe("SertaUserService", () => {
+  const bot = new SertaBot(AzureUtils.getSettingResolver());
   const guildId = '692047042154987527' // TODO: not to be hidden here
 
-  let userDao: TableStorageUserDao
   let userService: SertaUserService
   let users: ISertaUser[]
 
@@ -16,8 +15,7 @@ describe.skip("SertaUserService", () => {
   }, 10000)
 
   beforeEach(async () => {
-    userDao = new TableStorageUserDao(guildId);
-    userService = new SertaUserService(bot._bot, userDao);
+    userService = new SertaUserService(bot.bot, AzureUtils.getUserDao(guildId));
     users = await userService.getAll();
   })
 
@@ -25,15 +23,15 @@ describe.skip("SertaUserService", () => {
     bot.stop();
   });
 
-  test("getUsers shall return a users property", async() => {
+  test.skip("getUsers shall return a users property", async () => {
     expect(users).toBeTruthy()
   })
 
-  test('getUsers shall return at least one user (the bot)', async () => {
+  test.skip('getUsers shall return at least one user (the bot)', async () => {
     expect(users.length).toBeGreaterThan(0)
   })
 
-  test("getUsers shall return the bot as a test user", async () => {
+  test.skip("getUsers shall return the bot as a test user", async () => {
     let found = false
     users.forEach(user => {
       if (user.discordUserName.indexOf("Serta")) {

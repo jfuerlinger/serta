@@ -1,14 +1,11 @@
-import {SertaCommand} from "./serta-command";
 
-import {Message, CommandClient} from "eris";
+import { SertaUtils } from "../utils/serta-utils";
+import { Message } from "eris";
+import { SertaCommandBase } from "./serta-command-base";
 
-export class SertaStatisticsCommand extends SertaCommand {
+export class SertaStatisticsCommand extends SertaCommandBase {
 
-    constructor(bot: CommandClient) {
-        super(bot)
-    }
-
-    async execute(msg: Message, args: any) {
+    async onCommandCalled(msg: Message, args: any): Promise<void> {
         const generalInfo = {
             title: "Status", // Title of the embed
             description: "He is still a bit milk-born but increases.\nKeep our fingers crossed",

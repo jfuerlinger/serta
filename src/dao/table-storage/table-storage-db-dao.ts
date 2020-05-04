@@ -1,31 +1,40 @@
 const createLogger = require('logging').default;
-const logger = createLogger('db-dao');
-
+createLogger('db-dao');
 require('dotenv').config();
 
 import * as storage from "azure-storage"
 import { DbTableEntry } from "../../model/table-storage-db-table-entry";
+import { IAppConfigurationDao } from "../app-configuration/i-app-configuration-dao";
 
 
 export abstract class DbDao<T extends DbTableEntry> {
 
-    private _tableService: storage.TableService;
+    private isConfigured: boolean = false;
+    private tableService: storage.TableService;
 
-    protected get tableService(): storage.TableService { return this._tableService; }
 
-    constructor(
-        private _tableName: string,
-        private _partitionKey: string) {
+    // protected get TableService(): storage.TableService { return this.tableService; }
 
-        logger.info('initializing the SertaDbService ...');
-        this._tableService = storage.createTableService(
-            process.env.AZURE_STORAGE_ACCOUNT!,
-            process.env.AZURE_STORAGE_ACCESS_KEY!);
-        logger.info('[DONE] SertaDbService initialized.');
+    protected constructor(
+        private appConfigurationDao: IAppConfigurationDao,
+        private tableName: string,
+        private partitionKey: string) { }
+
+    private async ensureCorrectConfiguration(): Promise<void> {
+
+        if (!this.isConfigured) {
+            this.tableService = storage.createTableService(
+                await this.appConfigurationDao.getEntry('as-account'),
+                await this.appConfigurationDao.getEntry('as-access-key'));
+
+            this.isConfigured = true;
+        }
 
     }
 
-    protected getAll(partitionKey: string): Promise<T[]> {
+    protected async getAll(partitionKey: string): Promise<T[]> {
+
+        await this.ensureCorrectConfiguration();
 
         return new Promise<T[]>((resolve, reject) => {
 
@@ -33,8 +42,8 @@ export abstract class DbDao<T extends DbTableEntry> {
                 .select()
                 .where('PartitionKey eq ?', partitionKey);
 
-            this._tableService.queryEntities<T>(
-                this._tableName,
+            this.tableService.queryEntities<T>(
+                this.tableName,
                 query,
                 <any>undefined,
                 <any>undefined,
@@ -49,18 +58,21 @@ export abstract class DbDao<T extends DbTableEntry> {
     }
 
     protected async getRecord(rowKey: string): Promise<T | undefined> {
+
+        await this.ensureCorrectConfiguration();
+
         return new Promise<T>((resolve, reject) => {
             try {
-                this._tableService.retrieveEntity<T>(
-                    this._tableName,
-                    this._partitionKey,
+                this.tableService.retrieveEntity<T>(
+                    this.tableName,
+                    this.partitionKey,
                     rowKey,
-                    (err : any, entity) => {
+                    (err: any, entity) => {
 
                         if (!err) {
                             resolve(this.tableRecordToJavacript(entity));
                         } else {
-                            if(err.code === "ResourceNotFound") {
+                            if (err.code === "ResourceNotFound") {
                                 resolve(undefined);
                             }
                         }
@@ -73,21 +85,24 @@ export abstract class DbDao<T extends DbTableEntry> {
     }
 
     protected async deleteRecord(rowKey: string): Promise<any> {
+
+        await this.ensureCorrectConfiguration();
+
         return new Promise((resolve, reject) => {
             try {
 
-                this._tableService.deleteEntity(
-                    this._tableName, {
-                    PartitionKey: this._partitionKey,
+                this.tableService.deleteEntity(
+                    this.tableName, {
+                    PartitionKey: this.partitionKey,
                     RowKey: rowKey
                 },
-                (err, response) => {
-                    
-                    if (err) {
-                        throw err;
-                    }
-                    resolve(response);
-                });
+                    (err, response) => {
+
+                        if (err) {
+                            throw err;
+                        }
+                        resolve(response);
+                    });
             } catch (err) {
                 reject(err);
             }
@@ -96,11 +111,13 @@ export abstract class DbDao<T extends DbTableEntry> {
 
     protected async addOrMergeRecord(record: T): Promise<T> {
 
-        record.PartitionKey = <string>this._partitionKey;
+        await this.ensureCorrectConfiguration();
+
+        record.PartitionKey = <string>this.partitionKey;
 
         return new Promise((resolve, reject) => {
             try {
-                this._tableService.insertOrMergeEntity(this._tableName, this.convertToTableRecord(record), err => {
+                this.tableService.insertOrMergeEntity(this.tableName, this.convertToTableRecord(record), err => {
 
                     if (err) {
                         throw err;
@@ -115,9 +132,9 @@ export abstract class DbDao<T extends DbTableEntry> {
     }
 
     private convertToTableRecord<T extends DbTableEntry>(entity: T) {
-        
+
         entity.RowKey = entity.id;
-        
+
         let result: any = {};
         Object.keys(entity).forEach(k => {
             let prop = Object.getOwnPropertyDescriptor(entity, k);

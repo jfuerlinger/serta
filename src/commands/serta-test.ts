@@ -1,26 +1,21 @@
 
 import { SertaUtils } from "../utils/serta-utils";
 
-import { SertaCommand } from "./serta-command";
 import { SertaUserService } from "../services/serta-user-service";
-import { TableStorageUserDao } from "../dao/table-storage/table-storage-user-dao";
-import { UserDao } from "../dao/user-dao";
+import { SertaCommandBase } from "./serta-command-base";
 
 const createLogger = require('logging').default;
 createLogger('SertaTestCommand');
-export class SertaTestCommand extends SertaCommand {
 
-    constructor(bot: any) {
-        super(bot)
-    }
+export class SertaTestCommand extends SertaCommandBase {
+    
+    async onCommandCalled(msg: any, args: any): Promise<void> {
 
-    async execute(msg: any, args: any) {
         SertaUtils.logDetails(msg, args);
 
         const guildId: string = msg.channel.guild.id;
-        const userDao : UserDao = new TableStorageUserDao(guildId);
-
-        const userSvc = new SertaUserService(this._bot, userDao);
+        
+        const userSvc = new SertaUserService(this.bot, this.getUserDao(guildId));
         let users = await userSvc.getAll();
         this.createInfoMessage(msg.channel.id, `Fetched ${users.length} users.`);
     }

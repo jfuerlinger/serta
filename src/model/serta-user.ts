@@ -29,8 +29,8 @@ export class SertaUser implements ISertaUser {
 
     constructor(
         discordUser: User,
-        userDao: DbUserEntry) {
-            this._discordUser = discordUser;
-            this._dbUserEntry = userDao
-        }
+        userFromDb: DbUserEntry) {
+        this._discordUser = discordUser;
+        this._dbUserEntry = userFromDb;
+    }
 }
