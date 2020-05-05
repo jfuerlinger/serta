@@ -4,7 +4,7 @@ import { AzureUtils } from "../../utils/azure-utils";
 
 const random = require('random');
 
-describe.skip('TableStorageUserDao', () => {
+describe('TableStorageUserDao', () => {
 
     test('it to store a new user, fetch that user by id and successfully compare the fields for equality.', async () => {
 
