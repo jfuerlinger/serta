@@ -1,5 +1,5 @@
-import {ISertaMessage} from "../i-serta-message";
+import {Message} from "eris";
 
 export interface ISertaCommand {
-    execute(msg: ISertaMessage, args: any) : void;
+    execute(msg: Message, args: any) : void;
 }

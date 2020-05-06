@@ -5,7 +5,6 @@ import { IUserDao } from "../dao/i-user-dao";
 import { AzureUtils } from "../utils/azure-utils";
 import { IUserService } from "../services/i-user-service";
 import { SertaUserService } from "../services/serta-user-service";
-import {ISertaMessage} from "../i-serta-message";
 
 let appInsights = require("applicationinsights");
 
@@ -17,7 +16,7 @@ export abstract class SertaCommandBase implements ISertaCommand {
         protected readonly bot: CommandClient,
         protected readonly commandName: string) { }
 
-    execute(msg: ISertaMessage, args: any): void {
+    execute(msg: Message, args: any): void {
         let success: boolean;
         let startTime = Date.now();
 
@@ -29,7 +28,7 @@ export abstract class SertaCommandBase implements ISertaCommand {
         appInsights.defaultClient.trackDependency({ dependencyTypeName: "SertaCommand", name: this.commandName, duration: duration, success: success });
     }
 
-    abstract onCommandCalled(msg: ISertaMessage, args: any): void;
+    abstract onCommandCalled(msg: Message, args: any): void;
 
     protected getUserDao(guildId: string): IUserDao {
         return AzureUtils.getUserDao(guildId);
