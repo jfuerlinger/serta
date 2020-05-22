@@ -7,6 +7,9 @@ import {fakeGameLevels} from "../../test-doubles/fake-game-levels";
 import {LevelInformation} from "../../../../config/game-level-information";
 import {IUserLevelChanger} from "../../../../commands/serta-health-check/i-user-level-changer";
 import {ISertaUser} from "../../../../model/i-serta-user";
+import {FakeCommandMessage} from "../../test-doubles/fake-command-message";
+import mock = jest.mock;
+//import {Message} from "../../../../../node_modules/eris/lib/structures/Message"
 
 describe("SertaHealthCheckPassedCommand", () => {
     let fakeSettingsResolver: FakeSettingsResolver
@@ -25,44 +28,59 @@ describe("SertaHealthCheckPassedCommand", () => {
             "serta-health-check-passed")
     })
 
-    test.skip("it up-levels a player with a sufficient immune system", () => {
+    test("it up-levels a player with a sufficient immune system", () => {
         // arrange
         const mentions = [fakeDiscordUsers[0]]
-        const message = new FakeCommandMessage(mentions)
+        // const message = new FakeCommandMessage(mentions)
+        jest.mock("../../test-doubles/fake-command-message")
+        const mockFoobar = jest.fn()
+        mockFoobar.mockReturnValue("mockFoobar")
+        FakeCommandMessage.prototype.foobar = mockFoobar
 
+        const fakeMsg = new FakeCommandMessage(mentions)
+        expect(fakeMsg.foobar()).toBe("mockFoobar")
         // act
-        sut.onCommandCalled(message, {})
+        //sut.onCommandCalled(message, {})
 
         // assert
-        expect(fakeUserLevelChanger.upLevelIsCalled).toBe(true)
+        //expect(fakeUserLevelChanger.upLevelIsCalled).toBe(true)
     })
 
-    test.skip("it does not uplevel a player with an insufficient immune system", () => {
-        // arrange
+    test("fake the constructor", () => {
+        // jest.genMockFromModule("../../test-doubles/fake-command-message")
+        // jest.mock("../../test-doubles/fake-command-message")
+
         const mentions = [fakeDiscordUsers[0]]
-        const message = new FakeCommandMessage(mentions)
+        const fakeFakeMessage = {
+            foo: "FakeFoo"
+        }
+        const mockedFakeCommandMessage = jest.setMock("../../test-doubles/fake-command-message",
+            () => {
+                return {foo: "", foobar: () => "sadlfkj", mentions: []}
+            })
+        // mockedFakeCommandMessage.mockImplementation(() => fakeFakeMessage)
 
-        // act
-        sut.onCommandCalled(message, {})
-
-        // assert
-        expect(fakeUserLevelChanger.upLevelIsCalled).toBe(false)
+        const fakeMsg = new FakeCommandMessage(mentions)
+        expect(fakeMsg.foobar()).toBe("mockFoobar")
     })
+
+    // test.skip("it does not uplevel a player with an insufficient immune system", () => {
+    //     // arrange
+    //     const mentions = [fakeDiscordUsers[0]]
+    //     const message = new FakeCommandMessage(mentions)
+    //
+    //     // act
+    //     sut.onCommandCalled(message, {})
+    //
+    //     // assert
+    //     expect(fakeUserLevelChanger.upLevelIsCalled).toBe(false)
+    // })
 })
 
 class FakeSettingsResolver implements ISettingResolver {
     getSetting(name: string): Promise<string> {
         return Promise.resolve("");
     }
-}
-
-class FakeCommandMessage extends Message {
-    constructor(mentions: User[]) {
-        super({id: "df"}, new FakeCommandClient())
-        this.mentions = mentions
-    }
-
-    mentions: User[];
 }
 
 class FakeUserLevelChanger implements IUserLevelChanger {
