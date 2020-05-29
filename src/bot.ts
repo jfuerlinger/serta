@@ -14,6 +14,7 @@ const Eris = require("eris");
 import { CommandClient, Message } from "eris";
 import { SertaStatusCommand } from "./commands/serta-status/serta-status-command";
 import { ISettingResolver } from "./config/i-setting-resolver";
+import {SertaMessage} from "./infrastructure/serta-message";
 
 export class SertaBot {
 
@@ -83,7 +84,7 @@ export class SertaBot {
             logger.info(`Command '${commandName} was called ...`);
             const cmd = this.commands.get(commandName);
             if (cmd) {
-                cmd.execute(msg, args);
+                cmd.execute(new SertaMessage(msg), args);
             } else {
                 logger.warn(`cant't find the command with the name '${commandName}'!`);
 

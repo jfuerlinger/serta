@@ -1,20 +1,26 @@
-import { Message, TextChannel, User } from "eris";
+import {Message, TextChannel, User} from "eris";
 import { StatusReporter } from "./status-reporter";
 import { StatusMessageLayouter } from "./status-message-layouter";
 import { SertaCommandBase } from "../serta-command-base";
 import { IUserService } from "../../services/i-user-service";
+import {IMessage} from "../../infrastructure/i-message";
+import {SertaMessage} from "../../infrastructure/serta-message";
 
 export class SertaStatusCommand extends SertaCommandBase {
 
     private userService?: IUserService;
 
-    async onCommandCalled(msg: Message, args: any): Promise<void> {
-        if (msg.channel instanceof TextChannel) {
-            this.setupSertaUserService(msg.channel as TextChannel);
-            if (SertaStatusCommand.somebodyIsMentionedIn(msg)) {
-                this.reportStatusForMentions(msg.mentions, msg.channel.id);
-            } else {
-                await this.reportStatusForAllUsers(msg.channel.id)
+    async onCommandCalled(msg: IMessage, args: any): Promise<void> {
+        if (msg  instanceof SertaMessage) {
+            const sertaMessage = msg as SertaMessage
+            const erisMessage = sertaMessage.erisMessage as Message
+            if (erisMessage.channel instanceof TextChannel) {
+                this.setupSertaUserService(erisMessage.channel as TextChannel);
+                if (SertaStatusCommand.somebodyIsMentionedIn(erisMessage)) {
+                    this.reportStatusForMentions(erisMessage.mentions, erisMessage.channel.id);
+                } else {
+                    await this.reportStatusForAllUsers(erisMessage.channel.id)
+                }
             }
         }
     }
