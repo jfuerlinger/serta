@@ -18,7 +18,7 @@ import { ISettingResolver } from "./config/i-setting-resolver";
 export class SertaBot {
 
     public bot: CommandClient;
-    private commands: any;
+    private commands: Map<string, ISertaCommand>;
 
     constructor(private settingResolver: ISettingResolver) {
         this.commands = new Map();
