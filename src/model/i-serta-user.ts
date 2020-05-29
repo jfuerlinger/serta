@@ -1,3 +1,6 @@
+import {DbUserEntry} from "./db-user-entry";
+import {User} from "eris";
+
 export interface ISertaUser {
     readonly discordUserId: string
     readonly discordUserName: string
@@ -7,4 +10,7 @@ export interface ISertaUser {
     readonly approvedExperiencePoints?: number
     timestampOfLastInfection?: Date
     readonly isBot: boolean
+
+    readonly dbUserEntry: DbUserEntry
+    readonly discordUser: User
 }

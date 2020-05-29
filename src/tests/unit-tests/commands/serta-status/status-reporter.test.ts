@@ -1,23 +1,22 @@
-import { FakeSertaUser } from "../test-doubles/fake-serta-user";
-import * as FakeEnvironment from "../config/fake-environment"
-import { StatusReporter } from "../../../commands/serta-status/status-reporter";
-import { IUserService } from "../../../services/i-user-service";
-import { ISertaUser } from "../../../model/i-serta-user";
-import { ConfigurationBuilder } from "../../../config/configuration-builder";
-import { SettingResolver } from "../../../config/setting-resolver";
-import { FakeEnvironmentDao } from "../config/fake-environment-dao";
-import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
+import * as FakeEnvironment from "../../config/fake-environment"
+import {StatusReporter} from "../../../../commands/serta-status/status-reporter";
+import {ConfigurationBuilder} from "../../../../config/configuration-builder";
+import {SettingResolver} from "../../../../config/setting-resolver";
+import {FakeEnvironmentDao} from "../../config/fake-environment-dao";
+import {FakeAppConfigurationDao} from "../../dao/app-configuration/fake-app-configuration-dao";
+import {FakeUserService} from "../../test-doubles/fake-user-service";
 
 describe("SertaStatusReporter", () => {
     let fakeUserService: FakeUserService
     let sut: StatusReporter
 
     beforeAll(() => {
+        // arrange
         ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
     });
 
     beforeEach(() => {
-
+        // arrange
         fakeUserService = new FakeUserService()
         sut = new StatusReporter(fakeUserService)
     })
@@ -31,26 +30,26 @@ describe("SertaStatusReporter", () => {
     })
 
     test("getStatus with a valid user shall return a valid StatusInformation", async () => {
-        // given
+        // arrange
         const validDiscordUserName = "p.bauer";
 
-        // when
+        // act
         const statusInformation = await sut.getStatus(validDiscordUserName)
 
-        // then
+        // assert
         expect(statusInformation).toBeTruthy()
 
     })
 
     test("getStatus with a valid user shall return a status information according to the information given from the user service", async () => {
-        // given
+        // arrange
         const validDiscordUserName = "p.bauer"
         const expectedUserEntry = await fakeUserService.getByDiscordUserName(validDiscordUserName)
 
-        // when
+        // act
         const statusInformation = await sut.getStatus(validDiscordUserName)
 
-        // then
+        // assert
         expect(statusInformation.levelId).toBe(expectedUserEntry.levelId)
         expect(statusInformation.immunizationLevel).toBe(expectedUserEntry.immuneLevel)
         expect(statusInformation.name).toBe(expectedUserEntry.discordUserName)
@@ -58,14 +57,14 @@ describe("SertaStatusReporter", () => {
     })
 
     test("getStatus with another valid user shall return a status information according to the information given from the user service", async () => {
-        // given
+        // arrange
         const validDiscordUserName = "jfuerlinger"
         const expectedUserEntry = await fakeUserService.getByDiscordUserName(validDiscordUserName)
 
-        // when
+        // act
         const statusInformation = await sut.getStatus(validDiscordUserName)
 
-        // then
+        // assert
         expect(statusInformation.levelId).toBe(expectedUserEntry.levelId)
         expect(statusInformation.immunizationLevel).toBe(expectedUserEntry.immuneLevel)
         expect(statusInformation.name).toBe(expectedUserEntry.discordUserName)
@@ -73,125 +72,71 @@ describe("SertaStatusReporter", () => {
     })
 
     test("getStatus with a valid user being infected returns a correct time till medication", async () => {
-        // given
+        // arrange
+        const now = Date.now()
+        const lastInfection = now - (3 * 60 * 60 + 22 * 60 + 12) * 1000
+        fakeUserService.fakeUsers[1].timestampOfLastInfection = new Date(lastInfection)
 
-        // when
+        // act
         const statusInformation = await sut.getStatus("p.bauer")
 
-        // then
+        // assert
         expect(statusInformation.timeTillNextMedication).toContain("20h 37m 4") // seconds depend on latency in calculation
     })
 
     test("getStatus with a valid user not being infected returns an undefined timeTillNextMedication", async () => {
-        // given
-
-        // when
+        // act
         const statusInformation = await sut.getStatus("jfuerlinger")
 
-        // then
+        // assert
         expect(statusInformation.timeTillNextMedication).toBeFalsy()
     })
 
     test("getStatus with a valid user not being infected returns a correct ready to be promoted", async () => {
-        // given
+        // act
+        const statusInformation = await sut.getStatus("Level3Player")
 
-        // when
-        const statusInformation = await sut.getStatus("jfuerlinger")
-
-        // then
+        // assert
         expect(statusInformation.readyToBePromoted).toBe(true)
     })
 
     test("getStatus with a valid user but infected must not be promoted", async () => {
-        // given
-
-        // when
+        // act
         const statusInformation = await sut.getStatus("p.bauer")
 
-        // then
+        // assert
         expect(statusInformation.readyToBePromoted).toBe(false)
     })
 
     test("getStatus with a valid user returns a correct level name", async () => {
-        // given
+        // act
+        const statusInformation = await sut.getStatus("Level3Player")
 
-        // when
-        const statusInformation = await sut.getStatus("jfuerlinger")
-
-        // then
+        // assert
         expect(statusInformation.levelName).toBe("Methods")
     })
 
     test("getStatus with a valid user returns a message of the day", async () => {
-        // given
-
-        // when
+        // act
         const statusInformation = await sut.getStatus("jfuerlinger")
 
-        // then
+        // assert
         expect(statusInformation.messageOfTheDay).toBeTruthy()
     })
 
     test("getStatus with a bot shall return no status", async () => {
-        // given
-
-        // when
+        // act
         const statusInformation = await sut.getStatus("Serta")
 
-        // then
+        // assert
         expect(statusInformation).toBeFalsy()
     })
 
     test("getStatus with an invalid user should return no status", async () => {
+        // act
         const statusInformation = await sut.getStatus("A.NonExisting.User")
+
+        // assert
         expect(statusInformation).toBeFalsy()
     })
 })
-
-class FakeUserService implements IUserService {
-    update(user: ISertaUser): Promise<void> {
-        return new Promise<void>(() => {
-        });
-    }
-    addOrMerge(user: ISertaUser): Promise<void> {
-        return new Promise<void>(() => {
-        });
-    }
-
-    save(user: ISertaUser): Promise<void> {
-        return new Promise<void>(() => {
-        });
-    }
-
-    getAll(): Promise<ISertaUser[]> {
-        return new Promise<ISertaUser[]>(() => {
-        });
-    }
-
-    getByDiscordUserId(discordUserId: string): Promise<ISertaUser> {
-        return new Promise<ISertaUser>(() => {
-        });
-    }
-
-    getByDiscordUserName(discordUserName: string): Promise<ISertaUser> {
-        return new Promise<ISertaUser>(async resolve => {
-            switch (discordUserName) {
-                case "p.bauer":
-                    const now = Date.now()
-                    const lastInfection = now - (3 * 60 * 60 + 22 * 60 + 12) * 1000
-                    resolve(new FakeSertaUser("some.discord.id", "p.bauer", "http://avatarUrl/pb.png", 1, 35, 15, new Date(lastInfection)))
-                    break
-
-                case "jfuerlinger":
-                    resolve(new FakeSertaUser("another.discord.id", "jfuerlinger", "http://avatarUrl/jf.png", 3, 187, 45))
-                    break
-                case "Serta":
-                    resolve(new FakeSertaUser("bot.discord.id", "Serta", "", 0, 0, 0, undefined, true))
-                    break
-
-                default:
-                    resolve(undefined)
-            }
-        })
-    }
-}

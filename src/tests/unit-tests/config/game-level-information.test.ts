@@ -1,15 +1,6 @@
-import {
-    GameLevelInformation,
-    InMemoryGameLevelImporter,
-    LevelInformation
-} from "../../../config/game-level-information";
+import {GameLevelInformation, InMemoryGameLevelImporter} from "../../../config/game-level-information";
 import * as Game from "../../../config/game"
-
-const fakeGameLevels: LevelInformation[] = [
-    { id: 1, abbreviation: "S", name: "A", minimumImmuneLevel: 0, maximumImmuneLevel: 1, timeSpanForMedication: 24 },
-    { id: 2, abbreviation: "A", name: "Be", minimumImmuneLevel: 2, maximumImmuneLevel: 3, timeSpanForMedication: 12 },
-    { id: 3, abbreviation: "M", name: "Ceh", minimumImmuneLevel: 4, maximumImmuneLevel: 5, timeSpanForMedication: 6 }
-]
+import {fakeGameLevels} from "../test-doubles/fake-game-levels";
 
 describe("InMemoryGameLevelImporter", () => {
 

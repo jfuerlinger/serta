@@ -1,11 +1,10 @@
-import {StatusMessageLayouter} from "../../../commands/serta-status/status-message-layouter";
-import {ConfigurationBuilder} from "../../../config/configuration-builder";
-import { SettingResolver } from "../../../config/setting-resolver";
-import { FakeEnvironmentDao } from "../config/fake-environment-dao";
-import { FakeAppConfigurationDao } from "../dao/app-configuration/fake-app-configuration-dao";
+import {StatusMessageLayouter} from "../../../../commands/serta-status/status-message-layouter";
+import {ConfigurationBuilder} from "../../../../config/configuration-builder";
+import {SettingResolver} from "../../../../config/setting-resolver";
+import {FakeEnvironmentDao} from "../../config/fake-environment-dao";
+import {FakeAppConfigurationDao} from "../../dao/app-configuration/fake-app-configuration-dao";
 
 describe("SertaStatusLayouter getLayout returns embed", () => {
-    
     const testStatusInformation = {
         name: "Peter",
         avatar_url: "some://url",
@@ -17,7 +16,7 @@ describe("SertaStatusLayouter getLayout returns embed", () => {
     }
 
     let layout: any
-    
+
     beforeAll(() => {
         ConfigurationBuilder.SettingResolver = new SettingResolver(new FakeEnvironmentDao(), new FakeAppConfigurationDao());
     });

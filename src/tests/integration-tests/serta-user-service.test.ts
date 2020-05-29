@@ -1,9 +1,7 @@
 import { SertaBot } from "../../bot";
 import { SertaUserService } from "../../services/serta-user-service";
-import { ISertaUser } from "../../model/i-serta-user";
-import { AzureUtils } from "../../utils/azure-utils";
-
-jest.setTimeout(30000);
+import {ISertaUser} from "../../model/i-serta-user";
+import {AzureUtils} from "../../utils/azure-utils";
 
 describe("SertaUserService", () => {
   const bot = new SertaBot(AzureUtils.getSettingResolver());
@@ -13,6 +11,7 @@ describe("SertaUserService", () => {
   let users: ISertaUser[]
 
   beforeAll(async () => {
+    await bot.initBot()
     await bot.run()
   }, 10000)
 
@@ -25,15 +24,15 @@ describe("SertaUserService", () => {
     bot.stop();
   });
 
-  test.skip("getUsers shall return a users property", async () => {
+  test("getUsers shall return a users property", async () => {
     expect(users).toBeTruthy()
   })
 
-  test.skip('getUsers shall return at least one user (the bot)', async () => {
+  test('getUsers shall return at least one user (the bot)', async () => {
     expect(users.length).toBeGreaterThan(0)
   })
 
-  test.skip("getUsers shall return the bot as a test user", async () => {
+  test("getUsers shall return the bot as a test user", async () => {
     let found = false
     users.forEach(user => {
       if (user.discordUserName.indexOf("Serta")) {
