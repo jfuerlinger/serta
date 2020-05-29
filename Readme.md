@@ -63,7 +63,7 @@ A bot to motivate the studies ...
 ### Production build/startup
 
 ```
-docker-compose -f .\docker-compose.yml up --build
+docker-compose -f ./docker-compose.yml up --build
 ```
 
 
