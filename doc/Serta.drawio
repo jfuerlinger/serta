@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-05-29T08:08:48.044Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.13 Safari/537.36 Edg/84.0.522.5" etag="LogD-sr60aEWPr_r1-gZ" version="13.1.3" type="github">
+<mxfile host="app.diagrams.net" modified="2020-05-29T10:48:00.242Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.13 Safari/537.36 Edg/84.0.522.5" etag="BocDtnolgsyEmu5kW074" version="13.1.3" type="github">
   <diagram id="GnVgiSFdVF10wmryirrv" name="Page-1">
     <mxGraphModel dx="1422" dy="1862" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -206,10 +206,22 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="flIs2jT2OfzVOEZ9wNcF-4" value="«interface»&lt;br&gt;&lt;b&gt;IMessage&lt;/b&gt;&lt;br&gt;&lt;br&gt;get_mentions&lt;br&gt;get_erisMessage" style="html=1;" vertex="1" parent="1">
-          <mxGeometry x="925" y="540" width="110" height="80" as="geometry" />
+          <mxGeometry x="915" y="640" width="110" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="flIs2jT2OfzVOEZ9wNcF-9" value="1" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="flIs2jT2OfzVOEZ9wNcF-6" target="flIs2jT2OfzVOEZ9wNcF-10">
+          <mxGeometry x="-1" y="3" relative="1" as="geometry">
+            <mxPoint x="750" y="920" as="sourcePoint" />
+            <mxPoint x="910" y="920" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flIs2jT2OfzVOEZ9wNcF-14" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="flIs2jT2OfzVOEZ9wNcF-5" target="flIs2jT2OfzVOEZ9wNcF-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="750" y="920" as="sourcePoint" />
+            <mxPoint x="910" y="920" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="flIs2jT2OfzVOEZ9wNcF-5" value="SertaMessage" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="890" y="690" width="180" height="144" as="geometry" />
+          <mxGeometry x="880" y="790" width="180" height="144" as="geometry" />
         </mxCell>
         <mxCell id="flIs2jT2OfzVOEZ9wNcF-6" value="+ get_mentions: User[]&#xa;+ get_erisMessage: Message" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="flIs2jT2OfzVOEZ9wNcF-5">
           <mxGeometry y="26" width="180" height="84" as="geometry" />
@@ -220,20 +232,8 @@
         <mxCell id="flIs2jT2OfzVOEZ9wNcF-8" value="+ method(type): type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="flIs2jT2OfzVOEZ9wNcF-5">
           <mxGeometry y="118" width="180" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="flIs2jT2OfzVOEZ9wNcF-9" value="1" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="flIs2jT2OfzVOEZ9wNcF-6" target="flIs2jT2OfzVOEZ9wNcF-10">
-          <mxGeometry x="-1" y="3" relative="1" as="geometry">
-            <mxPoint x="760" y="820" as="sourcePoint" />
-            <mxPoint x="920" y="820" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="flIs2jT2OfzVOEZ9wNcF-14" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="flIs2jT2OfzVOEZ9wNcF-5" target="flIs2jT2OfzVOEZ9wNcF-4">
-          <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="760" y="820" as="sourcePoint" />
-            <mxPoint x="920" y="820" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="flIs2jT2OfzVOEZ9wNcF-10" value="Message" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="1170" y="715" width="160" height="86" as="geometry" />
+          <mxGeometry x="1160" y="815" width="160" height="86" as="geometry" />
         </mxCell>
         <mxCell id="flIs2jT2OfzVOEZ9wNcF-11" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="flIs2jT2OfzVOEZ9wNcF-10">
           <mxGeometry y="26" width="160" height="26" as="geometry" />
