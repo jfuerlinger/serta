@@ -15,4 +15,5 @@ COPY --from=builder /app/node_modules /serta/node_modules
 
 WORKDIR '/serta/runtime'
 
+EXPOSE 8000
 CMD ["node", "index.js"]
