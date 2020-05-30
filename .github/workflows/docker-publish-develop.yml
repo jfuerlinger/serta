@@ -50,8 +50,18 @@ jobs:
       - name: Build image
         run: docker build --file Dockerfile --tag $AZURE_CONTAINER_REGISTRY/$IMAGE_NAME .
 
+#      - name: Log into registry
+#        run: echo "${{ secrets.DEV_ACR_PASSWORD }}" | docker login $AZURE_CONTAINER_REGISTRY -u ${{ secrets.DEV_ACR_USERNAME }} --password-stdin
+
       - name: Log into registry
-        run: echo "${{ secrets.DEV_ACR_PASSWORD }}" | docker login $AZURE_CONTAINER_REGISTRY -u ${{ secrets.DEV_ACR_USERNAME }} --password-stdin
+        uses: Azure/docker-login@v1
+        with:
+          # Container registry username
+          username: ${{ secrets.DEV_ACR_USERNAME }}
+          # Container registry password
+          password: ${{ secrets.DEV_ACR_PASSWORD }}
+          # Container registry server url
+          login-server: $AZURE_CONTAINER_REGISTRY
 
       - name: Push image
         run: |
