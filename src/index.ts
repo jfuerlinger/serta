@@ -28,3 +28,12 @@ const appInsights = require("applicationinsights");
     await bot.initBot();
     bot.run();
 })();
+
+var express = require('express');
+var app = express();
+app.get('/', function (req: any, res:any) {
+  res.send('!! Hello world - serta is commin !!');
+});
+app.listen(8000, function () {
+  console.log('Health check is listening on port 8000!');
+});
