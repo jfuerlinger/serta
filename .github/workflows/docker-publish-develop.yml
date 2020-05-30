@@ -52,8 +52,8 @@ jobs:
         uses: ams0/acr-task-github-action@v1
         with:
           # Service Principal with Contributor role on the ACR
-          service_principal: ${{ secrets.DEV_ACR_USERNAME }}
-          service_principal_password: ${{ secrets.DEV_ACR_PASSWORD }}
+          service_principal: ${{ secrets.IDENTITY_NAME }}
+          service_principal_password: ${{ secrets.IDENTITY_PASSWORD }}
           # Azure Container Registry tenant
           tenant: ${{ secrets.AZURE_TENANT_ID }}
           # The name of the ACR, minus the .azurecr.io
