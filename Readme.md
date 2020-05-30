@@ -21,7 +21,7 @@ A bot to motivate the studies ...
 * Method "With Docker"
 
     ```
-    docker-compose -f ./docker-compose.dev.yml up --build
+    docker-compose -f ./docker-compose.localdev.yml up --build
     ```
 
 
