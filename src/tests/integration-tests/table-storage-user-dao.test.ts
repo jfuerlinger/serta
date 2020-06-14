@@ -28,7 +28,7 @@ describe('TableStorageUserDao', () => {
 
         fetchedUser = await dao.getById(userId);
         expect(fetchedUser).toBeUndefined();
-    });
+    }, 9000);
 
 });
 
